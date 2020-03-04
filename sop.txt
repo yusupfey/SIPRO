@@ -1,0 +1,18 @@
+-- Aplikasi sistem informasi boking perumahan
+- membuat landing page
+- membuat halaman untuk admin sb-admin/custom/mdb
+- login
+
+administrator
+- membuat curd perum
+- data perumahaan
+- notifikasi yang sudah boking
+- data boking
+
+
+user
+- cari perum
+- detail perum
+- booking perum
+- membuat validasi apabila sudah di boking
+- rumah yang user boking
