@@ -1,0 +1,84 @@
+- Perbedaan virtual box dan framework
+
+- belajar git praktek
+
+- instal os microtic virtual box
+
+- membuat cv onlin
+
+
+
+../// git 
+=> git init digunakan untuk memmbuat folder digunakan utuk membuat master pada folder
+=> git status di gunakan untuk melihat sebuah file yang belum masuk ke dalam stageing
+
+=>git add space nama file/. untuk memasukan kedalam stageing
+
+=>git comit -m "caption" untuk mencomit data supaya tersimpan pada data master
+
+cara cepat
+=> git commit -am "caption" code cepat untuk staging dan commit data dengan satu kali action
+
+--- membuat branch
+=> git branch melihat ada branch apa 
+=> git branch nama_branch untuk membuat nama branch
+=> git log melihat history
+=> git log --all --decorate --oneline --graph untuk melihat visualisai branch
+=> alias graph="git log --all --decorate --oneline --graph" membuat alias untuk memper mudah pemanggilan git log --all --decorate --oneline --graph
+
+-- metode merge ada 2
+-fast forward -> merge dengan satu jalur
+-tree way merge -> metge tidak ada jalur maka dari itu membuat jalur baru 
+
+atau bisa di bilang merge commit nge merge sambil commit
+-- cara untuk pindah dari branch master dan masuk ke branch yang lain
+=> git chechkout dosen  
+-- ketika posisi ada di branch dosen maka data yang tampil di folder itu hanya file yang ada pada branch dosen tersebut jika kita pindah ke branch lain maka secara otomatis dia akan menggati file ke yang ada pada branch yang laun juga 
+
+- jika masuk ke fim ketika kita merge dengan metode three way merge agar keluar
+dan datanya tersimpan tekan esc lalu masukan = :wq!
+
+
+-- cara memindahkan branch ke branch master bisa di bilang di merge
+-- first step pindah dulu ke branch master
+=> git merge dosen untuk menggabungak branch dosen pada branch master
+=> git branch --merged untuk melihat branch mana yang sudah di marge ke master
+=>git branch -d dosen untuk menghapus branch dosen
+
+
+
+
+istilah cloning adalah mengambil data dari github ke folder lokal
+=> git clone https://github.com/yusupfey/fey-test.git digunakan untuk cloning
+cek remote
+=>git remote atau =>git remote -v
+origin adalah nama remote
+jika kita menggunakan git remote setelah di comit di terminal itu hanya di lokal saja jika ingin ter update di github maka harus di push
+=> git push di gunakan untuk men uptodate git lokal ke github
+
+-- cloning/dari github ke loka remote sudah bikin secara otomatis
+-- lokal ke github harus membuat remote sendiri agar terhubung ke github
+
+membuat git lokal supaya bisa di akses di git hub
+namanya harus sama antara git lokal sama repository baru git hub
+dan jangan centang initialize readme
+
+jika kita sudah punya repository di lokal
+=> git remote add origin https://github.com/yusupfey/test-git-repo.git => untuk membuat remote supaya terhubung di git
+=> git push -u origin master => u adlah untuk set upstream supaya ke depan nya tingal  tulis git push   langsung otomatis terkirim ke git hub
+
+
+--jika tanpa sengaja kita dan teman kita mengedit sebuah data dengan file yang sama maka akan terjadi penolakan ketika kita akan melakukan push ke github
+=> git fetch digunakan untuk melihat comit yang ada di git hub
+-- di lokal dan di git hub terjadi penolakan dikarenakan ada kesamaan
+=> git pull untuk add data yang ada di git hab kedalam file css master dan masuk ke dalam text editor lokal  untuk melakukan mergeing atau pemilihan source code
+
+
+--membuat remote multiple
+-fork dulu dari akun tim untuk mengambil data dari program yang akan kita buat
+-clone dan kita punya remote origin
+-membuat remote baru untuk merimote akun tim
+-git fetch tim untuk melihat remote akun tim
+-git marge tim/master
+-git push origin master atau (brench)
+git push origin --delete branch untuk menghapus  branch di github
