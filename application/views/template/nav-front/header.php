@@ -40,4 +40,27 @@
             catalog 6
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>ALL DATA</h4>
+        </div>
+        <div class="col-md-4 ">
+            catalog 1
+        </div>
+        <div class="col-md-4 bg-dark">
+            catalog 2
+        </div>
+        <div class="col-md-4 bg-dark">
+            catalog 3
+        </div>
+        <div class="col-md-4">
+            catalog 4
+        </div>
+        <div class="col-md-4">
+            catalog 5
+        </div>
+        <div class="col-md-4">
+            catalog 6
+        </div>
+    </div>
 </div>
