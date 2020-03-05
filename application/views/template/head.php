@@ -14,6 +14,12 @@
         -->
 
     <!-- <script src="assets/js/jquery.min.js"></script> -->
+    <style>
+        .katalog {
+            min-height: 140px;
+            border: 1px solid red;
+        }
+    </style>
 
 </head>
 
