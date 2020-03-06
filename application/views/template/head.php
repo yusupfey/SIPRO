@@ -70,6 +70,13 @@
             position: relative;
         }
 
+        .footer {
+            height: 450px;
+            background: grey;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
         @media (min-width: 992px) {
             .nav-link {
                 margin-left: 20px;
@@ -92,7 +99,7 @@
                 content: '';
                 display: block;
                 width: 100%;
-                height: 100%;
+                height: 80%;
                 bottom: 0px;
                 position: absolute;
                 background-image: linear-gradient(to top, rgba(20, 20, 20, 2), rgba(0, 0, 0, 0));

@@ -58,21 +58,15 @@
         <div class="col-lg-10">
             <form action="">
                 <div class="row">
-                    <div class=" col-md-4">
+                    <div class=" col-md-6">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-md">kota</span>
+                            <span class="input-group-text" id="inputGroup-sizing-md">Provinsi</span>
                             <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-md">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-md">kota</span>
-                            <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-md">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-md">kota</span>
+                            <span class="input-group-text" id="inputGroup-sizing-md">Kab/Kota</span>
                             <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-md">
                         </div>
                     </div>
@@ -130,6 +124,21 @@
         </div>
         <div class="col-md-4 katalog">
             catalog 6
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente quae aperiam nostrum. Doloribus ratione excepturi animi pariatur iste minima aut dolor, assumenda aliquam iure maiores deleniti modi, debitis magni suscipit.
+            </div>
+            <div class="col-md-4">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente quae aperiam nostrum. Doloribus ratione excepturi animi pariatur iste minima aut dolor, assumenda aliquam iure maiores deleniti modi, debitis magni suscipit.
+            </div>
+            <div class="col-md-4">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente quae aperiam nostrum. Doloribus ratione excepturi animi pariatur iste minima aut dolor, assumenda aliquam iure maiores deleniti modi, debitis magni suscipit.
+            </div>
         </div>
     </div>
 </div>
