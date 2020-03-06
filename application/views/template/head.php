@@ -91,7 +91,7 @@
                 box-shadow: 0 3px 3px rgba(0, 0, 0.5);
                 padding: 30px;
                 border-radius: 12px;
-                margin-top: -90px;
+                margin-top: -130px;
                 position: relative;
             }
 
