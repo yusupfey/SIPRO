@@ -20,7 +20,7 @@
 </nav>
 <div class="container-pluid jumbotron">
     <h1 class="display-4">SIPRO</h1>
-    <p class="lead">Membantu Anda Menemukan Rumah impian anda.</p><br>
+    <p class="lead">Membantu Menemukan Rumah Impian Anda.</p><br>
     <form action="" class="form-src">
         <div class="row text-center">
             <!-- <div class="col-md-6 offset-xs-6 mx-auto" style="">
@@ -47,7 +47,7 @@
                 <center>
                     <p class="line"></p>
                 </center>
-                <h1>Sistem Inforamsi Property</h1>
+                <h1>Sistem Informasi Property</h1>
                 <h3>Informatika Komputer</h3>
             </div>
         </div>
