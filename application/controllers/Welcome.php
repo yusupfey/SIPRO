@@ -25,4 +25,10 @@ class Welcome extends CI_Controller
 		$this->load->view('template/nav-front/header');
 		$this->load->view('template/foot');
 	}
+	public function admin()
+	{
+		$this->load->view('template/head');
+		$this->load->view('template/administrator/dasboard');
+		$this->load->view('template/foot');
+	}
 }

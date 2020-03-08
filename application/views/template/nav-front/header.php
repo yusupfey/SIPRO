@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-light nav-cust">
     <div class="container">
-        <a class="navbar-brand" href="#">SIPRO</a>
+        <a class="navbar-brand" href="#">
+            <img src="<?= base_url() ?>assets/img/LOGOSIPRO.png" width="170" height="60">
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -9,18 +11,17 @@
 
             </div>
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="#">About</a>
-                <a class="nav-item nav-link" href="#">Kategori</a>
-                <a class="nav-item nav-link" href="#">Disabled</a>
-                <a class="nav-item nav-link" href="#">Login</a>
+                <a class="nav-item nav-link nav-hover active" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link nav-hover" href="#">About</a>
+                <a class="nav-item nav-link nav-hover" href="#">Kategori</a>
+                <a class="nav-item nav-link nav-hover" href="index.php/Welcome/admin">Disabled</a>
+                <a class="nav-item nav-link nav-hover" href="#">Login</a>
             </div>
         </div>
     </div>
 </nav>
 <div class="container-pluid jumbotron">
-    <h1 class="display-4">SIPRO</h1>
-    <p class="lead">Membantu Anda Menemukan Rumah impian anda.</p><br>
+    <h1 class="display-4">GOOD MORNING</h1>
     <form action="" class="form-src">
         <div class="row text-center">
             <!-- <div class="col-md-6 offset-xs-6 mx-auto" style="">
@@ -47,8 +48,8 @@
                 <center>
                     <p class="line"></p>
                 </center>
-                <h1>Sistem Inforamsi Property</h1>
-                <h3>Informatika Komputer</h3>
+                <h1>SIPRO</h1>
+                <h3>Membantu Anda Menemukan Rumah impian anda.</h3>
             </div>
         </div>
     </form>
@@ -131,13 +132,31 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente quae aperiam nostrum. Doloribus ratione excepturi animi pariatur iste minima aut dolor, assumenda aliquam iure maiores deleniti modi, debitis magni suscipit.
+                <img src="<?= base_url() ?>assets/img/LOGOSIPRO.png" width="300" height="100">
+                <br>
+                <br>
+                <p><b>Contact us</b><br>
+                    <i class="fa fa-fw fa-phone"></i><span>0823-1232-3212</span>
+                </p>
+
+            </div>
+            <div class="col-md-4 pl-4">
+                <p><b>Tentang Sipro</b><br>
+                    <p>About US</p>
+                    <p>Contact</p>
+                    <p>Developer</p>
+                </p>
+                <br>
+
             </div>
             <div class="col-md-4">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente quae aperiam nostrum. Doloribus ratione excepturi animi pariatur iste minima aut dolor, assumenda aliquam iure maiores deleniti modi, debitis magni suscipit.
-            </div>
-            <div class="col-md-4">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente quae aperiam nostrum. Doloribus ratione excepturi animi pariatur iste minima aut dolor, assumenda aliquam iure maiores deleniti modi, debitis magni suscipit.
+                <p><b>Sosial Media</b>
+                    <br>
+                    <br>
+                    <a href="" class="btn btn-circle btn-primary ml-2"><b>f</b></a>
+                    <a href="" class="btn btn-circle btn-danger ml-2"><b>i</b></a>
+                    <a href="" class="btn btn-circle btn-info ml-2"><b>G</b></a>
+                </p>
             </div>
         </div>
     </div>
