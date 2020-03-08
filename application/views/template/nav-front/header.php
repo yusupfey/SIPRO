@@ -13,8 +13,8 @@
             <div class="navbar-nav ml-auto">
                 <a class="nav-item nav-link nav-hover active" href="#">Home <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link nav-hover" href="#">About</a>
-                <a class="nav-item nav-link nav-hover" href="index.php/Welcome/profil">Kategori</a>
-                <a class="nav-item nav-link nav-hover" href="index.php/Welcome/admin">Disabled</a>
+                <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>index.php/Welcome/profil">Kategori</a>
+                <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>index.php/Welcome/admin">Disabled</a>
                 <a class="nav-item nav-link nav-hover" href="#">Login</a>
             </div>
         </div>
