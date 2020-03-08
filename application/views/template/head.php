@@ -15,6 +15,9 @@
     <link href="<?= base_url() ?>assets/css/sb-admin-2.min.css" rel="stylesheet">
     <!-- <link rel="stylesheet" type="text/css" href="assets/css/style.css"> 
         -->
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/slick/slick.css" />
+    // Add the new slick-theme.css if you want the default styling
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/slick/slick-theme.css" />
 
     <!-- <script src="assets/js/jquery.min.js"></script> -->
     <style>
@@ -113,6 +116,40 @@
             .active {
                 border-bottom: 4px solid blue;
             }
+        }
+
+        /* slick */
+        .main {
+            font-family: Arial;
+            display: block;
+            margin: 0 auto;
+        }
+
+        h3 {
+            background: #fff;
+            color: #3498db;
+            font-size: 36px;
+            line-height: 100px;
+            margin: 10px;
+            padding: 2%;
+            position: relative;
+            text-align: center;
+        }
+
+        .slick h1 {
+            background-color: blue;
+            border: 1px solid red;
+            color: #3498db;
+            line-height: 100px;
+            margin: 10px;
+            padding: 2%;
+            position: relative;
+            text-align: center;
+        }
+
+        .slick-custom {
+            position: relative;
+            line-height: 100px;
         }
     </style>
     <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>

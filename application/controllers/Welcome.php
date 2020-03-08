@@ -21,9 +21,10 @@ class Welcome extends CI_Controller
 	 */
 	public function index()
 	{
+		$data['db_property'] = $this->db->get('rumah')->result();
 		$this->load->view('template/head');
 		$this->load->view('template/nav-front/header');
-		$this->load->view('template/nav-front/content');
+		$this->load->view('template/nav-front/content', $data);
 		$this->load->view('template/nav-front/footer');
 		$this->load->view('template/foot');
 	}

@@ -17,7 +17,7 @@
                             <th>#</th>
                             <th>ID Rumah</th>
                             <th>Penjual</th>
-                            <th>Nama</th>
+                            <th>Deskripsi</th>
                             <th>Ukuran</th>
                             <th>Harga</th>
                             <th>Pic</th>
@@ -30,7 +30,7 @@
                             <th>#</th>
                             <th>ID Rumah</th>
                             <th>Penjual</th>
-                            <th>Nama</th>
+                            <th>Deskripsi</th>
                             <th>Ukuran</th>
                             <th>Harga</th>
                             <th>Pic</th>

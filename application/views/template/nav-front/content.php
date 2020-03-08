@@ -27,7 +27,7 @@
                     <p class="line"></p>
                 </center>
                 <h1>SIPRO</h1>
-                <h3>Membantu Anda Menemukan Rumah impian anda.</h3>
+                <h4>Membantu Anda Menemukan Rumah impian anda.</h4>
             </div>
         </div>
     </form>
@@ -63,46 +63,63 @@
     <br>
     <br>
     <br>
-    <h4>CATALOG</h4>
+    <h4>Busines Partner</h4>
     <div class="row text-center">
-        <div class="col-md-4 katalog">
-            catalog 1
-        </div>
-        <div class="col-md-4 katalog">
-            catalog 2
-        </div>
-        <div class="col-md-4 katalog">
-            catalog 3
-        </div>
-        <div class="col-md-4 katalog">
-            catalog 4
-        </div>
-        <div class="col-md-4 katalog">
-            catalog 5
-        </div>
-        <div class="col-md-4 katalog">
-            catalog 6
+        <div class="col-md-12">
+            <div class="main">
+                <div class="slider slider-for">
+                    <div class="bg-primary p-5 text-white">
+                        <!-- <img class="thumbnail" src="<?= base_url() ?>pic/default.jpg" width="100%" height="240" alt=" Card image cap"> -->
+                        <h1>Harmoni</h1>
+                    </div>
+                    <div class="bg-primary p-5 text-white">
+                        <h1>Harves</h1>
+                    </div>
+                    <div class="bg-primary p-5 text-white">
+                        <h1>Metland</h1>
+                    </div>
+                    <div class="bg-primary p-5 text-white">
+                        <h1>Citraindah</h1>
+                    </div>
+                    <div class="bg-primary p-5 text-white">
+                        <h1>Citraland</h1>
+                    </div>
+                </div>
+                <br>
+                <div class="slider slider-nav">
+                    <div class="">
+                        <!-- <img class="slick-custom thumbnail mx-auto" src="<?= base_url() ?>pic/default.jpg" width="200" alt=" Card image cap"> -->
+                        <h3>Harmoni</h3>
+                    </div>
+                    <div>
+                        <h3>Harves</h3>
+                    </div>
+                    <div>
+                        <h3>Metland</h3>
+                    </div>
+                    <div>
+                        <h3>Citraindah</h3>
+                    </div>
+                    <div>
+                        <h3>Citraland</h3>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <h4>ALL DATA</h4>
+    <h4>ALL Data</h4>
     <div class="row text-center">
-        <div class="col-md-4 katalog">
-            catalog 1
-        </div>
-        <div class="col-md-4 katalog">
-            catalog 2
-        </div>
-        <div class="col-md-4 katalog">
-            catalog 3
-        </div>
-        <div class="col-md-4 katalog">
-            catalog 4
-        </div>
-        <div class="col-md-4 katalog">
-            catalog 5
-        </div>
-        <div class="col-md-4 katalog">
-            catalog 6
-        </div>
+        <?php foreach ($db_property as $v) : ?>
+            <div class="col-md-4">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="<?= base_url() ?>pic/<?= $v->pic; ?>" alt=" Card image cap">
+                    <div class="card-body">
+                        <p class="card-text"><?= $v->nama ?></p>
+                        <h5 class="card-title">Rp.<?= $v->harga ?></h5>
+                        <a href="#" class="badge badge-primary text-right">More info</a>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach ?>
     </div>
 </div>
