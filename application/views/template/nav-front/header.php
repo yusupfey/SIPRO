@@ -14,7 +14,7 @@
                 <a class="nav-item nav-link nav-hover active" href="<?= base_url() ?>">Home <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link nav-hover" href="#">About</a>
                 <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>index.php/Welcome/profil">Kategori</a>
-                <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>index.php/Welcome/admin">Disabled</a>
+                <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>index.php/Administrator">Disabled</a>
                 <a class="nav-item nav-link nav-hover" href="#">Login</a>
             </div>
         </div>

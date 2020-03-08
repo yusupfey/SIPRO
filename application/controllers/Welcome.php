@@ -27,14 +27,6 @@ class Welcome extends CI_Controller
 		$this->load->view('template/nav-front/footer');
 		$this->load->view('template/foot');
 	}
-	public function admin()
-	{
-		$this->load->view('template/head');
-		$this->load->view('template/administrator/header');
-		$this->load->view('template/administrator/dasboard');
-		$this->load->view('template/administrator/footer');
-		$this->load->view('template/foot');
-	}
 	public function profil()
 	{
 		$this->load->view('template/head');

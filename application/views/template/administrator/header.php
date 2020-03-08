@@ -26,7 +26,12 @@
         <li class="nav-item">
             <a class="nav-link" href="index.html">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Data User</span></a>
+                <span>Data Staff</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Data Pengguna</span></a>
         </li>
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -45,7 +50,7 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Master</h6>
-                    <a class="collapse-item" href="buttons.html">Property</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/property">Property</a>
                     <a class="collapse-item" href="cards.html">Clauster</a>
                     <a class="collapse-item" href="cards.html">User</a>
                 </div>
@@ -72,8 +77,8 @@
         <hr class="sidebar-divider">
         <!-- Nav Item - Tables -->
         <li class="nav-item">
-            <a class="nav-link" href="tables.html">
-                <i class="fas fa-fw fa-wrench"></i>
+            <a class="nav-link" href="<?= base_url(); ?>index.php/Administrator/getproperty"">
+                <i class=" fas fa-fw fa-wrench"></i>
                 <span>Sistem</span></a>
         </li>
 
