@@ -32,12 +32,32 @@
             <div class="box border-left-success bg-info " style="height:250px">
 
             </div>
-            <div class="box text-center" style="height:550px; background-color:#f2f2f2">
+            <div class="box text-center" style="height:150px; background-color:#f2f2f2">
                 <div class="row">
                     <div class="col-md-12">
                         <img src="<?= base_url() ?>assets/img/LOGOSIPRO.png" class="border-left-info " style="border-radius: 100%; margin-top:-90px; background-color:white" width="160" height="160" alt="">
                     </div>
                 </div>
+            </div>
+            <div class="box text-left pl-3 pr-3" style="height:550px; background-color:#f2f2f2; margin-top:-20px">
+                <form>
+                    <div class="form-group">
+                        <label>Nama</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>No Telphone</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="form-group" class="form-control">
+                        <label>Email</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
