@@ -16,7 +16,7 @@
     <!-- <link rel="stylesheet" type="text/css" href="assets/css/style.css"> 
         -->
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/slick/slick.css" />
-    // Add the new slick-theme.css if you want the default styling
+    <!-- // Add the new slick-theme.css if you want the default styling -->
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/slick/slick-theme.css" />
 
     <!-- <script src="assets/js/jquery.min.js"></script> -->
