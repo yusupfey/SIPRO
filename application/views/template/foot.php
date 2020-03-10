@@ -21,8 +21,36 @@
     //     console.log("ok");
     // });
   </script>
-  <script src="assets/js/myscript.js"></script>
+  <!-- <script src="<?= base_url() ?>assets/js/myscript.js"></script> -->
+  <script src="<?= base_url() ?>assets/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="<?= base_url() ?>assets/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
+  <!-- Page level custom scripts -->
+  <script src="<?= base_url() ?>assets/js/demo/datatables-demo.js"></script>
+  <!-- slick js -->
+  <script type="text/javascript" src="<?= base_url() ?>assets/slick/slick.min.js"></script>
+  <script>
+    $('.slider-for').slick({
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: false,
+      fade: true,
+      asNavFor: '.slider-nav'
+    });
+    $('.slider-nav').slick({
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      asNavFor: '.slider-for',
+      dots: true,
+      focusOnSelect: true
+    });
+
+    $('a[data-slide]').click(function(e) {
+      e.preventDefault();
+      var slideno = $(this).data('slide');
+      $('.slider-nav').slick('slickGoTo', slideno - 1);
+    });
+  </script>
   </body>
 
   </html>

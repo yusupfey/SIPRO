@@ -1,7 +1,7 @@
 <div class="container p-5">
     <div class="row">
         <div class="col-md-3">
-            <div class="box text-center border-left-success" style="height:250px">
+            <div class="box text-center border-left-success" style="height:250px;">
                 <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
                     <li class="nav-item">
                         <a class="nav-link" href="index.html">
@@ -20,7 +20,6 @@
                         </a>
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
-                                <h6 class="collapse-header">Master</h6>
                                 <a class="collapse-item" href="buttons.html">Data Rumah</a>
                                 <a class="collapse-item" href="cards.html">Booking</a>
                             </div>
@@ -29,11 +28,11 @@
                 </ul>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 col-xs-9">
             <div class="box border-left-success bg-info " style="height:250px">
 
             </div>
-            <div class="box text-center" style="height:550px">
+            <div class="box text-center" style="height:550px; background-color:#f2f2f2">
                 <div class="row">
                     <div class="col-md-12">
                         <img src="<?= base_url() ?>assets/img/LOGOSIPRO.png" class="border-left-info " style="border-radius: 100%; margin-top:-90px; background-color:white" width="160" height="160" alt="">
