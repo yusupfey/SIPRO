@@ -151,6 +151,28 @@
             position: relative;
             line-height: 100px;
         }
+
+
+        /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+        /* input[type=text] {
+            width: 100%;
+            height: 40px;
+            padding: 12px 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 3px solid #ccc;
+            -webkit-transition: 0.5s;
+            transition: 0.5s;
+            outline: none;
+        }
+
+        input[type=file] {
+            border: 3px solid #3498db;
+        }
+
+        input[type=text]:focus {
+            border: 3px solid #3498db;
+        } */
     </style>
     <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 
