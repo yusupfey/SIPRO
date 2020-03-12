@@ -36,9 +36,38 @@ class Menu extends CI_Controller
         $this->load->view('template/nav-front/footer');
         $this->load->view('template/foot');
     }
-
+    public function register()
+    {
+        $this->load->view('template/head');
+        $this->load->view('template/nav-front/header');
+        $this->load->view('register');
+        $this->load->view('template/nav-front/footer');
+        $this->load->view('template/foot');
+    }
     public function login()
     {
+        // $username = array(
+        //     'name' => 'username',
+        //     'type' => 'text',
+        //     'class' => 'form-control form-control-user',
+        //     'placeholder' => 'Masukin username'
+        // );
+        // $password = array(
+        //     'name' => 'password',
+        //     'type' => 'password',
+        //     'class' => 'form-control form-control-user',
+        //     'placeholder' => 'Masukin Password'
+        // );
+        // $btn = array(
+        //     'type' => 'submit',
+        //     'class' => 'form-control btn btn-primary'
+        // );
+        // $data['tagopen'] = form_open('index.php/Act');
+        // $data['tagclose'] = form_close();
+        // $data['username'] = form_input($username);
+        // $data['password'] = form_input($password);
+        // $data['btn'] = form_submit($btn);
+
         $this->load->view('template/head');
         $this->load->view('template/nav-front/header');
         $this->load->view('login');

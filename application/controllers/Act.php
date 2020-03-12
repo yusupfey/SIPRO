@@ -37,10 +37,15 @@ class Act extends CI_Controller
             $passwordx = md5($password);
             $qry = $this->db->query("Select * from user where id_user='$username' AND password ='$passwordx'")->row_array();
             if ($qry) {
-                if ($qry['id_user'] == 'U111') {
-                    echo 'admin';
+                if ($qry['status'] == 1) {
+                    if ($qry['akses'] == 'admin') {
+                        redirect('Administrator');
+                    } else if ($qry['akses'] == 'user1') {
+                        echo 'user';
+                    }
                 } else {
-                    echo 'user';
+                    $this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert" style="z-index:1; position:relative;">Username Belum Active</div>');
+                    redirect('Menu/login');
                 }
             } else {
                 $this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert" style="z-index:1; position:relative;">Username tidak terdaftar</div>');
