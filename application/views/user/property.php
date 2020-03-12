@@ -47,7 +47,7 @@
                                 <td><?= $no++; ?></td>
                                 <td><?= $t->id_rumah; ?></td>
                                 <td><?= $t->id_user; ?></td>
-                                <td><?= $t->nama; ?></td>
+                                <td><?= $t->type; ?></td>
                                 <td><?= $t->uk_rumah; ?></td>
                                 <td><?= $t->harga; ?></td>
                                 <td><img src="<?= base_url() ?>pic/<?= $t->pic; ?>" width="60" alt=""></td>

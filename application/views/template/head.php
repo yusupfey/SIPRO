@@ -20,6 +20,7 @@
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/slick/slick-theme.css" />
 
     <!-- <script src="assets/js/jquery.min.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/vendor/datatables/dataTables.bootstrap4.min.css">
     <style>
         .katalog {
             min-height: 140px;
@@ -80,7 +81,7 @@
             height: 450px;
             background: #1B1B1B;
             padding-top: 50px;
-            margin-top: 20px;
+            margin-top: -20px;
         }
 
         @media (min-width: 992px) {
@@ -116,6 +117,20 @@
             .active {
                 border-bottom: 4px solid blue;
             }
+
+            .form-login {
+                padding-top: -10px;
+                z-index: 1;
+                position: relative;
+
+            }
+        }
+
+        .form-login {
+            padding-top: -10px;
+            z-index: 1;
+            position: relative;
+
         }
 
         /* slick */

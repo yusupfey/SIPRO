@@ -15,7 +15,7 @@
                 <a class="nav-item nav-link nav-hover" href="#">About</a>
                 <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>index.php/Welcome/profil">Kategori</a>
                 <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>index.php/Administrator">Disabled</a>
-                <a class="nav-item nav-link nav-hover" href="#">Login</a>
+                <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>index.php/Menu/login"">Login</a>
             </div>
         </div>
     </div>

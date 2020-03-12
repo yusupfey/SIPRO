@@ -108,13 +108,14 @@
         </div>
     </div>
     <h4>ALL Data</h4>
-    <div class="row text-center">
+    <div class="row text-center pb-5">
         <?php foreach ($db_property as $v) : ?>
             <div class="col-md-4">
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="<?= base_url() ?>pic/<?= $v->pic; ?>" alt=" Card image cap">
                     <div class="card-body">
-                        <p class="card-text"><?= $v->nama ?></p>
+                        <p class="card-text"><?= $v->type ?></p>
+                        <p class="card-text"><?= $v->status ?></p>
                         <h5 class="card-title">Rp.<?= $v->harga ?></h5>
                         <a href="#" class="badge badge-primary text-right">More info</a>
                     </div>
