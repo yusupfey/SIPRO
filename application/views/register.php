@@ -46,7 +46,6 @@
                     </button>
                 </div>
             </form>
-            <div class="text-center" style="color:white;position:relative; z-index:1;"><a href="" class="">Create an Account</a></div>
         </div>
     </div>
 </div>

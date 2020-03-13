@@ -42,7 +42,7 @@
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
+        <li class="nav-item <?php echo $this->uri->segment(2) == 'property' ? 'active' : '' ?>">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>Master Property</span>
@@ -288,3 +288,24 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <?php
+
+                        foreach ($this->uri->segments as $segment) : ?>
+                            <?php
+                            $url = substr($this->uri->uri_string, 0, strpos($this->uri->uri_string, $segment)) . $segment;
+                            $is_active =  $url == $this->uri->uri_string;
+                            ?>
+
+
+                            <li class="breadcrumb-item <?php echo $is_active ? '' : '' ?>">
+                                <?php if ($is_active) : ?>
+                                    <?php echo ucfirst($segment) ?>
+                                <?php else : ?>
+                                    <a href="<?php echo site_url($url) ?>"><?php echo ucfirst($segment) ?></a>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ol>
+                </nav>
