@@ -57,7 +57,6 @@
                     <h6 class="collapse-header">Master</h6>
                     <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/property">Property</a>
                     <a class="collapse-item" href="cards.html">Clauster</a>
-                    <a class="collapse-item" href="cards.html">User</a>
                 </div>
             </div>
         </li>
