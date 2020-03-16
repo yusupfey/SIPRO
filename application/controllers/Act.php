@@ -33,7 +33,7 @@ class Act extends CI_Controller
     {
         $this->form_validation->set_rules('nama', 'Username', 'required|trim', ['required' => 'Username tidak boleh kosong !']);
         // $this->form_validation->set_rules('alamat', 'Alamat', 'required', ['required' => 'Alamat tidak boleh kosong !']);
-        $this->form_validation->set_rules('email', 'Alamat', 'required|valid_email|is_unique[user.email]');
+        $this->form_validation->set_rules('email', 'email', 'required|valid_email|is_unique[user.email]');
         $this->form_validation->set_rules('password-awal', 'Password', 'required|trim|matches[password]', ['required' => 'Password tidak boleh kosong !', 'matches' => 'Password tidak sama']);
         $this->form_validation->set_rules('password', 'Password', 'required|trim|matches[password-awal]', ['required' => 'Password tidak boleh kosong !', 'matches' => 'Password tidak sama']);
         if ($this->form_validation->run() == FALSE) {
@@ -72,34 +72,34 @@ class Act extends CI_Controller
         session_destroy();
         redirect('Home');
     }
-    // public function login()
-    // {
-    //     // $username = array(
-    //     //     'name' => 'username',
-    //     //     'type' => 'text',
-    //     //     'class' => 'form-control form-control-user',
-    //     //     'placeholder' => 'Masukin username'
-    //     // );
-    //     // $password = array(
-    //     //     'name' => 'password',
-    //     //     'type' => 'password',
-    //     //     'class' => 'form-control form-control-user',
-    //     //     'placeholder' => 'Masukin Password'
-    //     // );
-    //     // $btn = array(
-    //     //     'type' => 'submit',
-    //     //     'class' => 'form-control btn btn-primary'
-    //     // );
-    //     // $data['tagopen'] = form_open('index.php/Act');
-    //     // $data['tagclose'] = form_close();
-    //     // $data['username'] = form_input($username);
-    //     // $data['password'] = form_input($password);
-    //     // $data['btn'] = form_submit($btn);
+    public function Editprofil()
+    {
+        $this->form_validation->set_rules('nama', 'nama', 'required', ['required' => 'Nama harus diisi!']);
+        $this->form_validation->set_rules('notel', 'Telepon', 'required', ['required' => 'Telepone harus diisi!']);
+        $this->form_validation->set_rules('email', 'email', 'required|valid_email');
+        $this->form_validation->set_rules('alamat', 'Alamat', 'required', ['required' => 'Alamat tidak boleh kosong !']);
 
-    //     $this->load->view('template/head');
-    //     $this->load->view('template/nav-front/header');
-    //     $this->load->view('login');
-    //     $this->load->view('template/nav-front/footer');
-    //     $this->load->view('template/foot');
-    // }
+
+        if ($this->form_validation->run() == FALSE) {
+            $id = $this->session->userdata('id_user');
+            $data['user'] = $this->db->get_where('user', ['id_user' => $id])->result();
+            $data['judul'] = 'Halaman Profil';
+            $this->load->view('template/head');
+            $this->load->view('template/nav-front/header');
+            $this->load->view('user/profil', $data);
+            $this->load->view('template/nav-front/footer');
+            $this->load->view('template/foot');
+        } else {
+            $data = [
+                'nama' => $this->input->post('nama', true),
+                'notel' => $this->input->post('notel', true),
+                'email' => $this->input->post('email', true),
+                'alamat' => $this->input->post('alamat', true),
+            ];
+            $id = $this->session->userdata('id_user');
+            $this->db->where('id_user', $id);
+            $this->db->update('user', $data);
+            redirect('Home/profil');
+        }
+    }
 }
