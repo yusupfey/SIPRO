@@ -49,10 +49,9 @@
                                 <td><?= $t->harga; ?></td>
                                 <td><img src="<?= base_url() ?>pic/<?= $t->pic; ?>" width="60" alt=""></td>
                                 <td><span class="badge badge-success"><?= $t->status; ?></span></td>
-                                <td>
-                                    <a href="" class="badge badge-success p-2 ml-2"><span class="fa fa-edit"></span></a>
-                                    <a href="" class="badge badge-info p-2 pl-3  ml-2"><span class="fa fa-info"></span></a>
-                                    <a href="" class="badge badge-danger p-2 ml-2"><span class="fa fa-trash"></span></a>
+                                <td><a href="" class="btn btn-success btn-circle"><i class="fa fa-edit"></i></a>
+                                    <a href="" class="btn btn-info btn-circle""><span class=" fa fa-info"></span></a>
+                                    <a href="" class="btn btn-danger btn-circle" p-2 ml-2"><span class="fa fa-trash"></span></a></<a>
                                 </td>
                             </tr>
                         <?php endforeach ?>

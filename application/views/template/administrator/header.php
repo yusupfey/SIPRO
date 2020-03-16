@@ -33,6 +33,11 @@
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Data Pengguna</span></a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Data User</span></a>
+        </li>
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -68,6 +73,7 @@
                     <h6 class="collapse-header">Custom Utilities:</h6>
                     <a class="collapse-item" href="utilities-color.html">Provinsi</a>
                     <a class="collapse-item" href="utilities-border.html">Kab/Kota</a>
+                    <a class="collapse-item" href="utilities-border.html">Akses</a>
                     <a class="collapse-item" href="utilities-border.html">Ganti Password</a>
                 </div>
             </div>

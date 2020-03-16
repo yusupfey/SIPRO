@@ -13,9 +13,9 @@
             <div class="navbar-nav ml-auto">
                 <a class="nav-item nav-link nav-hover active" href="<?= base_url() ?>">Home <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link nav-hover" href="#">About</a>
-                <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>index.php/Welcome/profil">Kategori</a>
-                <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>index.php/Administrator">Disabled</a>
-                <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>index.php/Menu/login"">Login</a>
+                <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>">Kategori</a>
+                <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>">Disabled</a>
+                <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>Login/formlogin">Login</a>
             </div>
         </div>
     </div>

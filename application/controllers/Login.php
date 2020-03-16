@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Act extends CI_Controller
+class Login extends CI_Controller
 {
 
     /**
@@ -38,10 +38,10 @@ class Act extends CI_Controller
             $qry = $this->db->query("Select * from log_user where username='$username' AND password ='$passwordx'")->row_array();
             if ($qry) {
                 if ($qry['status'] == 1) {
-                    $akses = $qry['id_akses'];
-                    $acs = $this->db->query("Select * from akses where id_akses='$akses'")->row_array();
-                    if ($qry['id_akses'] == $acs['id_akses']) {
-                        redirect($acs['url']);
+                    if ($qry['id_akses'] == 1) {
+                        redirect('Administrator');
+                    } else if ($qry['id_akses'] == 2) {
+                        redirect('Home/profil');
                     }
                 } else {
                     $this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert" style="z-index:1; position:relative;">Username Belum Active</div>');
@@ -53,20 +53,15 @@ class Act extends CI_Controller
             }
         }
     }
-    public function Actregis()
-    {
-        # code...
-    }
-
-    public function login()
-    {
-        $data['judul'] = 'Halaman Login';
-        $this->load->view('template/head');
-        $this->load->view('template/nav-front/header');
-        $this->load->view('login');
-        $this->load->view('template/nav-front/footer');
-        $this->load->view('template/foot');
-    }
+    // public function login()
+    // {
+    //     $data['judul'] = 'Halaman Login';
+    //     $this->load->view('template/head');
+    //     $this->load->view('template/nav-front/header');
+    //     $this->load->view('login');
+    //     $this->load->view('template/nav-front/footer');
+    //     $this->load->view('template/foot');
+    // }
     public function register()
     {
         $this->load->view('template/head');
@@ -75,34 +70,34 @@ class Act extends CI_Controller
         $this->load->view('template/nav-front/footer');
         $this->load->view('template/foot');
     }
-    // public function login()
-    // {
-    //     // $username = array(
-    //     //     'name' => 'username',
-    //     //     'type' => 'text',
-    //     //     'class' => 'form-control form-control-user',
-    //     //     'placeholder' => 'Masukin username'
-    //     // );
-    //     // $password = array(
-    //     //     'name' => 'password',
-    //     //     'type' => 'password',
-    //     //     'class' => 'form-control form-control-user',
-    //     //     'placeholder' => 'Masukin Password'
-    //     // );
-    //     // $btn = array(
-    //     //     'type' => 'submit',
-    //     //     'class' => 'form-control btn btn-primary'
-    //     // );
-    //     // $data['tagopen'] = form_open('index.php/Act');
-    //     // $data['tagclose'] = form_close();
-    //     // $data['username'] = form_input($username);
-    //     // $data['password'] = form_input($password);
-    //     // $data['btn'] = form_submit($btn);
+    public function formlogin()
+    {
+        //     // $username = array(
+        //     //     'name' => 'username',
+        //     //     'type' => 'text',
+        //     //     'class' => 'form-control form-control-user',
+        //     //     'placeholder' => 'Masukin username'
+        //     // );
+        //     // $password = array(
+        //     //     'name' => 'password',
+        //     //     'type' => 'password',
+        //     //     'class' => 'form-control form-control-user',
+        //     //     'placeholder' => 'Masukin Password'
+        //     // );
+        //     // $btn = array(
+        //     //     'type' => 'submit',
+        //     //     'class' => 'form-control btn btn-primary'
+        //     // );
+        //     // $data['tagopen'] = form_open('index.php/Act');
+        //     // $data['tagclose'] = form_close();
+        //     // $data['username'] = form_input($username);
+        //     // $data['password'] = form_input($password);
+        //     // $data['btn'] = form_submit($btn);
 
-    //     $this->load->view('template/head');
-    //     $this->load->view('template/nav-front/header');
-    //     $this->load->view('login');
-    //     $this->load->view('template/nav-front/footer');
-    //     $this->load->view('template/foot');
-    // }
+        $this->load->view('template/head');
+        $this->load->view('template/nav-front/header');
+        $this->load->view('login');
+        $this->load->view('template/nav-front/footer');
+        $this->load->view('template/foot');
+    }
 }
