@@ -30,9 +30,12 @@ class Home extends CI_Controller
     }
     public function profil()
     {
+        $id = $this->session->userdata('id_user');
+        $data['user'] = $this->db->get_where('user', ['id_user' => $id])->result();
+
         $this->load->view('template/head');
         $this->load->view('template/nav-front/header');
-        $this->load->view('user/profil');
+        $this->load->view('user/profil', $data);
         $this->load->view('template/nav-front/footer');
         $this->load->view('template/foot');
     }

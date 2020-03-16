@@ -1,6 +1,6 @@
 <div class="container p-5">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3" id="wrapper">
             <div class="box text-center border-left-success" style="height:250px;">
                 <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
                     <li class="nav-item">
@@ -29,34 +29,38 @@
             </div>
         </div>
         <div class="col-md-9 col-xs-9">
-            <div class="box border-left-success bg-info " style="height:250px">
+            <div class="box border-left-success bg-info " style="height:250px; border-radius:20px">
 
             </div>
-            <div class="box text-center" style="height:150px; background-color:#f2f2f2">
-                <div class="row">
-                    <div class="col-md-12">
-                        <img src="<?= base_url() ?>assets/img/LOGOSIPRO.png" class="border-left-info " style="border-radius: 100%; margin-top:-90px; background-color:white" width="160" height="160" alt="">
-                    </div>
+            <!-- <div class="boxt " style="height:150px; background-color:#f2f2f2"> -->
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <img src="<?= base_url() ?>assets/img/LOGOSIPRO.png" class="border-left-info " style="border-radius: 100%; margin-top:-90px; background-color:white" width="160" height="160" alt="">
                 </div>
             </div>
-            <div class="box text-left pl-3 pr-3" style="height:550px; background-color:#f2f2f2; margin-top:-20px">
-                <form>
-                    <div class="form-group">
-                        <label>Nama</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>Alamat</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>No Telphone</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="form-group" class="form-control">
-                        <label>Email</label>
-                        <input type="text" class="form-control">
-                    </div>
+            <!-- </div> -->
+            <div class="box text-left pl-3 pr-3 pt-5 border-left-success" style="height:550px; background-color:#f6f6f6; margin-top:-65px; border-radius:20px">
+                <form action="" method="post">
+                    <?php foreach ($user as $v) :
+                    ?>
+                        <div class="form-group">
+                            <label>Nama</label>
+                            <input type="text" value="<?= $v->nama; ?>" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>No Telphone</label>
+                            <input type="text" value="<?= $v->notel; ?>" class="form-control">
+                        </div>
+                        <div class="form-group" class="form-control">
+                            <label>Email</label>
+                            <input type="text" value="<?= $v->email; ?>" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Alamat</label>
+                            <textarea class="form-control"><?= $v->alamat; ?></textarea>
+                        </div>
+                    <?php endforeach;
+                    ?>
                 </form>
             </div>
         </div>

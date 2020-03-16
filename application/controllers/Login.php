@@ -38,18 +38,24 @@ class Login extends CI_Controller
             $qry = $this->db->query("Select * from log_user where username='$username' AND password ='$passwordx'")->row_array();
             if ($qry) {
                 if ($qry['status'] == 1) {
-                    if ($qry['id_akses'] == 1) {
-                        redirect('Administrator');
-                    } else if ($qry['id_akses'] == 2) {
-                        redirect('Home/profil');
+                    $session = [
+                        'id_user' => $qry['id_user'],
+                        'username' => $qry['username'],
+                        'id_akses' => $qry['id_akses'],
+                    ];
+                    $this->session->set_userdata($session);
+                    $akses = $qry['id_akses'];
+                    $acs = $this->db->query("Select * from akses where id_akses='$akses'")->row_array();
+                    if ($qry['id_akses'] == $acs['id_akses']) {
+                        redirect($acs['url']);
                     }
                 } else {
                     $this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert" style="z-index:1; position:relative;">Username Belum Active</div>');
-                    redirect('Home/login');
+                    redirect('Login/formlogin');
                 }
             } else {
                 $this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert" style="z-index:1; position:relative;">Username tidak terdaftar</div>');
-                redirect('Home/login');
+                redirect('Login/formlogin');
             }
         }
     }

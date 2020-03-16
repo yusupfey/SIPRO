@@ -30,4 +30,13 @@ class Administrator extends CI_Controller
     public function getproperty()
     {
     }
+    public function pengguna()
+    {
+        $data['db_user'] = $this->db->get('user')->result();
+        $this->load->view('template/head');
+        $this->load->view('template/administrator/header');
+        $this->load->view('user/datauser', $data);
+        $this->load->view('template/administrator/footer');
+        $this->load->view('template/foot');
+    }
 }

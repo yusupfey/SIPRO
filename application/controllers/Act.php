@@ -19,61 +19,58 @@ class Act extends CI_Controller
      * map to /index.php/welcome/<method_name>
      * @see https://codeigniter.com/user_guide/general/urls.html
      */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->library('form_validation');
+        // $this->load->model('Pegawai_model');
+        // if ($this->session->userdata('id_pegawai') === null) redirect('login');
+    }
     public function index()
     {
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('username', 'Username', 'required|trim');
-        $this->form_validation->set_rules('password', 'Password', 'required|trim');
-        if ($this->form_validation->run() == FALSE) {
-            $data['judul'] = 'Halaman Login';
-            $this->load->view('template/head');
-            $this->load->view('template/nav-front/header');
-            $this->load->view('login');
-            $this->load->view('template/nav-front/footer');
-            $this->load->view('template/foot');
-        } else {
-            $username = $this->input->post('username');
-            $password = $this->input->post('password');
-            $passwordx = md5($password);
-            $qry = $this->db->query("Select * from log_user where username='$username' AND password ='$passwordx'")->row_array();
-            if ($qry) {
-                if ($qry['status'] == 1) {
-                    $akses = $qry['id_akses'];
-                    $acs = $this->db->query("Select * from akses where id_akses='$akses'")->row_array();
-                    if ($qry['id_akses'] == $acs['id_akses']) {
-                        redirect($acs['url']);
-                    }
-                } else {
-                    $this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert" style="z-index:1; position:relative;">Username Belum Active</div>');
-                    redirect('Home/login');
-                }
-            } else {
-                $this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert" style="z-index:1; position:relative;">Username tidak terdaftar</div>');
-                redirect('Home/login');
-            }
-        }
     }
     public function Actregis()
     {
-        # code...
-    }
+        $this->form_validation->set_rules('nama', 'Username', 'required|trim', ['required' => 'Username tidak boleh kosong !']);
+        // $this->form_validation->set_rules('alamat', 'Alamat', 'required', ['required' => 'Alamat tidak boleh kosong !']);
+        $this->form_validation->set_rules('email', 'Alamat', 'required|valid_email|is_unique[user.email]');
+        $this->form_validation->set_rules('password-awal', 'Password', 'required|trim|matches[password]', ['required' => 'Password tidak boleh kosong !', 'matches' => 'Password tidak sama']);
+        $this->form_validation->set_rules('password', 'Password', 'required|trim|matches[password-awal]', ['required' => 'Password tidak boleh kosong !', 'matches' => 'Password tidak sama']);
+        if ($this->form_validation->run() == FALSE) {
+            $data['judul'] = 'Halaman Register';
+            $this->load->view('template/head');
+            $this->load->view('template/nav-front/header');
+            $this->load->view('register', $data);
+            $this->load->view('template/nav-front/footer');
+            $this->load->view('template/foot');
+        } else {
+            // ini adalah kode untuk acak nomber
+            $getcode = $this->db->query('Select max(id_user) as maxKode FROM user')->row_array();
+            $no_urut = (int) substr($getcode['maxKode'], 1, 3);
+            $no_urut++;
+            $kode = 'U' . sprintf("%03s", $no_urut);
+            $iduser = $kode;
+            $email = $this->input->post('email');
+            $this->db->query("Insert into user (id_user,email) values ('$iduser','$email')");
 
-    public function login()
-    {
-        $data['judul'] = 'Halaman Login';
-        $this->load->view('template/head');
-        $this->load->view('template/nav-front/header');
-        $this->load->view('login');
-        $this->load->view('template/nav-front/footer');
-        $this->load->view('template/foot');
+            $log_user = [
+                'id_user' => $kode,
+                'username' => $this->input->post('nama'),
+                'password' => $this->input->post('password'),
+                'id_akses' => 2,
+                'status' => 1,
+            ];
+            $this->db->insert('log_user', $log_user);
+
+            redirect('Login/formlogin');
+        }
     }
-    public function register()
+    public function logout()
     {
-        $this->load->view('template/head');
-        $this->load->view('template/nav-front/header');
-        $this->load->view('register');
-        $this->load->view('template/nav-front/footer');
-        $this->load->view('template/foot');
+        $this->session->unset('id_user');
+        $this->session->unset('username');
+        session_destroy();
+        redirect('Home');
     }
     // public function login()
     // {

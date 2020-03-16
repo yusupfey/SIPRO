@@ -8,15 +8,15 @@
             <h1 class="display-4">LOGIN IN HERE</h1>
             <?= $this->session->flashdata('error'); ?>
             <hr class="line">
-            <form action="<?= base_url() ?>index.php/Act" method="post" class="form-login user">
+            <form action="<?= base_url() ?>index.php/Login" method="post" class="form-login user">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" name="username" class="form-control form-control-user" placeholder="Enter Email Address...">
+                    <input type="text" name="username" class="form-control form-control-user" placeholder="Enter Username...">
                     <span class="text-danger"><?= form_error('username'); ?></span>
                 </div>
                 <div class="form-group">
                     <label for="username">Password</label>
-                    <input type="Password" name="password" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+                    <input type="Password" name="password" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Password...">
                     <span class="text-danger"><?= form_error('password'); ?></span>
                 </div>
                 <hr>
