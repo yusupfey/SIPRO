@@ -99,7 +99,12 @@ class Act extends CI_Controller
             $id = $this->session->userdata('id_user');
             $this->db->where('id_user', $id);
             $this->db->update('user', $data);
+            $this->session->set_flashdata('true', '<div class="alert alert-danger" role="alert">Diupdate</div>');
             redirect('Home/profil');
         }
+    }
+    public function isnotlogin()
+    {
+        return $this->session->userdata('id_user') === null;
     }
 }

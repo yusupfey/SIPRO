@@ -8,7 +8,7 @@ class Administrator extends CI_Controller
         parent::__construct();
         // $this->load->library('form_validation');
         // $this->load->model('Pegawai_model');
-        // if ($this->session->userdata('id_pegawai') === null) redirect('login');
+        if ($this->session->userdata('id_user') === null) redirect('login');
     }
     public function index()
     {

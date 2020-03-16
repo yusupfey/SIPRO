@@ -40,6 +40,15 @@
             </div>
             <!-- </div> -->
             <div class="box text-left pl-3 pr-3 pt-5 border-left-success" style="min-height:600px; background-color:#f6f6f6; margin-top:-65px; border-radius:20px">
+                <?php if ($this->session->flashdata('true')) : ?>
+                    <script>
+                        swal({
+                            title: "Berhasil!",
+                            text: "Di Update!",
+                            icon: "success",
+                        });
+                    </script>
+                <?php endif; ?>
                 <form action="<?= base_url() ?>Act/Editprofil" method="post">
                     <?php foreach ($user as $v) :
                     ?>
@@ -62,7 +71,7 @@
                         </div>
                         <div class="form-group">
                             <label>Alamat</label>
-                            <textarea class="form-control" name="alamat"><?= $v->alamat; ?></textarea>
+                            <textarea class="form-control " name="alamat"><?= $v->alamat; ?></textarea>
                             <i class="text-danger"><?= form_error('alamat'); ?></i>
 
                         </div>

@@ -189,8 +189,10 @@
             border: 3px solid #3498db;
         } */
     </style>
-    <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 
+    <!-- <script src="<?= base_url() ?>assets/ckeditor/ckeditor.js"></script> -->
+    <script src="<?= base_url() ?>assets/sweetalert/sweetalert.min.js"></script>
+    <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 </head>
 
 <body>
