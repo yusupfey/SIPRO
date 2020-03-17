@@ -56,8 +56,8 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Master</h6>
                     <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/property">Property</a>
-                    <a class="collapse-item" href="cards.html">Clauster</a>
-                    <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/pengguna">User</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/cluster">Cluster</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/pengguna">Booking</a>
                 </div>
             </div>
         </li>
@@ -71,9 +71,8 @@
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Custom Utilities:</h6>
-                    <a class="collapse-item" href="utilities-color.html">Provinsi</a>
-                    <a class="collapse-item" href="utilities-border.html">Kab/Kota</a>
-                    <a class="collapse-item" href="utilities-border.html">Akses</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/Lokasi">Lokasi</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/akses">Akses</a>
                     <a class="collapse-item" href="utilities-border.html">Ganti Password</a>
                 </div>
             </div>
@@ -271,9 +270,9 @@
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Profile
                             </a>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="<?= base_url() ?>Home">
                                 <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Settings
+                                Beranda
                             </a>
                             <a class="dropdown-item" href="#">
                                 <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>

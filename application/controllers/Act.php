@@ -67,8 +67,9 @@ class Act extends CI_Controller
     }
     public function logout()
     {
-        $this->session->unset('id_user');
-        $this->session->unset('username');
+        // $this->session->unset('id_user');
+        // $this->session->unset('username');
+        // $this->session->unset('id_akses');
         session_destroy();
         redirect('Home');
     }

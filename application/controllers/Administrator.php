@@ -39,4 +39,34 @@ class Administrator extends CI_Controller
         $this->load->view('template/administrator/footer');
         $this->load->view('template/foot');
     }
+    public function Lokasi()
+    {
+        $data['prov'] = $this->db->get('provinsi')->result();
+        $data['kota'] = $this->db->query('select kota.*, provinsi.provinsi from provinsi inner join kota on kota.id_prov = provinsi.id_prov')->result();
+        $this->load->view('template/head');
+        $this->load->view('template/administrator/header');
+        $this->load->view('master/lokasi', $data);
+        $this->load->view('template/administrator/footer');
+        $this->load->view('template/foot');
+    }
+    public function akses()
+    {
+        $data['prov'] = $this->db->get('akses')->result();
+        // $data['kota'] = $this->db->query('select kota.*, provinsi.provinsi from provinsi inner join kota on kota.id_prov = provinsi.id_prov')->result();
+        $this->load->view('template/head');
+        $this->load->view('template/administrator/header');
+        $this->load->view('master/akses', $data);
+        $this->load->view('template/administrator/footer');
+        $this->load->view('template/foot');
+    }
+    public function cluster()
+    {
+        // $data['prov'] = $this->db->get('cluster')->result();
+        $data['cluster'] = $this->db->query('select claster.*, perumahan.nm_perumahan from claster inner join perumahan on perumahan.id_perumahan = claster.id_perumahan')->result();
+        $this->load->view('template/head');
+        $this->load->view('template/administrator/header');
+        $this->load->view('master/cluster', $data);
+        $this->load->view('template/administrator/footer');
+        $this->load->view('template/foot');
+    }
 }

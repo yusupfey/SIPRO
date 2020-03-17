@@ -15,7 +15,25 @@
                 <a class="nav-item nav-link nav-hover" href="#">About</a>
                 <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>">Kategori</a>
                 <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>">Disabled</a>
-                <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>Login/formlogin">Login</a>
+                <?php if ($this->session->userdata('id_user')) : ?>
+                    <div class="nav-item dropdown ml-5">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <?= $this->session->userdata('username') ?>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <?php if ($this->session->userdata('id_akses') == 1) : ?>
+                                <a class="dropdown-item" href="<?= base_url() ?>Administrator">Page Admin</a>
+                            <?php else : ?>
+                                <a class="dropdown-item" href="<?= base_url() ?>Home/profil">Profil</a>
+                            <?php endif; ?>
+                            <!-- <a class="dropdown-item" href="#"></a> -->
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="<?= base_url() ?>Act/Logout">Logout</a>
+                        </div>
+                    </div>
+                <?php else : ?>
+                    <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>Login/formlogin">Login</a>
+                <?php endif; ?>
             </div>
         </div>
     </div>
