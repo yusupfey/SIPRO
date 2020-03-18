@@ -19,7 +19,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="<?= base_url() ?>Dashboard">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
         </li>
@@ -29,7 +29,7 @@
                 <span>Data Staff</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="<?= base_url() ?>Administrator/pengguna">
+            <a class="nav-link" href="<?= base_url() ?>Dashboard/pengguna">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Data Pengguna</span></a>
         </li>
@@ -55,9 +55,9 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Master</h6>
-                    <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/property">Property</a>
-                    <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/cluster">Cluster</a>
-                    <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/pengguna">Booking</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/property">Property</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/cluster">Cluster</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard">Booking</a>
                 </div>
             </div>
         </li>
@@ -71,8 +71,8 @@
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Custom Utilities:</h6>
-                    <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/Lokasi">Lokasi</a>
-                    <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/akses">Akses</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/Lokasi">Lokasi</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/akses">Akses</a>
                     <a class="collapse-item" href="utilities-border.html">Ganti Password</a>
                 </div>
             </div>
@@ -152,46 +152,31 @@
                         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-bell fa-fw"></i>
                             <!-- Counter - Alerts -->
-                            <span class="badge badge-danger badge-counter">3+</span>
+                            <span class="badge badge-danger badge-counter">
+                                <?php foreach ($count as $t) :
+                                    echo $t->jml;
+                                endforeach;
+                                ?>
+                            </span>
                         </a>
                         <!-- Dropdown - Alerts -->
                         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                             <h6 class="dropdown-header">
                                 Alerts Center
                             </h6>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-primary">
-                                        <i class="fas fa-file-alt text-white"></i>
+                            <?php foreach ($notif as $v) : ?>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-donate text-white"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <div class="small text-gray-500">December 12, 2019</div>
-                                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                </div>
-                            </a>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-success">
-                                        <i class="fas fa-donate text-white"></i>
+                                    <div>
+                                        <div class="small text-gray-500"><?= $v->tgl; ?></div>
+                                        <?= $v->requerst; ?>
                                     </div>
-                                </div>
-                                <div>
-                                    <div class="small text-gray-500">December 7, 2019</div>
-                                    $290.29 has been deposited into your account!
-                                </div>
-                            </a>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-warning">
-                                        <i class="fas fa-exclamation-triangle text-white"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="small text-gray-500">December 2, 2019</div>
-                                    Spending Alert: We've noticed unusually high spending for your account.
-                                </div>
-                            </a>
+                                </a>
+                            <?php endforeach; ?>
                             <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                         </div>
                     </li>
@@ -295,6 +280,10 @@
             <div class="container-fluid">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
+                        <?php foreach ($notif as $v) :
+                            $v->requerst;
+                        endforeach ?>
+
                         <?php
 
                         foreach ($this->uri->segments as $segment) : ?>
