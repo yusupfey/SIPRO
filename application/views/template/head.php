@@ -78,10 +78,15 @@
         }
 
         .footer {
-            height: 450px;
+            min-height: 450px;
             background: #1B1B1B;
             padding-top: 50px;
             margin-top: -20px;
+        }
+
+        .cover {
+            min-height: 250px;
+            border-radius: 5px
         }
 
         @media (min-width: 992px) {
@@ -123,6 +128,18 @@
                 z-index: 1;
                 position: relative;
 
+            }
+
+            /* profil */
+            .img-profil {
+                border-radius: 100%;
+                margin-top: -150px;
+                background-color: white;
+            }
+
+            .cover {
+                min-height: 350px;
+                border-radius: 5px
             }
         }
 
@@ -188,6 +205,12 @@
         input[type=text]:focus {
             border: 3px solid #3498db;
         } */
+        /* profil */
+        .img-profil {
+            border-radius: 100%;
+            margin-top: -150px;
+            background-color: white;
+        }
     </style>
 
     <!-- <script src="<?= base_url() ?>assets/ckeditor/ckeditor.js"></script> -->

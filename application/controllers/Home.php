@@ -32,7 +32,7 @@ class Home extends CI_Controller
     {
         $id = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('user', ['id_user' => $id])->result();
-
+        // $data['sidebar'] = $this->load->view('template/nav-front/sidebar');
         $this->load->view('template/head');
         $this->load->view('template/nav-front/header');
         $this->load->view('user/profil', $data);

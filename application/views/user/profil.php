@@ -1,6 +1,6 @@
-<div class="container p-5">
-    <div class="row">
-        <div class="col-md-3" id="wrapper">
+<div class="container mb-5 mt-4">
+    <div class="row mt-2">
+        <div class="col-md-3 mb-4" id="wrapper">
             <div class="box text-center border-left-success" style="height:250px;">
                 <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
                     <li class="nav-item">
@@ -15,7 +15,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                            <i class="fas fa-fw fa-cog"></i>
+                            <i class="fas fa-fw fa-home"></i>
                             <span>Jual Rumah</span>
                         </a>
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -25,21 +25,24 @@
                             </div>
                         </div>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-fw fa-hotel"></i>
+                            <span>Daptar Perumahan</span></a>
+                    </li>
                 </ul>
             </div>
         </div>
-        <div class="col-md-9 col-xs-9">
-            <div class="box border-left-success bg-info " style="height:250px; border-radius:20px">
-
+        <div class="col-md-9 col-xs-12">
+            <div class="box border-bottom-success bg-success cover">
             </div>
-            <!-- <div class="boxt " style="height:150px; background-color:#f2f2f2"> -->
             <div class="row text-center">
-                <div class="col-md-12">
-                    <img src="<?= base_url() ?>assets/img/LOGOSIPRO.png" class="border-left-info " style="border-radius: 100%; margin-top:-90px; background-color:white" width="160" height="160" alt="">
+                <div class="col-md-12 mt-5">
+                    <img src="<?= base_url() ?>assets/img/LOGOSIPRO.png" class="border-left-info img-profil" width="160" height="180" alt="">
                 </div>
             </div>
             <!-- </div> -->
-            <div class="box text-left pl-3 pr-3 pt-5 border-left-success" style="min-height:600px; background-color:#f6f6f6; margin-top:-65px; border-radius:20px">
+            <div class="box text-left pl-3 pr-3 pt-5 border-left-success" style="min-height:600px; margin-top:-70px; background-color:#f9f9f9; border-radius:5px">
                 <?php if ($this->session->flashdata('true')) : ?>
                     <script>
                         swal({
@@ -49,6 +52,8 @@
                         });
                     </script>
                 <?php endif; ?>
+                <h2>Profil</h2>
+                <hr>
                 <form action="<?= base_url() ?>Act/Editprofil" method="post">
                     <?php foreach ($user as $v) :
                     ?>
@@ -84,5 +89,13 @@
                 </form>
             </div>
         </div>
+        <!-- <div class="col-md-3">
+            <div class=" card">
+                <div class="card-header">Jual Rumah</div>
+                <div class="card-body">
+
+                </div>
+            </div>
+        </div> -->
     </div>
 </div>
