@@ -58,6 +58,7 @@
                     <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/property">Property</a>
                     <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/cluster">Cluster</a>
                     <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/pengguna">Booking</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>index.php/Administrator/perum">Perumahan</a>
                 </div>
             </div>
         </li>

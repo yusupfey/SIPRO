@@ -39,6 +39,15 @@ class Administrator extends CI_Controller
         $this->load->view('template/administrator/footer');
         $this->load->view('template/foot');
     }
+    public function perum()
+    {
+        $data['db_perum'] = $this->db->query('select perum.*, perumahan.nm_perumahan, claster.claster from perum inner join perumahan on perumahan.id_perumahan = perum.id_perumahan inner join claster on claster.id_claster = perum.id_claster')->result();
+        $this->load->view('template/head');
+        $this->load->view('template/administrator/header');
+        $this->load->view('user/perum', $data);
+        $this->load->view('template/administrator/footer');
+        $this->load->view('template/foot');
+    }
     public function Lokasi()
     {
         $data['prov'] = $this->db->get('provinsi')->result();
