@@ -107,20 +107,50 @@
             </div>
         </div>
     </div>
-    <h4>ALL Data</h4>
+    <!-- <h4>ALL Data</h4>
     <div class="row text-center pb-5">
-        <?php foreach ($db_property as $v) : ?>
+        <?php //foreach ($db_property as $v) : 
+        ?>
             <div class="col-md-4">
                 <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="<?= base_url() ?>pic/<?= $v->pic; ?>" alt=" Card image cap">
+                    <img class="card-img-top" src="<? //= base_url() 
+                                                    ?>pic/<? //= $v->pic; 
+                                                            ?>" alt=" Card image cap">
                     <div class="card-body">
-                        <p class="card-text"><?= $v->type ?></p>
-                        <p class="card-text"><?= $v->status ?></p>
-                        <h5 class="card-title">Rp.<?= $v->harga ?></h5>
+                        <p class="card-text"><? //= $v->type 
+                                                ?></p>
+                        <p class="card-text"><? //= $v->status 
+                                                ?></p>
+                        <h5 class="card-title">Rp.<? //= $v->harga 
+                                                    ?></h5>
                         <a href="#" class="badge badge-primary text-right">More info</a>
                     </div>
                 </div>
             </div>
-        <?php endforeach ?>
+        <?php // endforeach 
+        ?>
+    </div> -->
+    <h4>Paket Pemasaran</h4>
+    <hr>
+    <div class="box border-bottom-success pb-5"">
+        <div class=" card">
+        <div class="card-header bg-primary text-gray-100">
+            Paket Pemasaran
+        </div>
+        <div class="card-body text-center">
+            <div class="p-2 bg-gray-200">
+                <h2>RP. 300.000</h2>
+                <spa6>3 bulan</span>
+            </div>
+            <div class="p-2 bg-gray-100">
+                <h2>RP. 700.000</h2>
+                <span class="">7 bulan</span>
+            </div>
+            <div class="p-2 bg-gray-200">
+                <h2>RP. 1.000.000</h2>
+                <span class="">1 Tahun</span>
+            </div>
+        </div>
     </div>
+</div>
 </div>

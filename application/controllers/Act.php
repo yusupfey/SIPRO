@@ -102,4 +102,20 @@ class Act extends My_Controller
     {
         return $this->session->userdata('id_user') === null;
     }
+
+    public function req()
+    {
+        $tgl = date('Y-m-d');
+        $data = [
+            'id_user' => $this->input->post('id'),
+            'requerst' => "Permintaan Akses Untuk Jual Perumahan",
+            'tgl' => $tgl,
+            'icon' => 'fa-bell',
+            'url' => 'Dashboard/notification',
+            'acc' => 0,
+        ];
+        $this->load->model('M_Home');
+        $this->M_Home->inputdata('notif', $data);
+        redirect('Home/payment');
+    }
 }

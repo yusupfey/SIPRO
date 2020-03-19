@@ -33,6 +33,18 @@
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Data Pengguna</span></a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?= base_url() ?>Dashboard/notification">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Data Pembayaran
+                    <span class="badge badge-danger badge-counter">
+                        <?php foreach ($count as $t) :
+                            echo $t->jml;
+                        endforeach;
+                        ?>
+                    </span>
+                </span></a>
+        </li>
         <!-- <li class="nav-item">
             <a class="nav-link" href="index.html">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -153,12 +165,17 @@
                         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-bell fa-fw"></i>
                             <!-- Counter - Alerts -->
-                            <span class="badge badge-danger badge-counter">
-                                <?php foreach ($count as $t) :
-                                    echo $t->jml;
-                                endforeach;
-                                ?>
-                            </span>
+                            <?php foreach ($count as $t) :
+                                if ($count) : ?>
+                                    <span class="badge badge-danger badge-counter">
+                                        <?php
+                                        echo $t->jml;
+
+                                        ?>
+                                    </span>
+                            <?php endif;
+                            endforeach;
+                            ?>
                         </a>
                         <!-- Dropdown - Alerts -->
                         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -166,10 +183,10 @@
                                 Alerts Center
                             </h6>
                             <?php foreach ($notif as $v) : ?>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                <a class="dropdown-item d-flex align-items-center" href="<?= base_url() ?>Dashboard/notification">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
+                                            <i class="fas fa-fw <?= $v->icon; ?> text-white"></i>
                                         </div>
                                     </div>
                                     <div>
@@ -178,7 +195,7 @@
                                     </div>
                                 </a>
                             <?php endforeach; ?>
-                            <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            <a class="dropdown-item text-center small text-gray-500" href="<?= base_url() ?>Dashboard/notification">Show All Alerts</a>
                         </div>
                     </li>
 
@@ -281,9 +298,6 @@
             <div class="container-fluid">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <?php foreach ($notif as $v) :
-                            $v->requerst;
-                        endforeach ?>
 
                         <?php
 

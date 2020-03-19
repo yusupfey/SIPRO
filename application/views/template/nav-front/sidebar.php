@@ -4,7 +4,7 @@
             <div class="box text-center border-left-success" style="height:250px;">
                 <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="<?= base_url() ?>Home/profil">
                             <i class="fas fa-fw fa-tachometer-alt"></i>
                             <span>Profil</span></a>
                     </li>

@@ -104,4 +104,10 @@ class Dashboard extends My_Controller
         $data['db_perum'] = $this->db->query('select perum.*, perumahan.nm_perumahan, claster.claster from perum inner join perumahan on perumahan.id_perumahan = perum.id_perumahan inner join claster on claster.id_claster = perum.id_claster')->result();
         $this->HalamanAdmin('user/perum', $data);
     }
+    public function notification()
+    {
+        $data['not'] = $this->M_Administrator->getdata('notif');
+        $this->M_Administrator->updatedatanot('notif', 1, 'fa-bell');
+        $this->HalamanAdmin('master/notification', $data);
+    }
 }

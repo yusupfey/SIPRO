@@ -33,15 +33,61 @@ class Home extends My_Controller
     }
     public function RequestPerum()
     {
-        // $id = $this->session->userdata('id_user');
-        // $data['user'] = $this->db->get_where('user', ['id_user' => $id])->result();
-        // $data['sidebar'] = $this->load->view('template/nav-front/sidebar');
-        $nama = [
-            'type' => 'text',
-            'name' => 'nama',
+        $id = $this->session->userdata('id_user');
+        $pay = $this->db->get_where('notif', ['id_user' => $id])->row_array();
+        if ($pay['id_user'] != $id) {
+            $data = $this->db->get_where('user', ['id_user' => $id])->result();
+            foreach ($data as $t) {
+                $p = $t->nama;
+                $e = $t->email;
+                $n = $t->notel;
+            }
+            // $id = $this->session->userdata('id_user');
+            // $data['user'] = $this->db->get_where('user', ['id_user' => $id])->result();
+            // $data['sidebar'] = $this->load->view('template/nav-front/sidebar');
+            $id = [
+                'type' => 'hidden',
+                'name' => 'id',
+                'class' => 'form-control',
+                'READONLY' => TRUE,
+                'value' => $id,
+            ];
+            $nama = [
+                'type' => 'text',
+                'name' => 'nama',
+                'class' => 'form-control',
+                'READONLY' => TRUE,
+                'value' => $p,
+            ];
+            $email = [
+                'type' => 'text',
+                'name' => 'email',
+                'class' => 'form-control',
+                'READONLY' => TRUE,
+                'value' => $e,
+            ];
+            $perum = [
+                'type' => 'text',
+                'name' => 'Nama Perumahan',
+                'class' => 'form-control',
+            ];
+            $form['id'] = form_input($id);
+            $form['nama'] = form_input($nama);
+            $form['perum'] = form_input($perum);
+            $form['email'] = form_input($email);
+            $this->Halamanprofil('user/Request_perum', $form);
+        } else {
+            redirect('Home/payment');
+        }
+    }
+    public function payment()
+    {
+        $upload = [
+            'type' => 'file',
+            'name' => 'email',
             'class' => 'form-control',
         ];
-        $form['nama'] = form_input($nama);
-        $this->Halamanprofil('user/Request_perum', $form);
+        $form['upload'] = form_upload($upload);
+        $this->Halamanprofil('user/payment', $form);
     }
 }
