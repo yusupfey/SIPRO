@@ -13,4 +13,20 @@ class My_Controller extends CI_Controller
 
         $this->load->view('index', $hal, $data);
     }
+    public function HalamanHome($konten, $data = null)
+    {
+        $hal['header'] = $this->load->view('template/nav-front/header', $data, TRUE);
+        $hal['content'] = $this->load->view($konten, $data, TRUE);
+        $hal['footer'] = $this->load->view('template/nav-front/footer', $data, TRUE);
+
+        $this->load->view('index', $hal, $data);
+    }
+    public function Halamanprofil($konten, $data = null)
+    {
+        $hal['header'] = $this->load->view('template/nav-front/header', $data, TRUE);
+        $hal['content'] = $this->load->view($konten, $data, TRUE);
+        $hal['footer'] = $this->load->view('template/nav-front/footer', $data, TRUE);
+
+        $this->load->view('index', $hal, $data);
+    }
 }

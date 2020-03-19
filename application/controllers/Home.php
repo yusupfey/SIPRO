@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Home extends CI_Controller
+class Home extends My_Controller
 {
 
     /**
@@ -22,21 +22,13 @@ class Home extends CI_Controller
     public function index()
     {
         $data['db_property'] = $this->db->get('rumah')->result();
-        $this->load->view('template/head');
-        $this->load->view('template/nav-front/header');
-        $this->load->view('template/nav-front/content', $data);
-        $this->load->view('template/nav-front/footer');
-        $this->load->view('template/foot');
+        $this->HalamanHome('template/nav-front/content', $data);
     }
     public function profil()
     {
         $id = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('user', ['id_user' => $id])->result();
         // $data['sidebar'] = $this->load->view('template/nav-front/sidebar');
-        $this->load->view('template/head');
-        $this->load->view('template/nav-front/header');
-        $this->load->view('user/profil', $data);
-        $this->load->view('template/nav-front/footer');
-        $this->load->view('template/foot');
+        $this->HalamanHome('user/profil', $data);
     }
 }

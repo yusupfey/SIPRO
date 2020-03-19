@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Act extends CI_Controller
+class Act extends My_Controller
 {
 
     /**
@@ -38,11 +38,8 @@ class Act extends CI_Controller
         $this->form_validation->set_rules('password', 'Password', 'required|trim|matches[password-awal]', ['required' => 'Password tidak boleh kosong !', 'matches' => 'Password tidak sama']);
         if ($this->form_validation->run() == FALSE) {
             $data['judul'] = 'Halaman Register';
-            $this->load->view('template/head');
-            $this->load->view('template/nav-front/header');
-            $this->load->view('register', $data);
-            $this->load->view('template/nav-front/footer');
-            $this->load->view('template/foot');
+
+            $this->HalamanHome('register', $data);
         } else {
             // ini adalah kode untuk acak nomber
             $getcode = $this->db->query('Select max(id_user) as maxKode FROM user')->row_array();
@@ -51,12 +48,13 @@ class Act extends CI_Controller
             $kode = 'U' . sprintf("%03s", $no_urut);
             $iduser = $kode;
             $email = $this->input->post('email');
+            $pass = $this->input->post('password');
             $this->db->query("Insert into user (id_user,email) values ('$iduser','$email')");
-
+            $password = md5($pass);
             $log_user = [
                 'id_user' => $kode,
                 'username' => $this->input->post('nama'),
-                'password' => $this->input->post('password'),
+                'password' => $password,
                 'id_akses' => 2,
                 'status' => 1,
             ];
@@ -85,11 +83,7 @@ class Act extends CI_Controller
             $id = $this->session->userdata('id_user');
             $data['user'] = $this->db->get_where('user', ['id_user' => $id])->result();
             $data['judul'] = 'Halaman Profil';
-            $this->load->view('template/head');
-            $this->load->view('template/nav-front/header');
-            $this->load->view('user/profil', $data);
-            $this->load->view('template/nav-front/footer');
-            $this->load->view('template/foot');
+            $this->HalamanHome('user/profil', $data);
         } else {
             $data = [
                 'nama' => $this->input->post('nama', true),

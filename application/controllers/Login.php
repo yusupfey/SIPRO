@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Login extends CI_Controller
+class Login extends My_Controller
 {
 
     /**
@@ -70,11 +70,7 @@ class Login extends CI_Controller
     // }
     public function register()
     {
-        $this->load->view('template/head');
-        $this->load->view('template/nav-front/header');
-        $this->load->view('register');
-        $this->load->view('template/nav-front/footer');
-        $this->load->view('template/foot');
+        $this->HalamanHome('register');
     }
     public function formlogin()
     {
@@ -100,10 +96,6 @@ class Login extends CI_Controller
         //     // $data['password'] = form_input($password);
         //     // $data['btn'] = form_submit($btn);
 
-        $this->load->view('template/head');
-        $this->load->view('template/nav-front/header');
-        $this->load->view('login');
-        $this->load->view('template/nav-front/footer');
-        $this->load->view('template/foot');
+        $this->HalamanHome('login');
     }
 }
