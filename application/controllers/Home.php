@@ -29,6 +29,19 @@ class Home extends My_Controller
         $id = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('user', ['id_user' => $id])->result();
         // $data['sidebar'] = $this->load->view('template/nav-front/sidebar');
-        $this->HalamanHome('user/profil', $data);
+        $this->Halamanprofil('user/profil', $data);
+    }
+    public function RequestPerum()
+    {
+        // $id = $this->session->userdata('id_user');
+        // $data['user'] = $this->db->get_where('user', ['id_user' => $id])->result();
+        // $data['sidebar'] = $this->load->view('template/nav-front/sidebar');
+        $nama = [
+            'type' => 'text',
+            'name' => 'nama',
+            'class' => 'form-control',
+        ];
+        $form['nama'] = form_input($nama);
+        $this->Halamanprofil('user/Request_perum', $form);
     }
 }

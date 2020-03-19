@@ -220,7 +220,9 @@
 
 <body>
     <?= $header; ?>
+    <?= $sidebar; ?>
     <?= $content; ?>
+    <?= $foot; ?>
     <?= $footer; ?>
 
 

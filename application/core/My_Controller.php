@@ -23,8 +23,11 @@ class My_Controller extends CI_Controller
     }
     public function Halamanprofil($konten, $data = null)
     {
+
         $hal['header'] = $this->load->view('template/nav-front/header', $data, TRUE);
+        $hal['sidebar'] = $this->load->view('template/nav-front/sidebar', $data, TRUE);
         $hal['content'] = $this->load->view($konten, $data, TRUE);
+        $hal['foot'] = '</div></div>';
         $hal['footer'] = $this->load->view('template/nav-front/footer', $data, TRUE);
 
         $this->load->view('index', $hal, $data);
