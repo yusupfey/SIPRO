@@ -4,7 +4,7 @@
         <h6 class="m-0 font-weight-bold text-primary">Cluster</h6>
     </div>
     <div class="card-body">
-        <a href="" class="badge badge-primary p-3 text-md mb-4"><i class="fa fa-plus"></i> Tambah data</a>
+        <a href=" <?= base_url() . 'index.php/Administrator/getcluster'; ?>" class="badge badge-primary p-3 text-md mb-4"><i class="fa fa-plus"></i> Tambah data</a>
         <div class="table-responsive">
             <table class="table table-striped dataTables_processing" id="dataTable" width="100%" cellspacing="0">
                 <thead>
