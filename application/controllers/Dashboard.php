@@ -41,7 +41,7 @@ class Dashboard extends My_Controller
 
         $this->HalamanAdmin('master/cluster', $data);
     }
-    public function getcluster()
+    public function FormClaster()
     { //membuat input judul buku
         $inputidcluster = array(
             'type'             => 'text',
@@ -79,11 +79,7 @@ class Dashboard extends My_Controller
 
         // |_ dipanggil diview		|_ generate form
 
-        $this->load->view('template/head');
-        $this->load->view('template/administrator/header');
-        $this->load->view('master/crud_cluster', $data);
-        $this->load->view('template/administrator/footer');
-        $this->load->view('template/foot');
+        $this->HalamanAdmin('master/crud_cluster', $data);
     }
     public function simpan()
     {
@@ -102,14 +98,10 @@ class Dashboard extends My_Controller
         $this->isi->simpandata($arr);
         redirect('Administrator/getcluster');
     }
-    public function FunctionName()
+    public function perumahan()
     {
 
         $data['db_perum'] = $this->db->query('select perum.*, perumahan.nm_perumahan, claster.claster from perum inner join perumahan on perumahan.id_perumahan = perum.id_perumahan inner join claster on claster.id_claster = perum.id_claster')->result();
-        $this->load->view('template/head');
-        $this->load->view('template/administrator/header');
-        $this->load->view('user/perum', $data);
-        $this->load->view('template/administrator/footer');
-        $this->load->view('template/foot');
+        $this->HalamanAdmin('user/perum', $data);
     }
 }

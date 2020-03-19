@@ -58,6 +58,7 @@
                     <a class="collapse-item" href="<?= base_url(); ?>Dashboard/property">Property</a>
                     <a class="collapse-item" href="<?= base_url(); ?>Dashboard/cluster">Cluster</a>
                     <a class="collapse-item" href="<?= base_url(); ?>Dashboard">Booking</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/perumahan">Data Perumahan</a>
                 </div>
             </div>
         </li>
