@@ -51,7 +51,7 @@
                                 <td><span class="badge badge-success"><?= $t->status; ?></span></td>
                                 <td><a href="" class="btn btn-success btn-circle"><i class="fa fa-edit"></i></a>
                                     <a href="" class="btn btn-info btn-circle"><span class=" fa fa-info"></span></a>
-                                    <a href="" class="btn btn-danger btn-circle" p-2 ml-2><span class="fa fa-trash"></span></a>
+									
                                 </td>
                             </tr>
                         <?php endforeach ?>
