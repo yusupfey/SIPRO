@@ -34,8 +34,8 @@ class Home extends My_Controller
     public function RequestPerum()
     {
         $id = $this->session->userdata('id_user');
-        $pay = $this->db->get_where('notif', ['id_user' => $id])->row_array();
-        if ($pay['id_user'] != $id) {
+        $pay = $this->db->get_where('payment', ['id_user' => $id])->row_array();
+        if ($pay['id_user'] != $id && $pay['status'] == 0) {
             $data = $this->db->get_where('user', ['id_user' => $id])->result();
             foreach ($data as $t) {
                 $p = $t->nama;

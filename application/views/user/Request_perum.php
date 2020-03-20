@@ -71,10 +71,6 @@
                         <i class="text-danger"><?= form_error('email'); ?></i>
                     </div>
                     <div class="form-group">
-                        <label>Nama Perumahan</label>
-                        <?= $perum; ?>
-                    </div>
-                    <div class="form-group">
                         <label>Pilih Paket</label>
 
                         <select name="paket" class="form-control" id="">

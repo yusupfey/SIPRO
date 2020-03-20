@@ -116,6 +116,13 @@ class Act extends My_Controller
         ];
         $this->load->model('M_Home');
         $this->M_Home->inputdata('notif', $data);
+        $payment = [
+            'id_user' => $this->input->post('id'),
+            'id_paket' => $this->input->post('paket'),
+            'pic' => '',
+            'status' => 0,
+        ];
+        $this->M_Home->inputdata('payment', $payment);
         redirect('Home/payment');
     }
 }
