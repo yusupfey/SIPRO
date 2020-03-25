@@ -1,5 +1,5 @@
 <div class="col-md-9 col-xs-12">
-    <div class="box border-bottom-success bg-success cover">
+    <div class="border-bottom-success bg-success cover">
     </div>
     <div class="row text-center">
         <div class="col-md-12 mt-5">
@@ -7,7 +7,7 @@
         </div>
     </div>
     <!-- </div> -->
-    <div class="box text-left pl-3 pr-3 pt-5 border-left-success" style="min-height:600px; margin-top:-70px; background-color:#f9f9f9; border-radius:5px">
+    <div class="bg-white text-left pl-3 pr-3 pt-5 border-left-success" style="min-height:600px; margin-top:-70px; background-color:#f9f9f9; border-radius:5px">
         <?php if ($this->session->flashdata('true')) : ?>
             <script>
                 swal({

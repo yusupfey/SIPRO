@@ -34,11 +34,16 @@
                 <span>Data Pengguna</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="<?= base_url() ?>Dashboard/notification">
+            <a class="nav-link" href="<?= base_url() ?>Dashboard/perumahan">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Data Perumahan</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?= base_url() ?>Dashboard/pemesanan">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Data Pembayaran
                     <span class="badge badge-danger badge-counter">
-                        <?php foreach ($count as $t) :
+                        <?php foreach ($notpay as $t) :
                             echo $t->jml;
                         endforeach;
                         ?>
@@ -70,12 +75,25 @@
                     <a class="collapse-item" href="<?= base_url(); ?>Dashboard/property">Property</a>
                     <a class="collapse-item" href="<?= base_url(); ?>Dashboard/cluster">Cluster</a>
                     <a class="collapse-item" href="<?= base_url(); ?>Dashboard">Booking</a>
-                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/perumahan">Data Perumahan</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/perum">Perumahan</a>
                 </div>
             </div>
         </li>
 
         <!-- Nav Item - Utilities Collapse Menu -->
+        <li class=" nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#history" aria-expanded="true" aria-controls="collapseUtilities">
+                <i class="fas fa-fw fa-wrench"></i>
+                <span>Laporan</span>
+            </a>
+            <div id="history" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Custom Utilities:</h6>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/Lokasi">Laporan Pembayaran</a>
+                </div>
+            </div>
+        </li>
+        <hr class="sidebar-divider">
         <li class=" nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                 <i class="fas fa-fw fa-wrench"></i>
@@ -90,9 +108,7 @@
                 </div>
             </div>
         </li>
-
         <!-- Divider -->
-        <hr class="sidebar-divider">
         <!-- Nav Item - Tables -->
         <!-- <li class="nav-item">
             <a class="nav-link" href="<?= base_url(); ?>index.php/Administrator/getproperty">
@@ -165,11 +181,11 @@
                         <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-bell fa-fw"></i>
                             <!-- Counter - Alerts -->
-                            <?php foreach ($count as $t) :
+                            <?php foreach ($count as $p) :
                                 if ($count) : ?>
                                     <span class="badge badge-danger badge-counter">
                                         <?php
-                                        echo $t->jml;
+                                        echo $p->jml;
 
                                         ?>
                                     </span>
@@ -185,7 +201,12 @@
                             <?php foreach ($notif as $v) : ?>
                                 <a class="dropdown-item d-flex align-items-center" href="<?= base_url() ?>Dashboard/notification">
                                     <div class="mr-3">
-                                        <div class="icon-circle bg-success">
+                                        <div class="icon-circle 
+                                            <?php if ($v->icon == 'fa-donate') {
+                                                echo 'bg-warning';
+                                            } else {
+                                                echo 'bg-success';
+                                            } ?>">
                                             <i class="fas fa-fw <?= $v->icon; ?> text-white"></i>
                                         </div>
                                     </div>
@@ -264,12 +285,12 @@
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $this->session->userdata('username'); ?></span>
                             <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="<?= base_url() ?>Dashboard/profiluser">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Profile
                             </a>
@@ -297,7 +318,7 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
+                    <ol class="breadcrumb bg-white shadow">
 
                         <?php
 

@@ -22,6 +22,10 @@
     <!-- <script src="assets/js/jquery.min.js"></script> -->
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/vendor/datatables/dataTables.bootstrap4.min.css">
     <style>
+        .body {
+            background: #f6f6f6;
+        }
+
         .katalog {
             min-height: 140px;
             border: 1px solid red;
@@ -218,7 +222,7 @@
     <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
 </head>
 
-<body>
+<body class="body">
     <?= $header; ?>
     <?= @$sidebar; ?>
     <?= $content; ?>

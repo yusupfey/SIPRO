@@ -35,7 +35,7 @@
                 Kirim Bukti pembayaran
             </div>
             <div class="card-body">
-                <form action="<?= base_url() ?>Act/req" method="post">
+                <form action="<?= base_url() ?>Act/buy" enctype="multipart/form-data" method="post">
                     <div class="form-group">
                         <?= $upload; ?>
                         <i class="text-danger"><?= form_error('nama'); ?></i>

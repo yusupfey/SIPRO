@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light sticky-top bg-light nav-cust">
+<nav class="navbar navbar-expand-lg navbar-light sticky-top bg-light nav-cust border-bottom-success">
     <div class="container">
         <a class="navbar-brand" href="#">
             <img src="<?= base_url() ?>assets/img/LOGOSIPRO.png" width="170" height="60">
@@ -18,11 +18,12 @@
                 <?php if ($this->session->userdata('id_user')) : ?>
                     <div class="nav-item dropdown ml-5">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <?= $this->session->userdata('username') ?>
+                            <span class="mr-2 d-none d-lg-inline large"><?= $this->session->userdata('username'); ?></span>
+                            <img class="img-profile rounded-circle" src="">
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <?php if ($this->session->userdata('id_akses') == 1) : ?>
-                                <a class="dropdown-item" href="<?= base_url() ?>Administrator">Page Admin</a>
+                            <?php if ($this->session->userdata('id_akses') == 1 || $this->session->userdata('id_akses') == 3) : ?>
+                                <a class="dropdown-item" href="<?= base_url() ?>Dashboard">Page Admin</a>
                             <?php else : ?>
                                 <a class="dropdown-item" href="<?= base_url() ?>Home/profil">Profil</a>
                             <?php endif; ?>

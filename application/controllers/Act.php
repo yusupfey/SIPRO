@@ -23,7 +23,7 @@ class Act extends My_Controller
     {
         parent::__construct();
         $this->load->library('form_validation');
-        // $this->load->model('Pegawai_model');
+        $this->load->model('M_Home');
         // if ($this->session->userdata('id_pegawai') === null) redirect('login');
     }
     public function index()
@@ -112,9 +112,9 @@ class Act extends My_Controller
             'tgl' => $tgl,
             'icon' => 'fa-bell',
             'url' => 'Dashboard/notification',
-            'acc' => 0,
+            'status' => 0,
         ];
-        $this->load->model('M_Home');
+        // $this->load->model('M_Home');
         $this->M_Home->inputdata('notif', $data);
         $payment = [
             'id_user' => $this->input->post('id'),
@@ -124,5 +124,49 @@ class Act extends My_Controller
         ];
         $this->M_Home->inputdata('payment', $payment);
         redirect('Home/payment');
+    }
+    public function buy()
+    {
+        $tgl = date('Y-m-d');
+        $id = $this->session->userdata('id_user');
+
+        $not = [
+            'id_user' => $id,
+            'requerst' => "Telah mengirim struck pemesanan",
+            'tgl' => $tgl,
+            'icon' => 'fa-donate',
+            'url' => 'Dashboard/pemesanan',
+            'status' => 0,
+        ];
+        // $this->load->model('M_Home');
+
+        // $foto = $this-['foto'];
+        // $foto = $this->input->post('foto');
+
+        $config['upload_path'] = './assets/img-struck'; //,menentukan foldernya
+        $config['allowed_types'] = 'png|jpg|jpeg'; //memnentukan format
+        $config['max_size'] = 1000; //untuk ukuran
+        $config['max_width'] = 1024; // untuk lebar foto
+        $config['max_height'] = 786; // untuk tinggi foto
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload('foto')) {
+            $error = array('error' => $this->upload->display_errors());
+            var_dump($error);
+        } else {
+            $data = array('pic' => $this->upload->data('file_name'), 'tgl' => $tgl, 'status' => 1);
+            $id = $this->session->userdata('id_user');
+            // $qry = $this->M_Home->getid('payment', 'id_user', $id);
+            // $qry[]
+            $this->db->where('id_user', $id);
+            $this->db->update('payment', $data);
+            $this->M_Home->inputdata('notif', $not);
+            $this->session->set_flashdata('proses', ' v class="alert alert-danger" role="alert">sedang dalam proses</div>');
+            redirect("Home/RequestPerum");
+        }
+        // $data = [
+        //     'pic' => $foto
+        // ];
+        // 
+
     }
 }

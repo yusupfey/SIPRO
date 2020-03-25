@@ -5,7 +5,9 @@ class My_Controller extends CI_Controller
     {
         $this->load->model('M_Administrator');
         $data['count'] = $this->M_Administrator->hitungnotif();
-        $data['notif'] = $this->db->get_where('notif', ['acc' => 0])->result();
+        $data['notpay'] = $this->M_Administrator->notifpayment();
+        $data['notif'] = $this->db->get_where('notif', ['status' => 0])->result();
+        // $data['notif'] = $this->db->get_where('payment', ['status' => 0])->result();
 
         $hal['header'] = $this->load->view('template/administrator/header', $data, TRUE);
         $hal['content'] = $this->load->view($content, $data, TRUE);

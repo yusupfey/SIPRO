@@ -1,7 +1,9 @@
 <div class="container mb-5 mt-4">
     <div class="row mt-2">
-        <div class="col-md-3 mb-4" id="wrapper">
-            <div class="box text-center border-left-success" style="height:250px;">
+        <div class="col-md-3 mb-4 d-md-block d-none" id="wrapper">
+            <div class="text-center border-left-success " style="height:350px;">
+                <h5>Dashboard</h5>
+                <hr>
                 <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
                     <li class="nav-item">
                         <a class="nav-link" href="<?= base_url() ?>Home/profil">

@@ -3,7 +3,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Home extends My_Controller
 {
-
+    public function __construct()
+    {
+        parent::__construct();
+        // $this->load->library('form_validation');
+        $this->load->model('M_Home');
+        // if ($this->session->userdata('id_user') === null) redirect('login');
+    }
     /**
      * Index Page for this controller.
      *
@@ -21,8 +27,31 @@ class Home extends My_Controller
      */
     public function index()
     {
-        $data['db_property'] = $this->db->get('rumah')->result();
+        $this->load->model('M_Home');
+        $data['prov'] = $this->M_Home->getdata('provinsi');
+        $data['bispat'] = $this->db->get('perumahan')->result();
         $this->HalamanHome('template/nav-front/content', $data);
+    }
+    public function Getdatabyajax($table)
+    {
+        $this->load->model('M_Home');
+
+        $kode = $this->input->post('provinsi');
+        $data['dt'] = $this->M_Home->getid($table, 'id_prov', $kode);
+        // var_dump($data['dt']);
+        // var_dump($kode);
+
+        $toprint = '';
+        $prov = $this->M_Home->getid($table, 'id_prov', $kode);
+        // var_dump($prov);
+        if ($prov['id_prov'] == 0) {
+            foreach ($data['dt'] as $v) {
+                $toprint = $toprint . '<option value="' . $v->id_kota . '">' . $v->kota . '</option>';
+            }
+        } else {
+            $toprint = $toprint . '<option value="' . $prov['id_kota'] . '">' . $prov['kota'] . '</option>';
+        }
+        echo $toprint;
     }
     public function profil()
     {
@@ -76,6 +105,8 @@ class Home extends My_Controller
             $form['perum'] = form_input($perum);
             $form['email'] = form_input($email);
             $this->Halamanprofil('user/Request_perum', $form);
+        } else if ($pay['id_user'] == $id && $pay['status'] == 1) {
+            $this->Halamanprofil('template/nav-front/halporses');
         } else {
             redirect('Home/payment');
         }
@@ -84,10 +115,31 @@ class Home extends My_Controller
     {
         $upload = [
             'type' => 'file',
-            'name' => 'email',
+            'name' => 'foto',
             'class' => 'form-control',
         ];
         $form['upload'] = form_upload($upload);
         $this->Halamanprofil('user/payment', $form);
+    }
+    public function detail($id)
+    {
+        $data['rumah'] = $this->M_Home->getid('rumah', 'id_rumah', $id);
+        // var_dump($data['rumah']);
+
+        $this->HalamanHome('template/nav-front/detail_rumah', $data);
+    }
+    public function detail_perumahan($id)
+    {
+        $data['perum'] = $this->M_Home->jointreeid($id)->row_array();
+        // var_dump($data['rumah']);
+
+        $this->HalamanHome('template/nav-front/detail_perum', $data);
+    }
+    public function katalog()
+    {
+        $data['db_property'] = $this->db->get('rumah')->result();
+        $data['perumahan'] = $this->M_Home->jointree()->result();
+
+        $this->HalamanHome('template/nav-front/katalog', $data);
     }
 }
