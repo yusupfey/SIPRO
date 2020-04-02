@@ -153,7 +153,7 @@ class Home extends My_Controller
      * 
      * 
      * */
-    public function bookingan()
+    public function Mybooking()
     {
         // $data['rumah'] = $this->M_Home->getid('rumah', 'id_rumah', $id);
         error_reporting(0);
@@ -172,6 +172,21 @@ class Home extends My_Controller
 
             $this->Halamanprofil('user/booking', $data);
         }
+    }
+    /**
+     * 
+     * 
+     * cek perumahan kita yang sudah di boking
+     * 
+     * 
+     */
+    public function CekPenjualan()
+    {
+        $id = $this->session->userdata('id_user');
+        // $data['databook'] = $this->db->query('select booking.user, perum.*, user.nama, perumahan.nm_perumahan,claster.claster from booking right join perum on perum.id_perum = booking.id right join user on user.id_user=booking.user right join perumahan on perumahan.id_perumahan=perum.id_perumahan right join claster on claster.id_claster = perum.id_claster where booking.user ="' . $id . '" AND perum.status=1')->result();
+        $data['databook'] = $this->db->query('select perum.*, booking.user, user.nama from perum right join booking on booking.id=perum.id_perum inner join user on user.id_user=booking.user where perum.id_user="' . $id . '"AND perum.status=1')->result();
+        // print_r($data['databook']);
+        $this->Halamanprofil('template/nav-front/receive-boking', $data);
     }
     /**
      * 

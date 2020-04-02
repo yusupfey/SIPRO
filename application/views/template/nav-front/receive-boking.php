@@ -15,10 +15,10 @@
                             <th>Aksi</th>
                         </tr>
                         <?php $no = 1;
-                        foreach ($bookcart as $v) : ?>
+                        foreach ($databook as $v) : ?>
                             <tr>
                                 <td><?= $no++; ?></td>
-                                <td><?= $v->user; ?></td>
+                                <td><?= $v->nama; ?></td>
                                 <td><img src="<?= base_url() ?>assets/img/<?= $v->pic; ?>" width="100" alt="" srcset=""></td>
                                 <td>
                                     <p>
@@ -29,7 +29,7 @@
                                         <?php if ($v->kategori == 'perum') : ?>
                                             <span><?= $v->claster; ?>-</span>
                                         <?php endif; ?>
-                                        <?= $v->alamat; ?> <?= $v->alamat; ?><br>
+                                        <?= $v->alamat; ?><br>
                                     </p>
                                 </td>
                                 <td><a href="" class="badge badge-danger p-2">Batalkan Bokingan</a></td>

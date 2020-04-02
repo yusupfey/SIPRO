@@ -11,7 +11,7 @@
                             <span>Profil</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url() ?>Home/bookingan">
+                        <a class="nav-link" href="<?= base_url() ?>Home/Mybooking">
                             <i class="fas fa-fw fa-tachometer-alt"></i>
                             <span>Bookingan saya</span></a>
                     </li>
@@ -23,7 +23,7 @@
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <a class="collapse-item" href="<?= base_url() ?>Home/rumah">Data Rumah</a>
-                                <a class="collapse-item" href="cards.html">Booking</a>
+                                <a class="collapse-item" href="<?= base_url() ?>Home/CekPenjualan">Booking</a>
                             </div>
                         </div>
                     </li>

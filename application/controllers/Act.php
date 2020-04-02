@@ -227,9 +227,19 @@ class Act extends My_Controller
         if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
             redirect('Dashboard');
         } else {
-            redirect('Home/bookingan');
+            redirect('Home/Mybooking');
         }
     }
+
+    //kodisi untuk redirect boking
+    // public function CekPenjualan()
+    // {
+    //     if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
+    //         redirect('Dashboard/Booking');
+    //     } else {
+    //         redirect('Home/CekPenjualan');
+    //     }
+    // }
 
     /**
      * 
@@ -477,8 +487,7 @@ class Act extends My_Controller
             'deskripsi' => $this->input->post('deskripsi'),
             'alamat' => $this->input->post('Alamat'),
             // 'pic' => $this->upload->data('file_name'),
-            'kategori' => 'Rumah',
-            'status' => '0',
+            'kategori' => 'Rumah'
         ];
         // var_dump($data);
         $this->M_Home->updatedata('perum', 'id_perum', $this->input->post('id'), $data);

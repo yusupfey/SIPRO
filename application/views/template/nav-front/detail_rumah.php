@@ -36,7 +36,7 @@
                     <?php if ($rumah['status'] == 1) : ?>
                         <a href="?>"><button class="btn-danger form-control">Sudah dibooking</button></a>
                     <?php else : ?>
-                        <a href="<?= base_url() ?>Act/booking/<?= $perum['id_perumahan']; ?>"><button class="btn-success form-control">Booking</button></a>
+                        <a href="<?= base_url() ?>Act/booking/<?= $rumah['id_perum']; ?>"><button class="btn-success form-control">Booking</button></a>
                     <?php endif; ?>
                 </div>
             </div>
