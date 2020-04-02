@@ -34,7 +34,7 @@
                 <span>Data Pengguna</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="<?= base_url() ?>Dashboard/perumahan">
+            <a class="nav-link" href="<?= base_url(); ?>Dashboard/perumahan">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Data Perumahan</span></a>
         </li>
@@ -50,37 +50,40 @@
                     </span>
                 </span></a>
         </li>
-        <!-- <li class="nav-item">
-            <a class="nav-link" href="index.html">
+        <li class="nav-item">
+            <a class="nav-link" href="<?= base_url() ?>Dashboard/Booking">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Data User</span></a>
-        </li> -->
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Interface
-        </div>
-
+                <span>Data Booking</span></a>
+        </li>
+        <li class="nav-item <?php echo $this->uri->segment(2) == 'property' ? 'active' : '' ?>">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#perumahan" aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Perumahan</span>
+            </a>
+            <div id="perumahan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Master Perumahan</h6>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/perum">Perumahan</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/cluster">Cluster</a>
+                </div>
+            </div>
+        </li>
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item <?php echo $this->uri->segment(2) == 'property' ? 'active' : '' ?>">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-cog"></i>
-                <span>Master Property</span>
+                <span>Master Rumah Pribadi</span>
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Master</h6>
-                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/property">Property</a>
-                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/cluster">Cluster</a>
-                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard">Booking</a>
-                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/perum">Perumahan</a>
+                    <h6 class="collapse-header">Master Rumah</h6>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/property">Rumah</a>
                 </div>
-            </div>
         </li>
 
         <!-- Nav Item - Utilities Collapse Menu -->
+        <hr class="sidebar-divider">
+
         <li class=" nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#history" aria-expanded="true" aria-controls="collapseUtilities">
                 <i class="fas fa-fw fa-wrench"></i>

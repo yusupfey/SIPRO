@@ -6,9 +6,9 @@ class Dashboard extends My_Controller
     public function __construct()
     {
         parent::__construct();
-        // $this->load->library('form_validation');
+        $this->load->helper('form');
         $this->load->model('M_Administrator');
-        if ($this->session->userdata('id_user') === null) redirect('login');
+        if ($this->session->userdata('id_akses') === 1) redirect('Home');
     }
     public function index()
     {
@@ -30,7 +30,13 @@ class Dashboard extends My_Controller
     }
     public function Property()
     {
-        $data['db_property'] = $this->db->get('rumah')->result();
+        $id = $this->session->userdata('id_user');
+        if ($this->session->userdata('id_akses') == 1) :
+            $data['db_property'] = $this->db->get_where('perum', ['kategori' => 'Rumah'])->result();
+        else :
+            $data['db_property'] = $this->db->query('select * from perum where id_user="' . $id . '" AND kategori="Rumah"')->result();
+        endif;
+        // var_dump($data['db_property']);
         $this->HalamanAdmin('user/property', $data);
     }
     public function pengguna()
@@ -51,17 +57,24 @@ class Dashboard extends My_Controller
     }
     public function cluster()
     {
-        $data['cluster'] = $this->db->query('select claster.*, perumahan.nm_perumahan from claster inner join perumahan on perumahan.id_perumahan = claster.id_perumahan')->result();
+        $getcode = $this->db->query('Select max(id_claster) as maxKode FROM claster')->row_array();
+        $no_urut = (int) substr($getcode['maxKode'], 2, 7);
+        $no_urut++;
+        $kode = 'CL' . sprintf("%06s", $no_urut);
+        $idclaster = $kode;
 
-        $this->HalamanAdmin('master/cluster', $data);
-    }
-    public function FormClaster()
-    { //membuat input judul buku
+
+
+        $id = $this->session->userdata('id_user');
+        $perum = $this->M_Administrator->getid('perumahan', 'id_user', $id);
+
         $inputidcluster = array(
             'type'             => 'text',
             'placeholder'    => 'ID Cluster',
             'class'            => 'form-control',
-            'name'             => 'id_claster'
+            'name'             => 'id_claster',
+            'value'             => $idclaster,
+            'READONLY'         => TRUE
         );
         //author
         $inputcluster = array(
@@ -75,6 +88,8 @@ class Dashboard extends My_Controller
             'type'             => 'text',
             'placeholder'     => 'ID Perumahan',
             'class'         => 'form-control',
+            'READONLY'         => TRUE,
+            'value'         => $perum['id_perumahan'],
             'name'             => 'id_perumahan'
         );
         $inputsubmit = array(
@@ -84,7 +99,7 @@ class Dashboard extends My_Controller
         );
         //di bawah kode untuk meng-generate formulirnya
         //diatas hanya arraynya saja
-        $data['tagopen']    = form_open('Administrator/getcluster');
+        $data['tagopen']    = form_open('Dashboard/simpan');
         $data['id_claster']        = form_input($inputidcluster);
         $data['claster']        = form_input($inputcluster);
         $data['id_perumahan']    = form_input($inputidperumahan);
@@ -93,8 +108,53 @@ class Dashboard extends My_Controller
 
         // |_ dipanggil diview		|_ generate form
 
-        $this->HalamanAdmin('master/crud_cluster', $data);
+        if ($this->session->userdata('id_akses') == 1) {
+            $data['cluster'] = $this->db->query('select claster.*, perumahan.nm_perumahan from claster inner join perumahan on perumahan.id_perumahan = claster.id_perumahan')->result();
+        } else {
+            $data['cluster'] = $this->db->query('select claster.*, perumahan.nm_perumahan from claster inner join perumahan on perumahan.id_perumahan = claster.id_perumahan where perumahan.id_user ="' . $id . '"')->result();
+        }
+        $this->HalamanAdmin('master/cluster', $data);
     }
+    // public function FormClaster()
+    // { //membuat input judul buku
+    //     $inputidcluster = array(
+    //         'type'             => 'text',
+    //         'placeholder'    => 'ID Cluster',
+    //         'class'            => 'form-control',
+    //         'name'             => 'id_claster'
+    //     );
+    //     //author
+    //     $inputcluster = array(
+    //         'type'             => 'text',
+    //         'placeholder'     => 'Cluster',
+    //         'class'         => 'form-control',
+    //         'name'             => 'claster'
+    //     );
+    //     //publisher
+    //     $inputidperumahan = array(
+    //         'type'             => 'text',
+    //         'placeholder'     => 'ID Perumahan',
+    //         'class'         => 'form-control',
+    //         'name'             => 'id_perumahan'
+    //     );
+    //     $inputsubmit = array(
+    //         'type'             => 'submit',
+    //         'class'         => 'form-control btn btn-primary',
+    //         'value'         => 'Simpan Data'
+    //     );
+    //     //di bawah kode untuk meng-generate formulirnya
+    //     //diatas hanya arraynya saja
+    //     $data['tagopen']    = form_open('Administrator/getcluster');
+    //     $data['id_claster']        = form_input($inputidcluster);
+    //     $data['claster']        = form_input($inputcluster);
+    //     $data['id_perumahan']    = form_input($inputidperumahan);
+    //     $data['submit']        = form_input($inputsubmit);
+    //     $data['tagclose']    = form_close();
+
+    //     // |_ dipanggil diview		|_ generate form
+
+    //     $this->HalamanAdmin('master/cluster', $data);
+    // }
     public function simpan()
     {
         $idclu = $this->input->post('id_claster');
@@ -108,14 +168,17 @@ class Dashboard extends My_Controller
             //kiri diambil dari field DB
             //kanan diambil dari variabel diatas(sesuai form)
         );
-        echo "done";
-        $this->isi->simpandata($arr);
-        redirect('Administrator/getcluster');
+        $this->M_Administrator->insertdata('claster', $arr);
+        redirect('Dashboard/cluster');
     }
     public function perum()
     {
-
-        $data['db_perum'] = $this->db->query('select perum.*, perumahan.nm_perumahan, claster.claster from perum inner join perumahan on perumahan.id_perumahan = perum.id_perumahan inner join claster on claster.id_claster = perum.id_claster')->result();
+        $id = $this->session->userdata('id_user');
+        if ($this->session->userdata('id_akses') == 1) {
+            $data['db_perum'] = $this->db->query('select perum.*, perumahan.nm_perumahan, claster.claster from perum inner join perumahan on perumahan.id_perumahan = perum.id_perumahan inner join claster on claster.id_claster = perum.id_claster')->result();
+        } else {
+            $data['db_perum'] = $this->db->query('select perum.*, perumahan.nm_perumahan, claster.claster from perum inner join perumahan on perumahan.id_perumahan = perum.id_perumahan inner join claster on claster.id_claster = perum.id_claster where perum.id_user = "' . $id . '"')->result();
+        }
         $this->HalamanAdmin('user/perum', $data);
     }
     public function notification()
@@ -186,9 +249,10 @@ class Dashboard extends My_Controller
         $selectperum = ('perumahan.*');
         $selectprov = ('provinsi.*');
         $selectkota = ('kota.*');
+        $selectuser = ('user.*');
         $joinprov = ('provinsi,provinsi.id_prov = perumahan.id_prov');
         $joinkota = ('kota,kota.id_kota = perumahan.id_kota');
-        $data['perumahan'] = $this->M_Administrator->getperum($selectperum, $selectprov, $selectkota, 'perumahan', $joinkota, $joinprov);
+        $data['perumahan'] = $this->M_Administrator->getperum($selectperum, $selectprov, $selectkota, $selectuser, 'perumahan', $joinkota, $joinprov);
         $this->HalamanAdmin('master/master_perumahan', $data);
     }
     public function profilperum()
@@ -224,5 +288,154 @@ class Dashboard extends My_Controller
         // $data['sidebar'] = $this->load->view('template/nav-front/sidebar');
         // $this->Halamanprofil('user   /profil', $data);
         $this->HalamanAdmin('template/administrator/profil', $data);
+    }
+    public function AddPerum()
+    {
+        $getcode = $this->db->query('Select max(id_perum) as maxKode FROM perum')->row_array();
+        $no_urut = (int) substr($getcode['maxKode'], 3, 10);
+        $no_urut++;
+        $kode = 'PRH' . sprintf("%07s", $no_urut);
+        $idperum = $kode;
+        $iduser = $this->session->userdata('id_user');
+
+        /**
+         *dropdown
+         */
+        $idprmh = $this->M_Administrator->getid('perumahan', 'id_user', $iduser);
+
+        $data['claster'] = $this->M_Administrator->getidAll('claster', 'id_perumahan', $idprmh['id_perumahan']);
+        $cluster[''] = '-- Pilih cluster --';
+        foreach ($data['claster'] as $dt) {
+            $cluster[$dt->id_claster] = $dt->claster;
+
+            /***
+             * end dropdown
+             */
+        }
+
+        $id = [
+            'type' => 'hidden',
+            'name' => 'id',
+            'class' => 'form-control',
+            'value' => $idperum,
+            'readonly' => true,
+            'placeholder' => 'masukanid'
+        ];
+        $idperumahan = [
+            'type' => 'text',
+            'name' => 'idperumahan',
+            'class' => 'form-control',
+            'value' => $idprmh['id_perumahan'],
+            'readonly' => true,
+            'placeholder' => 'masukanid'
+        ];
+        $iduser = [
+            'type' => 'hidden',
+            'name' => 'id_user',
+            'class' => 'form-control',
+            'value' => $iduser,
+            'readonly' => true,
+            'placeholder' => 'masukanid'
+        ];
+        $type = [
+            'type' => 'text',
+            'name' => 'type',
+            'class' => 'form-control',
+            'placeholder' => 'Masukan Type Rumah',
+            'autofocus' => true
+        ];
+        $ukrumah = [
+            'type' => 'text',
+            'name' => 'ukrumah',
+            'class' => 'form-control',
+            'placeholder' => 'Ukuran Rumah'
+        ];
+        $harga = [
+            'type' => 'text',
+            'name' => 'harga',
+            'class' => 'form-control',
+            'placeholder' => 'Harga'
+        ];
+        $cicilan = [
+            'type' => 'text',
+            'name' => 'cicilan',
+            'class' => 'form-control',
+            'placeholder' => 'Cicilan'
+        ];
+        $desk = [
+            'name' => 'deskripsi',
+            'class' => 'form-control'
+        ];
+        $alamat = [
+            'name' => 'Alamat',
+            'class' => 'form-control'
+        ];
+        $pic = [
+            'name' => 'gambar',
+            'class' => 'input-group'
+        ];
+        $btn = [
+            'class' => 'form-control btn btn-success',
+            'value' => "Tambah data"
+        ];
+        $form['title'] = "Tambah Rumah";
+        $form['form_open'] = form_open_multipart('Dashboard/ActAddPerum');
+        $form['form_close'] = form_close();
+        $form['idperum'] = form_input($id);
+        $form['id_perumahan'] = form_input($idperumahan);
+        $form['claster'] = form_dropdown('cluster', $cluster, '', 'id="kategori" class="form-control"'); //name,option,value.class
+        $form['id_user'] = form_input($iduser);
+        $form['type'] = form_input($type);
+        $form['ukrumah'] = form_input($ukrumah);
+        $form['harga'] = form_input($harga);
+        $form['cicilan'] = form_input($cicilan);
+        $form['desk'] = form_textarea($desk);
+        $form['alamat'] = form_textarea($alamat);
+        $form['pic'] = form_upload($pic);
+        $form['btn'] = form_submit($btn);
+        $this->HalamanAdmin('form/vform', $form);
+    }
+    public function ActAddPerum()
+    {
+        $config['upload_path'] = './assets/img'; //,menentukan foldernya
+        $config['allowed_types'] = 'png|jpg|jpeg'; //memnentukan format
+        $config['max_size'] = 1000; //untuk ukuran
+        $config['max_width'] = 1024; // untuk lebar foto
+        $config['max_height'] = 786; // untuk tinggi foto
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload('gambar')) {
+            $error = array('error' => $this->upload->display_errors());
+            var_dump($error);
+        } else {
+            $data = [
+                'id_perum' => $this->input->post('id'),
+                'id_perumahan' => $this->input->post('idperumahan'),
+                'id_claster' => $this->input->post('cluster'),
+                'id_user' => $this->input->post('id_user'),
+                'type' => $this->input->post('type'),
+                'uk_rumah' => $this->input->post('ukrumah'),
+                'harga' => $this->input->post('harga'),
+                'cicilan' => $this->input->post('cicilan'),
+                'deskripsi' => $this->input->post('deskripsi'),
+                'alamat' => $this->input->post('Alamat'),
+                'pic' => $this->upload->data('file_name'),
+                'kategori' => 'perum',
+                'status' => '0',
+            ];
+            // var_dump($data);
+            $this->M_Administrator->insertdata('perum', $data);
+            redirect('Dashboard/Perum');
+        }
+    }
+    public function Booking()
+    {
+        $id = $this->session->userdata('id_user');
+        if ($this->session->userdata('id_akses') == 1) {
+            $data['bookcart'] = $this->db->query('select booking.*, perum.*,perumahan.nm_perumahan, user.nama,claster.claster from perum inner join booking on perum.id_perum = booking.id inner join user on user.id_user=booking.user left join perumahan on perumahan.id_perumahan=perum.id_perumahan left join claster on claster.id_claster = perum.id_claster')->result();
+            $this->HalamanAdmin('master/Booking', $data);
+        } else {
+            $data['bookcart'] = $this->db->query('select booking.*, perum.*, user.nama, perumahan.nm_perumahan,claster.claster from perum inner join booking on perum.id_perum = booking.id inner join user on user.id_user=booking.user left join perumahan on perumahan.id_perumahan=perum.id_perumahan left join claster on claster.id_claster = perum.id_claster where perum.id_user ="' . $id . '"')->result();
+            $this->HalamanAdmin('master/Booking', $data);
+        }
     }
 }

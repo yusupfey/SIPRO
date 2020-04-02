@@ -241,6 +241,10 @@
                     </h6>
                 </div>
                 <div class="card-body">
+                    <?php if ($properum['nm_perumahan'] == null) : ?>
+                        <span class="text-danger font-weight-bold mb-3"><i> **lengkapi data terlebih dahulu !!</i></span>
+                        <hr>
+                    <?php endif; ?>
                     <form action="<?= base_url() ?>Dashboard/profilperum" method="post">
                         <div class="form-group">
                             <label>ID Perumahan</label>

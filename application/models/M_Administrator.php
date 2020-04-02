@@ -65,15 +65,16 @@ class M_Administrator extends CI_Model
         $this->db->insert($table, $data);
     }
 
-    public function getperum($select1, $select2, $select3, $from, $join1, $join2)
+    public function getperum($select1, $select2, $select3, $select4, $from, $join1, $join2)
     {
         $this->db->select($select1);
         $this->db->select($select2);
         $this->db->select($select3);
+        $this->db->select($select4);
         $this->db->from($from);
-        $this->db->join('provinsi', 'provinsi.id_prov = perumahan.id_prov');
-
-        $this->db->join('kota', 'kota.id_kota = perumahan.id_kota');
+        $this->db->join('user', 'user.id_user = perumahan.id_user', 'left');
+        $this->db->join('provinsi', 'provinsi.id_prov = perumahan.id_prov', 'left');
+        $this->db->join('kota', 'kota.id_kota = perumahan.id_kota', 'left');
         return $this->db->get()->result();
         // var_dump($query);
     }

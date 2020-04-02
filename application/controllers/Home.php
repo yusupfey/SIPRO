@@ -123,7 +123,7 @@ class Home extends My_Controller
     }
     public function detail($id)
     {
-        $data['rumah'] = $this->M_Home->getid('rumah', 'id_rumah', $id);
+        $data['rumah'] = $this->M_Home->getid('perum', 'id_perum', $id);
         // var_dump($data['rumah']);
 
         $this->HalamanHome('template/nav-front/detail_rumah', $data);
@@ -131,15 +131,68 @@ class Home extends My_Controller
     public function detail_perumahan($id)
     {
         $data['perum'] = $this->M_Home->jointreeid($id)->row_array();
-        // var_dump($data['rumah']);
-
+        // print_r($data['perum']);
+        $link = [
+            'link' => 'Home/detail_perumahan/' . $id . ''
+        ];
+        $this->session->set_userdata($link);
         $this->HalamanHome('template/nav-front/detail_perum', $data);
     }
     public function katalog()
     {
-        $data['db_property'] = $this->db->get('rumah')->result();
-        $data['perumahan'] = $this->M_Home->jointree()->result();
+        $data['db_property'] = $this->db->get_where('perum', ['kategori' => 'Rumah'])->result();
+        $data['perumahan'] = $this->M_Home->innerperum()->result();
 
         $this->HalamanHome('template/nav-front/katalog', $data);
+    }
+    /**
+     * 
+     * 
+     * 
+     * menampilkan data booking di profil
+     * 
+     * 
+     * */
+    public function bookingan()
+    {
+        // $data['rumah'] = $this->M_Home->getid('rumah', 'id_rumah', $id);
+        error_reporting(0);
+        $id = $this->session->userdata('id_user');
+        if ($id != "") {
+            $data['cart'] = $this->M_Home->hitungcart();
+            $oop = $this->M_Home->getidall('booking', 'user', $id);
+            foreach ($oop as $t) :
+                $get = $t->id;
+                $data['bookcart'] = $this->M_Home->getcart($get)->result();
+            endforeach;
+        }
+        if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
+            $this->HalamanAdmin('user/booking', $data);
+        } else {
+
+            $this->Halamanprofil('user/booking', $data);
+        }
+    }
+    /**
+     * 
+     * 
+     * 
+     * home data rumah per user
+     * 
+     * 
+     * 
+     * */
+    public function rumah()
+    {
+        if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
+            $data['db_property'] = $this->db->get_where('perum', ['kategori' => 'Rumah'])->result();
+            $this->Halamanprofil('Dashboard/Property', $data);
+        }
+        $data['db_property'] = $this->db->get_where('perum', ['id_user' => $this->session->userdata('id_user')])->result();
+        $this->Halamanprofil('user/property', $data);
+    }
+    public function showrumah()
+    {
+        $data['db_property'] = $this->db->get_where('perum', ['id_user' => $this->session->userdata('id_user')])->result();
     }
 }

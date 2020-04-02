@@ -13,8 +13,48 @@
             <div class="navbar-nav ml-auto">
                 <a class="nav-item nav-link nav-hover active" href="<?= base_url() ?>">Home <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link nav-hover" href="#">About</a>
-                <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>">Kategori</a>
-                <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>">Disabled</a>
+                <a class="nav-item nav-link nav-hover" href="<?= base_url() ?>Home/katalog">Katalog</a>
+                <!-- Nav Item - Alerts -->
+                <li class="nav-item dropdown no-arrow mx-1">
+                    <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa fa-shopping-cart fa-fw"></i>
+                        <!-- Counter - Alerts -->
+                        <?php
+                        if ($this->session->userdata('id_user') != "") :
+                            foreach (@$cart as $p) :
+                                if ($cart) : ?>
+                                    <sup><span class="badge badge-danger badge-counter">
+                                            <?php
+                                            echo $p->booking;
+                                            ?>
+                                        </span></sup>
+                        <?php endif;
+                            endforeach;
+                        endif; ?></a>
+                    </a>
+                    <!-- Dropdown - Alerts -->
+                    <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                        <h6 class="dropdown-header">
+                            Bokingan
+                        </h6>
+                        <?php foreach ($bookcart as $v) : ?>
+                            <a class="dropdown-item d-flex align-items-center" href="<?= base_url() ?>Act/actBooking">
+                                <div class="mr-3">
+                                    <img src="<?= base_url() ?>pic/default.jpg" class="" width="50" style=" height:50px;border-radius:100%;" alt="" srcset="">
+                                </div>
+                                <div>
+                                    <div class="small text-gray-500"><?= $v->tgl; ?></div>
+                                    <p><?= $v->type; ?></p>
+
+                                </div>
+                            </a>
+                        <?php endforeach; ?>
+                        <hr class="divide-header">
+                        <a class="dropdown-item text-center small text-gray-500" href="<?= base_url() ?>Act/actBooking">Show All Alerts</a>
+                    </div>
+                </li>
+
+
                 <?php if ($this->session->userdata('id_user')) : ?>
                     <div class="nav-item dropdown ml-5">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

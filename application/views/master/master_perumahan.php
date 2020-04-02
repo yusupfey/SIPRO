@@ -4,13 +4,14 @@
         <h6 class="m-0 font-weight-bold text-primary">Perumahan</h6>
     </div>
     <div class="card-body">
-        <a href="<?= base_url() ?>Dashboard/FormClaster" class="badge badge-primary p-3 text-md mb-4"><i class="fa fa-plus"></i> Tambah data</a>
+        <a href="<?= base_url() ?>Dashboard/AddPerum" class="badge badge-primary p-3 text-md mb-4"><i class="fa fa-plus"></i> Tambah data</a>
         <div class="table-responsive">
             <table class="table table-striped dataTables_processing" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>ID</th>
+                        <th>Salles</th>
                         <th>Nama Perumahan</th>
                         <th>Provinsi</th>
                         <th>Kota</th>
@@ -22,6 +23,7 @@
                     <tr>
                         <th>#</th>
                         <th>ID</th>
+                        <th>Salles</th>
                         <th>Nama Perumahan</th>
                         <th>Provinsi</th>
                         <th>Kota</th>
@@ -37,6 +39,7 @@
                         <tr>
                             <td><?= $no++; ?></td>
                             <td><?= $f->id_perumahan; ?></td>
+                            <td><?= $f->nama; ?></td>
                             <td><?= $f->nm_perumahan; ?></td>
                             <td><?= $f->provinsi; ?></td>
                             <td><?= $f->kota; ?></td>

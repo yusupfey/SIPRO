@@ -1,6 +1,6 @@
 <div class="container mb-5 mt-4">
     <div class="row mt-2">
-        <div class="col-md-3 mb-4 d-md-block d-none" id="wrapper">
+        <div class="col-md-3 mb-4" id="wrapper">
             <div class="text-center border-left-success " style="height:350px;">
                 <h5>Dashboard</h5>
                 <hr>
@@ -11,9 +11,9 @@
                             <span>Profil</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="<?= base_url() ?>Home/bookingan">
                             <i class="fas fa-fw fa-tachometer-alt"></i>
-                            <span>Booking</span></a>
+                            <span>Bookingan saya</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -22,7 +22,7 @@
                         </a>
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
-                                <a class="collapse-item" href="buttons.html">Data Rumah</a>
+                                <a class="collapse-item" href="<?= base_url() ?>Home/rumah">Data Rumah</a>
                                 <a class="collapse-item" href="cards.html">Booking</a>
                             </div>
                         </div>

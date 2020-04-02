@@ -3,7 +3,7 @@
         <div class="col-md-8 pt-4 pl-4 pr-4 pb-4">
             <div class="row">
                 <div class="col-md-12">
-                    <img class="img-thumbnail" src="<?= base_url() ?>pic/<?= $rumah['pic']; ?>" width="100%" height="800" alt=" Card image cap">
+                    <img class="img-thumbnail" src="<?= base_url() ?>assets/img/<?= $rumah['pic']; ?>" width="100%" height="800" alt=" Card image cap">
                 </div>
                 <div class="col-md-12 p-3 bg-gray-300 shadow m-2">
                     <span class="font-weight-bold">Penjual</span><br>
@@ -33,7 +33,11 @@
                     <label>Harga :</label><br>
                     <i class="text-dark"><?= $rumah['harga'] ?></i>
                     <hr>
-                    <button class="btn-success form-control">Booking</button>
+                    <?php if ($rumah['status'] == 1) : ?>
+                        <a href="?>"><button class="btn-danger form-control">Sudah dibooking</button></a>
+                    <?php else : ?>
+                        <a href="<?= base_url() ?>Act/booking/<?= $perum['id_perumahan']; ?>"><button class="btn-success form-control">Booking</button></a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

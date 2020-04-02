@@ -284,7 +284,12 @@
             var slideno = $(this).data('slide');
             $('.slider-nav').slick('slickGoTo', slideno - 1);
         });
+        $('.nav-item').on('click', function() {
+            $('.nav-item').removeClass('active');
+            $(this).addClass('active');
+        });
     </script>
+
 </body>
 
 </html>

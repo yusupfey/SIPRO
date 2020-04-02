@@ -4,7 +4,7 @@
         <h6 class="m-0 font-weight-bold text-primary">Cluster</h6>
     </div>
     <div class="card-body">
-        <a href="<?= base_url() ?>Dashboard/FormClaster" class="badge badge-primary p-3 text-md mb-4"><i class="fa fa-plus"></i> Tambah data</a>
+        <a href="#" class="badge badge-primary p-3 text-md mb-4" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah data</a>
         <div class="table-responsive">
             <table class="table table-striped dataTables_processing" id="dataTable" width="100%" cellspacing="0">
                 <thead>
@@ -36,14 +36,53 @@
                             <td><?= $f->claster; ?></td>
                             <td><?= $f->nm_perumahan; ?></td>
                             <td class="text-center">
-                                <a href="" class="btn btn-success btn-circle"><i class="fa fa-edit"></i></a>
-                                <a href="" class="btn btn-info btn-circle"><span class=" fa fa-info"></span></span></a>
-                                <a href="" class="btn btn-danger btn-circle"><span class="fa fa-trash"></span>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a href="#" type="button" class="btn btn-success">edit</a>
+                                    <a href="#" type="button" id="delete" class="btn btn-danger">delete</a>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach ?>
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Cluster</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <?php echo $tagopen; ?>
+            <div class="modal-body">
+                <h2 class="pb-3">Add Cluster</h2>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <?php echo $id_perumahan; ?>
+                        </div>
+                        <div class="form-group">
+                            <?php echo $id_claster; ?>
+                        </div>
+                        <div class="form-group">
+                            <?php echo $claster; ?>
+                        </div>
+                        <!-- <div class="form-group">
+                            <?php //echo $submit; 
+                            ?>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+            <?php echo $tagclose; ?>
         </div>
     </div>
 </div>

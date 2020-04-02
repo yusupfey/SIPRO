@@ -17,6 +17,17 @@ class My_Controller extends CI_Controller
     }
     public function HalamanHome($konten, $data = null)
     {
+        error_reporting(0);
+
+        $id = $this->session->userdata('id_user');
+        if ($id != "") {
+            $data['cart'] = $this->M_Home->hitungcart();
+            $oop = $this->M_Home->getidall('booking', 'user', $id);
+            foreach ($oop as $t) :
+                $get = $t->id;
+                $data['bookcart'] = $this->M_Home->getcart($get)->result();
+            endforeach;
+        }
         $hal['header'] = $this->load->view('template/nav-front/header', $data, TRUE);
         $hal['content'] = $this->load->view($konten, $data, TRUE);
         $hal['footer'] = $this->load->view('template/nav-front/footer', $data, TRUE);
@@ -25,7 +36,16 @@ class My_Controller extends CI_Controller
     }
     public function Halamanprofil($konten, $data = null)
     {
-
+        error_reporting(0);
+        $id = $this->session->userdata('id_user');
+        if ($id != "") {
+            $data['cart'] = $this->M_Home->hitungcart();
+            $oop = $this->M_Home->getidall('booking', 'user', $id);
+            foreach ($oop as $t) :
+                $get = $t->id;
+                $data['bookcart'] = $this->M_Home->getcart($get)->result();
+            endforeach;
+        }
         $hal['header'] = $this->load->view('template/nav-front/header', $data, TRUE);
         $hal['sidebar'] = $this->load->view('template/nav-front/sidebar', $data, TRUE);
         $hal['content'] = $this->load->view($konten, $data, TRUE);

@@ -31,7 +31,13 @@ class Login extends My_Controller
                     $akses = $qry['id_akses'];
                     $acs = $this->db->query("Select * from akses where id_akses='$akses'")->row_array();
                     if ($qry['id_akses'] == $acs['id_akses']) {
-                        redirect($acs['url']);
+                        if ($this->session->userdata('link')) {
+
+                            redirect($this->session->userdata('link'), $this->session->unset_userdata('link'));
+                        } else {
+
+                            redirect($acs['url']);
+                        }
                     }
                 } else {
                     $this->session->set_flashdata('error', '<div class="alert alert-danger" role="alert" style="z-index:1; position:relative;">Username Belum Active</div>');
@@ -49,7 +55,6 @@ class Login extends My_Controller
     }
     public function formlogin()
     {
-
         $this->HalamanHome('login');
     }
 }
