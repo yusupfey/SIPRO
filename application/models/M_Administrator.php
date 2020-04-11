@@ -35,9 +35,9 @@ class M_Administrator extends CI_Model
         // return $this->db->order_by('tgl', 'desc');
         return $this->db->get_where($table, [$field => $id])->row_array();
     }
-    public function deletdata($table, $where)
+    public function deletdata($table, $where, $id)
     {
-        $this->db->where($where);
+        $this->db->where($where, $id);
         $this->db->delete($table);
     }
     public function updatedata($table, $field, $where, $data)

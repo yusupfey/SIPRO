@@ -64,7 +64,7 @@
                 <div class="slider slider-for">
                     <?php foreach ($bispat as $t) : ?>
                         <div class="bg-primary p-1 text-white">
-                            <img class="thumbnail" src="<?= base_url() ?>assets/img-perumahan/<?= $t->pic ?>" width="100%" height="240" alt=" Card image cap">
+                            <img class="thumbnail" src="<?= base_url() ?>assets/img-perumahan/<?= $t->pic ?>" width="100%" height="540" alt=" Card image cap">
                         </div>
                     <?php endforeach; ?>
                 </div>

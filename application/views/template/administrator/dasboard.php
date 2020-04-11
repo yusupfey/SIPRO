@@ -219,21 +219,6 @@
     </div>
 <?php } else { ?>
     <div class="row bg-white p-3">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header bg-primary py-3">
-                    <h6 class="m-0 font-weight-bold text-white">Foto Profil
-                    </h6>
-                </div>
-                <div class="card-body">
-                    <img src="<?= base_url() ?>assets/img-perumahan/<?= $properum['pic'] ?>" class="img-thumbnail" style="height:400px" width="100%" alt=""><br>
-                    <form action="" method="post">
-                        <input type="file" name="foto" class="form-control-file">
-                        <button class="btn btn-success float-right mt-2">Ganti foto profil</button>
-                    </form>
-                </div>
-            </div>
-        </div>
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header bg-primary py-3">
@@ -299,6 +284,21 @@
                         <div class="form-group">
                             <button type="submit" class="btn btn-success float-right btn-lg">Update</button>
                         </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-primary py-3">
+                    <h6 class="m-0 font-weight-bold text-white">Foto Profil
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <img src="<?= base_url() ?>assets/img-perumahan/<?= $properum['pic'] ?>" class="img-thumbnail" style="height:400px" width="100%" alt=""><br>
+                    <form action="<?= base_url(); ?>Dashboard/UploadPerum/<?= $properum['id_perumahan'] ?>" method="post" enctype="multipart/form-data">
+                        <input type="file" name="foto" class="form-control-file">
+                        <button type="submit" class="btn btn-success float-right mt-2">Ganti foto profil</button>
                     </form>
                 </div>
             </div>

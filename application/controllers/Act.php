@@ -388,15 +388,17 @@ class Act extends My_Controller
             'value' => $t['alamat'],
             'class' => 'form-control'
         ];
-        // $pic = [
-        //     'name' => 'gambar',
-        //     'class' => 'input-group'
-        // ];
+        $pic = [
+            'name' => 'gambar',
+            'class' => 'input-group',
+            'value' => $t['pic']
+        ];
         $btn = [
             'class' => 'form-control btn btn-success',
             'value' => "Update data"
         ];
         $form['title'] = "Update Rumah";
+        $form['img'] = "<img src=" . base_url() . "assets/img/" . $t['pic'] . " style='height:350px; width:350px'>";
         $form['form_open'] = form_open_multipart('Act/ActUpdateRumah');
         $form['form_close'] = form_close();
         $form['idperum'] = form_input($id);
@@ -407,10 +409,10 @@ class Act extends My_Controller
         $form['cicilan'] = form_input($cicilan);
         $form['desk'] = form_textarea($desk);
         $form['alamat'] = form_textarea($alamat);
-        // $form['pic'] = form_upload($pic);
+        $form['pic'] = form_upload($pic);
         $form['btn'] = form_submit($btn);
         if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
-            $this->HalamanAdmin('form/vform', $form);
+            $this->HalamanAdmin('form/vform-admin', $form);
         } else {
             $this->Halamanprofil('form/vform', $form);
         }
@@ -425,15 +427,33 @@ class Act extends My_Controller
         //         $this->Halamanprofil('form/vform', $form);
         //     }
         // }
-        $config['upload_path'] = './assets/img'; //,menentukan foldernya
-        $config['allowed_types'] = 'png|jpg|jpeg'; //memnentukan format
-        $config['max_size'] = 1000; //untuk ukuran
-        $config['max_width'] = 1024; // untuk lebar foto
-        $config['max_height'] = 786; // untuk tinggi foto
-        $this->load->library('upload', $config);
-        if (!$this->upload->do_upload('gambar')) {
-            $error = array('error' => $this->upload->display_errors());
-            var_dump($error);
+        if ($_FILES['gambar']['name'] != "") {
+
+            $config['upload_path'] = './assets/img'; //,menentukan foldernya
+            $config['allowed_types'] = 'png|jpg|jpeg'; //memnentukan format
+            $config['max_size'] = '1024000';
+            $config['max_filename'] = '5000000';
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('gambar')) {
+                $error = array('error' => $this->upload->display_errors());
+                var_dump($error);
+            } else {
+                $data = [
+                    'id_perum' => $this->input->post('id'),
+                    'id_user' => $this->input->post('id_user'),
+                    'type' => $this->input->post('type'),
+                    'uk_rumah' => $this->input->post('ukrumah'),
+                    'harga' => $this->input->post('harga'),
+                    'cicilan' => $this->input->post('cicilan'),
+                    'deskripsi' => $this->input->post('deskripsi'),
+                    'alamat' => $this->input->post('Alamat'),
+                    'pic' => $this->upload->data('file_name'),
+                    'kategori' => 'Rumah',
+                    'status' => '0',
+                ];
+                // var_dump($data);
+
+            }
         } else {
             $data = [
                 'id_perum' => $this->input->post('id'),
@@ -444,17 +464,17 @@ class Act extends My_Controller
                 'cicilan' => $this->input->post('cicilan'),
                 'deskripsi' => $this->input->post('deskripsi'),
                 'alamat' => $this->input->post('Alamat'),
-                'pic' => $this->upload->data('file_name'),
+                'pic' => 'default.png',
                 'kategori' => 'Rumah',
                 'status' => '0',
+
             ];
-            // var_dump($data);
-            $this->M_Home->inputdata('perum', $data);
-            if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
-                redirect('Dashboard/property');
-            } else {
-                redirect('Home/rumah');
-            }
+        }
+        $this->M_Home->inputdata('perum', $data);
+        if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
+            redirect('Dashboard/property');
+        } else {
+            redirect('Home/rumah');
         }
     }
     public function ActUpdateRumah()
@@ -467,41 +487,95 @@ class Act extends My_Controller
         //         $this->Halamanprofil('form/vform', $form);
         //     }
         // }
-        // $config['upload_path'] = './assets/img'; //,menentukan foldernya
-        // $config['allowed_types'] = 'png|jpg|jpeg'; //memnentukan format
-        // $config['max_size'] = 1000; //untuk ukuran
-        // $config['max_width'] = 1024; // untuk lebar foto
-        // $config['max_height'] = 786; // untuk tinggi foto
-        // $this->load->library('upload', $config);
-        // if (!$this->upload->do_upload('gambar')) {
-        //     $error = array('error' => $this->upload->display_errors());
-        //     var_dump($error);
-        // } else {
-        $data = [
-            'id_perum' => $this->input->post('id'),
-            'id_user' => $this->input->post('id_user'),
-            'type' => $this->input->post('type'),
-            'uk_rumah' => $this->input->post('ukrumah'),
-            'harga' => $this->input->post('harga'),
-            'cicilan' => $this->input->post('cicilan'),
-            'deskripsi' => $this->input->post('deskripsi'),
-            'alamat' => $this->input->post('Alamat'),
-            // 'pic' => $this->upload->data('file_name'),
-            'kategori' => 'Rumah'
-        ];
-        // var_dump($data);
-        $this->M_Home->updatedata('perum', 'id_perum', $this->input->post('id'), $data);
+        if ($_FILES['gambar']['name'] != "") {
+            $config['upload_path'] = './assets/img'; //,menentukan foldernya
+            $config['allowed_types'] = 'png|jpg|jpeg'; //memnentukan format
+            $config['max_size'] = '1024000';
+            $config['max_filename'] = '5000000';
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('gambar')) {
+                $error = array('error' => $this->upload->display_errors());
+                var_dump($error);
+            } else {
+                $data = [
+                    'id_perum' => $this->input->post('id'),
+                    'id_user' => $this->input->post('id_user'),
+                    'type' => $this->input->post('type'),
+                    'uk_rumah' => $this->input->post('ukrumah'),
+                    'harga' => $this->input->post('harga'),
+                    'cicilan' => $this->input->post('cicilan'),
+                    'deskripsi' => $this->input->post('deskripsi'),
+                    'alamat' => $this->input->post('Alamat'),
+                    'pic' => $this->upload->data('file_name'),
+                    'kategori' => 'Rumah'
+                ];
+                // var_dump($data);
+                $this->M_Home->updatedata('perum', 'id_perum', $this->input->post('id'), $data);
+                if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
+                    redirect('Dashboard/property');
+                } else {
+                    redirect('Home/rumah');
+                }
+            }
+        } else {
+            $data = [
+                'id_perum' => $this->input->post('id'),
+                'id_user' => $this->input->post('id_user'),
+                'type' => $this->input->post('type'),
+                'uk_rumah' => $this->input->post('ukrumah'),
+                'harga' => $this->input->post('harga'),
+                'cicilan' => $this->input->post('cicilan'),
+                'deskripsi' => $this->input->post('deskripsi'),
+                'alamat' => $this->input->post('Alamat'),
+                // 'pic' => $this->upload->data('file_name'),
+                'kategori' => 'Rumah'
+            ];
+        }
+    }
+    public function DeleteRumah($id)
+    {
+        // $id = $this->input->get('id');
+        $db = $this->M_Home->deletedata('perum', 'id_perum', $id);
+        // echo json_encode($db);
         if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
             redirect('Dashboard/property');
         } else {
             redirect('Home/rumah');
         }
-        // }
     }
-    public function DeleteRumah()
+    public function batalboking($id)
     {
-        $id = $this->input->get('id');
-        $db = $this->M_Home->deletedata('perum', 'id_perum', $id);
-        echo json_encode($db);
+        $update = [
+            'status' => 0,
+        ];
+        $this->M_Home->updatedata('perum', 'id_perum', $id, $update);
+        $perum = $this->M_Home->getid('perum', 'id_perum', $id);
+        $tgl = date('Y-m-d');
+        // print_r($perum['id_user']);
+        $notif = [
+            'id_user' => $perum['id_user'],
+            'requerst' => 'Bookingan dibatalkan',
+            'icon' => 'fa fa-critical-role',
+            'url' => 'Act/ActBooking',
+            'tgl' => $tgl,
+            'status' => 0
+        ];
+        /**
+         * 
+         * notifkasi untuk user
+         * 
+         */
+        $userloged = $this->session->userdata('id_user');
+        $user = [
+            'id_user' => $userloged,
+            'requerst' => 'Bookingan dibatalkan',
+            'icon' => 'fa fa-ban',
+            'url' => 'Act/ActBooking',
+            'tgl' => $tgl,
+            'status' => 0
+        ];
+        $this->M_Home->inputdata('notif', $notif);
+        $this->M_Home->inputdata('notif', $user);
+        $this->M_Home->deletedata('booking', 'id', $id);
     }
 }

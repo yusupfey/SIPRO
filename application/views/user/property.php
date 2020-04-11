@@ -63,9 +63,9 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a href="<?= base_url() ?>Act/UpdateRumah/<?= $t->id_perum; ?>" type="button" class="btn btn-secondary">edit</a>
-                                        <a href="" type="button" class="btn btn-secondary">info</a>
-                                        <a href="#" type="button" id="delete" onclick="hapus('<?= $t->id_perum; ?>')" class="btn btn-secondary">delete</a>
+                                        <a href="<?= base_url() ?>Act/UpdateRumah/<?= $t->id_perum; ?>" type="button" class="btn btn-success btn-circle"><i class="fa fa-edit"></i></a>
+                                        <a href="" type="button" class="btn btn-info btn-circle"><i class="fa fa-info"></i></a>
+                                        <a href="<?= base_url() ?>Act/DeleteRumah/<?= $t->id_perum; ?>" type="button" id="delete" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -78,19 +78,21 @@
 
 </div>
 
-<script>
+<!-- <script>
     function hapus(x) {
         var id = x;
         $.ajax({
             type: 'get',
-            url: '<?= base_url() ?>Act/DeleteRumah',
+            url: '<? //= base_url() 
+                    ?>Act/DeleteRumah',
             data: {
                 id: id
             },
             dataType: 'json',
             success: function(hasil) {
-                $('#target').load('<?= base_url() ?>Home/showrumah')
+                $('#target').load('<? //= base_url() 
+                                    ?>Home/showrumah')
             }
         });
     }
-</script>
+</script> -->

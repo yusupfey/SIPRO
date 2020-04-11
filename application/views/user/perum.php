@@ -40,7 +40,7 @@
                     $no =  1;
                     foreach ($db_perum as $f) :
                     ?>
-                        <tr>
+                        <tr id="target">
                             <td><?= $no++; ?></td>
                             <td><?= $f->id_perum; ?></td>
                             <td><?= $f->nm_perumahan; ?></td>
@@ -57,9 +57,12 @@
                                 <?php endif; ?>
                             </td>
                             <td class="text-center">
-                                <a href="" class="btn btn-success btn-circle"><i class="fa fa-edit"></i></a>
-                                <a href="" class="btn btn-info btn-circle"><span class=" fa fa-info"></span></span></a>
-                                <a href="" class="btn btn-danger btn-circle"><span class="fa fa-trash"></span>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a href="<?= base_url() ?>Dashboard/UpdatePerum/<?= $f->id_perum; ?>" class="btn btn-success btn-circle"><i class="fa fa-edit"></i></a>
+                                    <a href="" class="btn btn-info btn-circle"><span class=" fa fa-info"></span></span></a>
+                                    <a href="<?= base_url() ?>Dashboard/Deleteperum/<?= $f->id_perum; ?>" type="button" class="btn btn-danger btn-circle"><span class="fa fa-trash"></span>
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach ?>
@@ -68,3 +71,22 @@
         </div>
     </div>
 </div>
+<!-- <script>
+    function hapus(x) {
+        var id = x;
+        // alert(id);
+        $.ajax({
+            type: 'get',
+            url: '<? //= base_url() 
+                    ?>Act/DeleteRumah',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function(hasil) {
+                $('#target').load('<? //= base_url() 
+                                    ?>Home/showrumah')
+            }
+        });
+    }
+</script> -->

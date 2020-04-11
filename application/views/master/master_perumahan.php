@@ -45,9 +45,11 @@
                             <td><?= $f->kota; ?></td>
                             <td><?= $f->alamat_lengkap; ?></td>
                             <td class="text-center">
-                                <a href="" class="btn btn-success btn-circle"><i class="fa fa-edit"></i></a>
-                                <a href="" class="btn btn-info btn-circle"><span class=" fa fa-info"></span></span></a>
-                                <a href="" class="btn btn-danger btn-circle"><span class="fa fa-trash"></span>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a href="" class="btn btn-success btn-circle"><i class="fa fa-edit"></i></a>
+                                    <a href="" class="btn btn-info btn-circle"><span class=" fa fa-info"></span></span></a>
+                                    <a href="" class="btn btn-danger btn-circle"><span class="fa fa-trash"></span></a>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach ?>

@@ -81,6 +81,7 @@ class Dashboard extends My_Controller
             'type'             => 'text',
             'placeholder'     => 'Cluster',
             'class'         => 'form-control',
+
             'name'             => 'claster'
         );
         //publisher
@@ -155,6 +156,14 @@ class Dashboard extends My_Controller
 
     //     $this->HalamanAdmin('master/cluster', $data);
     // }
+    public function EditCluster()
+    {
+        $data = [
+            'claster' => $this->input->post('cluster')
+        ];
+        $this->M_Administrator->updatedata('claster', 'id_claster', $this->input->post('idcluster'), $data);
+        redirect('Dashboard/cluster');
+    }
     public function simpan()
     {
         $idclu = $this->input->post('id_claster');
@@ -393,19 +402,148 @@ class Dashboard extends My_Controller
         $form['alamat'] = form_textarea($alamat);
         $form['pic'] = form_upload($pic);
         $form['btn'] = form_submit($btn);
-        $this->HalamanAdmin('form/vform', $form);
+        $this->HalamanAdmin('form/vform-admin', $form);
+    }
+    public function UpdatePerum($id)
+    {
+        $getcode = $this->M_Administrator->getid('perum', 'id_perum', $id);
+
+        /**
+         *dropdown
+         */
+        // $idprmh = $this->M_Administrator->getid('perumahan', 'id_user', $iduser);
+
+        $data['claster'] = $this->M_Administrator->getidAll('claster', 'id_perumahan', $getcode['id_perumahan']);
+        $cluster[''] = '-- Pilih cluster --';
+        foreach ($data['claster'] as $dt) {
+            $cluster[$dt->id_claster] = $dt->claster;
+        }
+
+        /***
+         * end dropdown
+         */
+
+        $id = [
+            'type' => 'hidden',
+            'name' => 'id',
+            'class' => 'form-control',
+            'value' => $getcode['id_perum'],
+            'readonly' => true,
+            'placeholder' => 'masukanid'
+        ];
+        $idperumahan = [
+            'type' => 'text',
+            'name' => 'idperumahan',
+            'class' => 'form-control',
+            'value' => $getcode['id_perumahan'],
+            'readonly' => true,
+            'placeholder' => 'masukanid'
+        ];
+        $iduser = [
+            'type' => 'hidden',
+            'name' => 'id_user',
+            'class' => 'form-control',
+            'value' => $getcode['id_user'],
+            'readonly' => true,
+            'placeholder' => 'masukanid'
+        ];
+        $type = [
+            'type' => 'text',
+            'name' => 'type',
+            'class' => 'form-control',
+            'value' => $getcode['type'],
+            'placeholder' => 'Masukan Type Rumah',
+            'autofocus' => true
+        ];
+        $ukrumah = [
+            'type' => 'text',
+            'name' => 'ukrumah',
+            'value' => $getcode['uk_rumah'],
+            'class' => 'form-control',
+            'placeholder' => 'Ukuran Rumah'
+        ];
+        $harga = [
+            'type' => 'text',
+            'value' => $getcode['harga'],
+            'name' => 'harga',
+            'class' => 'form-control',
+            'placeholder' => 'Harga'
+        ];
+        $cicilan = [
+            'type' => 'text',
+            'name' => 'cicilan',
+            'value' => $getcode['cicilan'],
+            'class' => 'form-control',
+            'placeholder' => 'Cicilan'
+        ];
+        $desk = [
+            'name' => 'deskripsi',
+            'value' => $getcode['deskripsi'],
+            'class' => 'form-control'
+        ];
+        $alamat = [
+            'name' => 'Alamat',
+            'value' => $getcode['alamat'],
+            'class' => 'form-control'
+        ];
+        $pic = [
+            'name' => 'gambar',
+            'class' => 'input-group'
+        ];
+        $btn = [
+            'class' => 'form-control btn btn-success',
+            'value' => "Simpan"
+        ];
+        $form['title'] = "Tambah Rumah";
+        $form['img'] = "<img src=" . base_url() . "assets/img/" . $getcode['pic'] . " style='height:350px; width:350px'>";
+
+        $form['form_open'] = form_open_multipart('Dashboard/ActUpdatePerum');
+        $form['form_close'] = form_close();
+        $form['idperum'] = form_input($id);
+        $form['id_perumahan'] = form_input($idperumahan);
+        $form['claster'] = form_dropdown('cluster', $cluster, $getcode['id_claster'], 'id="kategori" class="form-control"'); //name,option,value.class
+        $form['id_user'] = form_input($iduser);
+        $form['type'] = form_input($type);
+        $form['ukrumah'] = form_input($ukrumah);
+        $form['harga'] = form_input($harga);
+        $form['cicilan'] = form_input($cicilan);
+        $form['desk'] = form_textarea($desk);
+        $form['alamat'] = form_textarea($alamat);
+        $form['pic'] = form_upload($pic);
+        $form['btn'] = form_submit($btn);
+        $this->HalamanAdmin('form/vform-admin', $form);
     }
     public function ActAddPerum()
     {
-        $config['upload_path'] = './assets/img'; //,menentukan foldernya
-        $config['allowed_types'] = 'png|jpg|jpeg'; //memnentukan format
-        $config['max_size'] = 1000; //untuk ukuran
-        $config['max_width'] = 1024; // untuk lebar foto
-        $config['max_height'] = 786; // untuk tinggi foto
-        $this->load->library('upload', $config);
-        if (!$this->upload->do_upload('gambar')) {
-            $error = array('error' => $this->upload->display_errors());
-            var_dump($error);
+        if ($_FILES['gambar']['name'] != "") {
+
+            $config['upload_path'] = './assets/img'; //,menentukan foldernya
+            $config['allowed_types'] = 'png|jpg|jpeg'; //memnentukan format
+            $config['max_size'] = '1024000';
+            $config['max_filename'] = '5000000';
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('gambar')) {
+                $error = array('error' => $this->upload->display_errors());
+                var_dump($error);
+            } else {
+                $data = [
+                    'id_perum' => $this->input->post('id'),
+                    'id_perumahan' => $this->input->post('idperumahan'),
+                    'id_claster' => $this->input->post('cluster'),
+                    'id_user' => $this->input->post('id_user'),
+                    'type' => $this->input->post('type'),
+                    'uk_rumah' => $this->input->post('ukrumah'),
+                    'harga' => $this->input->post('harga'),
+                    'cicilan' => $this->input->post('cicilan'),
+                    'deskripsi' => $this->input->post('deskripsi'),
+                    'alamat' => $this->input->post('Alamat'),
+                    'pic' => $this->upload->data('file_name'),
+                    'kategori' => 'perum',
+                    'status' => '0',
+                ];
+                // var_dump($data);
+
+            }
         } else {
             $data = [
                 'id_perum' => $this->input->post('id'),
@@ -418,14 +556,78 @@ class Dashboard extends My_Controller
                 'cicilan' => $this->input->post('cicilan'),
                 'deskripsi' => $this->input->post('deskripsi'),
                 'alamat' => $this->input->post('Alamat'),
-                'pic' => $this->upload->data('file_name'),
+                'pic' => 'default.png',
                 'kategori' => 'perum',
                 'status' => '0',
+
             ];
             // var_dump($data);
-            $this->M_Administrator->insertdata('perum', $data);
-            redirect('Dashboard/Perum');
+
         }
+        $this->M_Administrator->insertdata('perum', $data);
+        redirect('Dashboard/Perum');
+    }
+    public function ActUpdatePerum()
+    {
+        if ($_FILES['gambar']['name'] != "") {
+
+            $config['upload_path'] = './assets/img'; //,menentukan foldernya
+            $config['allowed_types'] = 'png|jpg|jpeg'; //memnentukan format
+            $config['max_size'] = '1024000';
+            $config['max_filename'] = '5000000';
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('gambar')) {
+                $error = array('error' => $this->upload->display_errors());
+                var_dump($error);
+            } else {
+                $data = [
+                    'id_perum' => $this->input->post('id'),
+                    'id_perumahan' => $this->input->post('idperumahan'),
+                    'id_claster' => $this->input->post('cluster'),
+                    'id_user' => $this->input->post('id_user'),
+                    'type' => $this->input->post('type'),
+                    'uk_rumah' => $this->input->post('ukrumah'),
+                    'harga' => $this->input->post('harga'),
+                    'cicilan' => $this->input->post('cicilan'),
+                    'deskripsi' => $this->input->post('deskripsi'),
+                    'alamat' => $this->input->post('Alamat'),
+                    'pic' => $this->upload->data('file_name'),
+                    'kategori' => 'perum',
+                ];
+                // var_dump($data);
+
+            }
+        } else {
+            $data = [
+                'id_perum' => $this->input->post('id'),
+                'id_perumahan' => $this->input->post('idperumahan'),
+                'id_claster' => $this->input->post('cluster'),
+                'id_user' => $this->input->post('id_user'),
+                'type' => $this->input->post('type'),
+                'uk_rumah' => $this->input->post('ukrumah'),
+                'harga' => $this->input->post('harga'),
+                'cicilan' => $this->input->post('cicilan'),
+                'deskripsi' => $this->input->post('deskripsi'),
+                'alamat' => $this->input->post('Alamat'),
+                // 'pic' => $this->upload->data('file_name'),
+                'kategori' => 'perum',
+            ];
+        }
+        $this->M_Administrator->updatedata('perum', 'id_perum', $this->input->post('id'), $data);
+        redirect('Dashboard/Perum');
+    }
+    public function Deleteclaster($id)
+    {
+        $this->M_Administrator->deletdata('claster', 'id_claster', $id);
+        // echo json_encode($db)
+        redirect('Dashboard/cluster');
+    }
+    public function Deleteperum($id)
+    {
+        // $id = $this->input->get('id');
+        $this->M_Administrator->deletdata('perum', 'id_perum', $id);
+        // echo json_encode($db)
+        redirect('Dashboard/perum');
     }
     public function Booking()
     {
@@ -437,5 +639,33 @@ class Dashboard extends My_Controller
             $data['bookcart'] = $this->db->query('select booking.*, perum.*, user.nama, perumahan.nm_perumahan,claster.claster from perum inner join booking on perum.id_perum = booking.id inner join user on user.id_user=booking.user left join perumahan on perumahan.id_perumahan=perum.id_perumahan left join claster on claster.id_claster = perum.id_claster where perum.id_user ="' . $id . '"')->result();
             $this->HalamanAdmin('master/Booking', $data);
         }
+    }
+
+    public function UploadPerum($id)
+    {
+        $pic = '';
+        if (isset($_FILES['foto']['name'])) {
+            $config['upload_path'] = 'assets/img-perumahan/';
+            $config['allowed_types'] = 'png|jpg';
+            $config['max_size'] = '1024000';
+            $config['max_filename'] = '5000000';
+            $config['encrypt_name'] = false;
+            $config['file_name'] = $_FILES['foto']['name'];
+            // echo $config['file_name'];
+            if (file_exists('assets/img-perumahan/' . $config['file_name'])) {
+            } else {
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+                if (!$this->upload->do_upload('foto')) {
+                    echo "upload error";
+                } else {
+                    $pic = $config['file_name'];
+                }
+            }
+        }
+        $data = [
+            'pic' => $pic,
+        ];
+        $this->M_Administrator->updatedata('perumahan', 'id_perumahan', $id, $data);
     }
 }
