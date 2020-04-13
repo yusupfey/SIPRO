@@ -210,4 +210,20 @@ class Home extends My_Controller
     {
         $data['db_property'] = $this->db->get_where('perum', ['id_user' => $this->session->userdata('id_user')])->result();
     }
+
+
+
+    public function detailperumahan($id)
+    {
+        $data['perum'] = $this->M_Home->jointreeid($id)->row_array();
+        // print_r($data['perum']);
+        $this->load->view('user/detailperum', $data);
+    }
+    public function detailrumah($id)
+    {
+        $data['perum'] = $this->db->query('select perum.*, user.nama from perum inner join user on user.id_user=perum.id_user where perum.id_perum="' . $id . '"')->row_array();
+        // var_dump($data['rumah']);
+
+        $this->load->view('user/detailrumah', $data);
+    }
 }

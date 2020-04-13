@@ -16,7 +16,6 @@
                             <th>ID Rumah</th>
                             <!-- <th>Penjual</th> -->
                             <th>Model</th>
-                            <th>Ukuran</th>
                             <th>Harga</th>
                             <th>Pic</th>
                             <th>Status</th>
@@ -29,7 +28,6 @@
                             <th>ID Rumah</th>
                             <!-- <th>Penjual</th> -->
                             <th>Model</th>
-                            <th>Ukuran</th>
                             <th>Harga</th>
                             <th>Pic</th>
                             <th>Status</th>
@@ -47,7 +45,6 @@
                                 <!-- <td><? //= $t->id_user; 
                                             ?></td> -->
                                 <td><?= $t->type; ?></td>
-                                <td><?= $t->uk_rumah; ?></td>
                                 <td><?= $t->harga; ?></td>
                                 <td><img src="<?= base_url() ?>assets/img/<?= $t->pic; ?>" width="60" alt=""></td>
                                 <td>
@@ -64,7 +61,7 @@
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <a href="<?= base_url() ?>Act/UpdateRumah/<?= $t->id_perum; ?>" type="button" class="btn btn-success btn-circle"><i class="fa fa-edit"></i></a>
-                                        <a href="" type="button" class="btn btn-info btn-circle"><i class="fa fa-info"></i></a>
+                                        <a href="" type="button" class="btn btn-info btn-circle view" data-toggle="modal" data-target="#show-detail" data='<?= $t->id_perum; ?>'><i class=" fa fa-info"></i></a>
                                         <a href="<?= base_url() ?>Act/DeleteRumah/<?= $t->id_perum; ?>" type="button" id="delete" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </td>
@@ -96,3 +93,20 @@
         });
     }
 </script> -->
+<script>
+    $(document).ready(function() {
+        $('.view').on('click', function() {
+            var id = $(this).attr('data');
+            $.ajax({
+                type: 'post',
+                url: '<?= base_url() ?>Home/detailrumah/' + id,
+                success: function(data) {
+                    $('#target-detail').html(data);
+                    $('#show-perum').modal("show");
+                }
+            });
+        });
+
+
+    });
+</script>

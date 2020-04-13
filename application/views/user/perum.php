@@ -40,7 +40,7 @@
                     $no =  1;
                     foreach ($db_perum as $f) :
                     ?>
-                        <tr id="target">
+                        <tr>
                             <td><?= $no++; ?></td>
                             <td><?= $f->id_perum; ?></td>
                             <td><?= $f->nm_perumahan; ?></td>
@@ -59,7 +59,7 @@
                             <td class="text-center">
                                 <div class="btn-group" role="group" aria-label="Basic example">
                                     <a href="<?= base_url() ?>Dashboard/UpdatePerum/<?= $f->id_perum; ?>" class="btn btn-success btn-circle"><i class="fa fa-edit"></i></a>
-                                    <a href="" class="btn btn-info btn-circle"><span class=" fa fa-info"></span></span></a>
+                                    <a href="" class="btn btn-info btn-circle view" data-toggle="modal" data-target="#show-detail" id="" data="<?= $f->id_perum; ?>"><span class=" fa fa-info"></span></span></a>
                                     <a href="<?= base_url() ?>Dashboard/Deleteperum/<?= $f->id_perum; ?>" type="button" class="btn btn-danger btn-circle"><span class="fa fa-trash"></span>
                                     </a>
                                 </div>
@@ -71,6 +71,7 @@
         </div>
     </div>
 </div>
+
 <!-- <script>
     function hapus(x) {
         var id = x;
@@ -90,3 +91,20 @@
         });
     }
 </script> -->
+<script>
+    $(document).ready(function() {
+        $('.view').on('click', function() {
+            var id = $(this).attr('data');
+            $.ajax({
+                type: 'post',
+                url: '<?= base_url() ?>Home/detailperumahan/' + id,
+                success: function(data) {
+                    $('#target-detail').html(data);
+                    $('#show-perum').modal("show");
+                }
+            });
+        });
+
+
+    });
+</script>

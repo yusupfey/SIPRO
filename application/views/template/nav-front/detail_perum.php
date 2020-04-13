@@ -21,7 +21,8 @@
                     <?= $perum['deskripsi']; ?>
                     <hr>
                     <b>Alamat:</b><br>
-                    <?= $perum['alamat']; ?>
+                    <?= $perum['alamat']; ?><br>
+                    <a href="<?= $perum['titik_coridinat']; ?>" class="badge badge-primary" target="_blank" rel="noopener noreferrer">open via google maps</a>
                     <hr>
                 </div>
             </div>
@@ -42,7 +43,7 @@
                     <i class="text-dark"><?= $perum['harga'] ?></i>
                     <hr>
                     <?php if ($perum['status'] == 1) : ?>
-                        <a href="?>"><button class="btn-danger form-control">Sudah dibooking</button></a>
+                        <a href=""><button class="btn-danger form-control">Sudah dibooking</button></a>
                     <?php else : ?>
                         <a href="<?= base_url() ?>Act/booking/<?= $perum['id_perum']; ?>"><button class="btn-success form-control">Booking</button></a>
                     <?php endif; ?>

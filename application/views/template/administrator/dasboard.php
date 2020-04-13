@@ -278,8 +278,10 @@
                             <textarea name="alamat" class="form-control" id="" cols="30" rows="10"><?= $properum['alamat_lengkap']; ?></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Titik Koordiant</label>
-                            <input type="text" name="tikor" value="<?= $properum['titik_coridinat']; ?>" class="form-control" id="">
+                            <label>Link Lokasi</label>
+                            <br>
+                            <a href="https://www.google.co.id/maps/place" target="_blank" class="badge badge-pill" rel="noopener noreferrer">Salin Lokasi Via Google maps</a>
+                            <input type="text" name="tikor" value="<?= $properum['titik_coridinat']; ?>" class="form-control" id="" placeholder="link lokasi c/o : https://goo.gl/maps/fUZ5ypTnZCHskhmd7">
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success float-right btn-lg">Update</button>

@@ -45,7 +45,7 @@ class M_Home extends CI_Model
     }
     public function jointreeid($id)
     {
-        $this->db->select('perumahan.nm_perumahan');
+        $this->db->select('perumahan.nm_perumahan,perumahan.titik_coridinat');
         $this->db->select('provinsi.provinsi');
         $this->db->select('kota.kota');
         $this->db->select('perum.*');
