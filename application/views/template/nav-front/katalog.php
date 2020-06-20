@@ -6,7 +6,7 @@
             <div class="row pb-5">
                 <?php foreach ($perumahan as $p) :
                 ?>
-                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                    <div class="col-lg-3 mt-4 col-md-6 col-sm-12 col-xs-12">
                         <div class="card">
                             <img class="card-img-top" src="<?= base_url() ?>assets/img/<?= $p->pic; ?>" style="height:180px" alt=" Card image cap">
                             <div class="card-body">
@@ -30,7 +30,7 @@
             <div class="row pb-5">
                 <?php foreach ($db_property as $v) :
                 ?>
-                    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                    <div class="col-lg-3  mt-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="card">
                             <img class="card-img-top" src="<?= base_url() ?>assets/img/<?= $v->pic; ?>" style="height:180px" alt=" Card image cap">
                             <div class="card-body">

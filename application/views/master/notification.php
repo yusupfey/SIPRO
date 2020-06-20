@@ -9,17 +9,15 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>ID User</th>
+                        <th>From</th>
                         <th>Request</th>
-                        <th>Tanggal</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>#</th>
-                        <th>ID User</th>
+                        <th>From</th>
                         <th>Request</th>
-                        <th>Tanggal</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -30,8 +28,26 @@
                         <tr>
                             <td><?= $no++; ?></td>
                             <td><?= $f->id_user; ?></td>
-                            <td><?= $f->requerst; ?></td>
-                            <td><?= $f->tgl; ?></td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-1 col-xs-1 col-sm-1 ">
+                                        <span class="icon-circle
+                                            <?php if ($f->icon == 'fa-donate') {
+                                                echo 'bg-warning';
+                                            } else if ($f->icon == 'fa fa-ban') {
+                                                echo 'bg-danger';
+                                            } else {
+                                                echo 'bg-success';
+                                            } ?> small">
+                                            <i class="fas fa-fw <?= $f->icon; ?> text-white"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-10 col-xs-10 col-sm-10 ml-2">
+                                        <?= $f->requerst; ?>
+                                        <div class="small text-gray-500"><?= $f->tgl; ?></div>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     <?php endforeach ?>
                 </tbody>

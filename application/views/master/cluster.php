@@ -4,6 +4,15 @@
         <h6 class="m-0 font-weight-bold text-primary">Cluster</h6>
     </div>
     <div class="card-body">
+        <?php if ($this->session->flashdata('true')) : ?>
+            <script>
+                swal({
+                    title: "Berhasil!",
+                    text: "<?= $this->session->flashdata('true') ?>",
+                    icon: "<?= $this->session->flashdata('alert') ?>",
+                });
+            </script>
+        <?php endif; ?>
         <a href="#" class="badge badge-primary p-3 text-md mb-4" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah data</a>
         <div class="table-responsive">
             <table class="table table-striped dataTables_processing" id="dataTable" width="100%" cellspacing="0">
@@ -106,10 +115,10 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <input type="text" name="idperumahan" class="form-control" id="idperumahan">
+                                    <input type="text" name="idperumahan" Readonly class="form-control" id="idperumahan">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="idcluster" class="form-control" id="idc">
+                                    <input type="text" name="idcluster" Readonly class="form-control" id="idc">
 
                                 </div>
                                 <div class="form-group">

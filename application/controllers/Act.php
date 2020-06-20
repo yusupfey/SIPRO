@@ -31,7 +31,7 @@ class Act extends My_Controller
     }
     public function Actregis()
     {
-        $this->form_validation->set_rules('nama', 'Username', 'required|trim', ['required' => 'Username tidak boleh kosong !']);
+        $this->form_validation->set_rules('nama', 'Username', 'alpha|required', ['required' => 'Username tidak boleh kosong !']);
         // $this->form_validation->set_rules('alamat', 'Alamat', 'required', ['required' => 'Alamat tidak boleh kosong !']);
         $this->form_validation->set_rules('email', 'email', 'required|valid_email|is_unique[user.email]');
         $this->form_validation->set_rules('password-awal', 'Password', 'required|trim|matches[password]', ['required' => 'Password tidak boleh kosong !', 'matches' => 'Password tidak sama']);
@@ -47,9 +47,10 @@ class Act extends My_Controller
             $no_urut++;
             $kode = 'U' . sprintf("%03s", $no_urut);
             $iduser = $kode;
+            $nama = $this->input->post('nama');
             $email = $this->input->post('email');
             $pass = $this->input->post('password');
-            $this->db->query("Insert into user (id_user,email) values ('$iduser','$email')");
+            $this->db->query("Insert into user (id_user,nama,email,pic) values ('$iduser','$nama','$email','default.png')");
             $password = md5($pass);
             $log_user = [
                 'id_user' => $kode,
@@ -83,14 +84,52 @@ class Act extends My_Controller
             $id = $this->session->userdata('id_user');
             $data['user'] = $this->db->get_where('user', ['id_user' => $id])->result();
             $data['judul'] = 'Halaman Profil';
-            $this->HalamanHome('user/profil', $data);
+            $this->Halamanprofil('user/profil', $data);
         } else {
+            $nohp = $this->input->post('notel', true);
+            if (!preg_match('/[^+0-9]/', trim($nohp))) {
+                // cek apakah no hp karakter 1-3 adalah +62
+                if (substr(trim($nohp), 0, 2) == '62') {
+                    $hp = trim($nohp);
+                }
+                // cek apakah no hp karakter 1 adalah 0
+                elseif (substr(trim($nohp), 0, 1) == '0') {
+                    $hp = '62' . substr(trim($nohp), 1);
+                } elseif (substr(trim($nohp), 0, 3) == '+62') {
+                    $hp = '62' . substr(trim($nohp), 3);
+                }
+            }
+            $pic = '';
+            if ($_FILES['gambar']['name'] != "") {
+
+                $temp = explode(".", $_FILES['gambar']['name']);
+                $nama_baru = round(microtime(true)) . '.' . end($temp);
+                // echo $nama_baru;
+
+                $config['file_name'] = $nama_baru;
+                $config['upload_path'] = './assets/profil/'; //,menentukan foldernya
+                $config['allowed_types'] = 'png|jpg|jpeg'; //memnentukan format
+                $config['max_size'] = '1024000';
+                $config['max_filename'] = '5000000';
+                $this->load->library('upload', $config);
+                if (!$this->upload->do_upload('gambar')) {
+                    $error = array('error' => $this->upload->display_errors());
+                    var_dump($error);
+                } else {
+                    $pic = $nama_baru;
+                }
+            } else {
+                $pic = $this->input->post('img');
+            }
             $data = [
                 'nama' => $this->input->post('nama', true),
-                'notel' => $this->input->post('notel', true),
+                'notel' => $hp,
                 'email' => $this->input->post('email', true),
                 'alamat' => $this->input->post('alamat', true),
+                'pic' => $pic,
             ];
+            // var_dump($data);
+            // echo $_FILES['gambar']['tmp_name'];
             $id = $this->session->userdata('id_user');
             $this->db->where('id_user', $id);
             $this->db->update('user', $data);
@@ -119,6 +158,7 @@ class Act extends My_Controller
         $payment = [
             'id_user' => $this->input->post('id'),
             'id_paket' => $this->input->post('paket'),
+            'tgl' => $tgl,
             'pic' => '',
             'status' => 0,
         ];
@@ -143,12 +183,15 @@ class Act extends My_Controller
 
         // $foto = $this-['foto'];
         // $foto = $this->input->post('foto');
+        $temp = explode(".", $_FILES['foto']['name']);
+        $nama_baru = round(microtime(true)) . '.' . end($temp);
+        // echo $nama_baru;
 
+        $config['file_name'] = $nama_baru;
         $config['upload_path'] = './assets/img-struck'; //,menentukan foldernya
         $config['allowed_types'] = 'png|jpg|jpeg'; //memnentukan format
-        $config['max_size'] = 1000; //untuk ukuran
-        $config['max_width'] = 1024; // untuk lebar foto
-        $config['max_height'] = 786; // untuk tinggi foto
+        $config['max_size'] = '1024000';
+        $config['max_filename'] = '5000000';
         $this->load->library('upload', $config);
         if (!$this->upload->do_upload('foto')) {
             $error = array('error' => $this->upload->display_errors());
@@ -182,9 +225,11 @@ class Act extends My_Controller
         } else {
             $prov = $this->input->post('provinsi');
             $kota = $this->input->post('kota');
+            // echo $prov;
+            // echo $kota;
             $data['perumahan'] = $this->M_Home->innerperumgetlocation($prov, $kota)->result();
-            $data['db_property'] = $this->db->get_where('perum', ['kategori' => 'Rumah'])->result();
-            // var_dump($data['perumahan']);
+            $data['db_property'] = $this->M_Home->innersearchRumah($prov, $kota)->result();
+            // var_dump($data['db_property']);
             $this->HalamanHome('template/nav-front/katalog', $data);
         }
         // var_dump($_POST);
@@ -196,10 +241,12 @@ class Act extends My_Controller
         if ($this->session->userdata('id_user') === null) redirect('login');
         $this->session->unset_userdata('link');
         $perum = $this->M_Home->getid('perum', 'id_perum', $id);
+        // $userboking = $this->M_Home->getid('booking', 'id', $id);
         $tgl = date('Y-m-d');
         // print_r($perum['id_user']);
         $notif = [
-            'id_user' => $perum['id_user'],
+            'id_user' => $this->session->userdata('id_user'),
+            'user_tujuan' => $perum['id_user'],
             'requerst' => 'Booking Rumah',
             'icon' => 'fa fa-handshake',
             'url' => 'Act/ActBooking',
@@ -225,7 +272,7 @@ class Act extends My_Controller
     public function actBooking()
     {
         if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
-            redirect('Dashboard');
+            redirect('Dashboard/Bookingcart');
         } else {
             redirect('Home/Mybooking');
         }
@@ -248,6 +295,23 @@ class Act extends My_Controller
      */
     public function AddRumah()
     {
+        $this->load->model('M_Home');
+        // $data['prov'] = $this->M_Home->getdata('provinsi');
+        $url = 'https://dev.farizdotid.com/api/daerahindonesia/provinsi/';
+        $readApi = file_get_contents($url);
+        $proapi = json_decode($readApi, true);
+
+        $form['apiProv'] = $proapi['provinsi'];
+        // $dropdown = [];
+
+        // $op = '".foreach ($api as $drop) : endforeach."';
+        // echo form_dropdown('shirts', $op
+        //     // print_r($drop['id']);
+        //     // print_r($drop['nama'];
+        //     // $dropdown = [$drop['id'] => $drop['nama']];
+        //     // $dropdown++;
+        //     // print_r($dropdown);
+        // );
         $getcode = $this->db->query('Select max(id_perum) as maxKode FROM perum')->row_array();
         $no_urut = (int) substr($getcode['maxKode'], 3, 10);
         $no_urut++;
@@ -419,16 +483,12 @@ class Act extends My_Controller
     }
     public function ActAddRumah()
     {
-        // $this->form_validation->set_rules('type', 'Type', 'required');
-        // if ($this->form_validation->run() == false) {
-        //     if ($this->session->userdata('id_akses') == 1 and $this->session->userdata('id_akses') == 3) {
-        //         $this->HalamanAdmin('form/vform');
-        //     } else {
-        //         $this->Halamanprofil('form/vform', $form);
-        //     }
-        // }
         if ($_FILES['gambar']['name'] != "") {
+            $temp = explode(".", $_FILES['gambar']['name']);
+            $nama_baru = round(microtime(true)) . '.' . end($temp);
+            // echo $nama_baru;
 
+            $config['file_name'] = $nama_baru;
             $config['upload_path'] = './assets/img'; //,menentukan foldernya
             $config['allowed_types'] = 'png|jpg|jpeg'; //memnentukan format
             $config['max_size'] = '1024000';
@@ -467,10 +527,17 @@ class Act extends My_Controller
                 'pic' => 'default.png',
                 'kategori' => 'Rumah',
                 'status' => '0',
-
             ];
         }
+        $lok = [
+            'id_unit' => $this->input->post('id'),
+            'prov' => $this->input->post('provinsi'),
+            'kota' => $this->input->post('kota'),
+        ];
         $this->M_Home->inputdata('perum', $data);
+        $this->M_Home->inputdata('lokasi_rumah', $lok);
+        $this->session->set_flashdata('true', 'Di Tambahkan');
+        $this->session->set_flashdata('alert', 'success');
         if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
             redirect('Dashboard/property');
         } else {
@@ -479,15 +546,12 @@ class Act extends My_Controller
     }
     public function ActUpdateRumah()
     {
-        // $this->form_validation->set_rules('type', 'Type', 'required');
-        // if ($this->form_validation->run() == false) {
-        //     if ($this->session->userdata('id_akses') == 1 and $this->session->userdata('id_akses') == 3) {
-        //         $this->HalamanAdmin('form/vform');
-        //     } else {
-        //         $this->Halamanprofil('form/vform', $form);
-        //     }
-        // }
         if ($_FILES['gambar']['name'] != "") {
+            $temp = explode(".", $_FILES['gambar']['name']);
+            $nama_baru = round(microtime(true)) . '.' . end($temp);
+            // echo $nama_baru;
+
+            $config['file_name'] = $nama_baru;
             $config['upload_path'] = './assets/img'; //,menentukan foldernya
             $config['allowed_types'] = 'png|jpg|jpeg'; //memnentukan format
             $config['max_size'] = '1024000';
@@ -510,12 +574,6 @@ class Act extends My_Controller
                     'kategori' => 'Rumah'
                 ];
                 // var_dump($data);
-                $this->M_Home->updatedata('perum', 'id_perum', $this->input->post('id'), $data);
-                if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
-                    redirect('Dashboard/property');
-                } else {
-                    redirect('Home/rumah');
-                }
             }
         } else {
             $data = [
@@ -531,12 +589,22 @@ class Act extends My_Controller
                 'kategori' => 'Rumah'
             ];
         }
+        $this->M_Home->updatedata('perum', 'id_perum', $this->input->post('id'), $data);
+        $this->session->set_flashdata('true', 'Di Edit');
+        $this->session->set_flashdata('alert', 'success');
+        if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
+            redirect('Dashboard/property');
+        } else {
+            redirect('Home/rumah');
+        }
     }
     public function DeleteRumah($id)
     {
         // $id = $this->input->get('id');
         $db = $this->M_Home->deletedata('perum', 'id_perum', $id);
         // echo json_encode($db);
+        $this->session->set_flashdata('true', 'Di Hapus');
+        $this->session->set_flashdata('alert', 'error');
         if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
             redirect('Dashboard/property');
         } else {
@@ -552,30 +620,62 @@ class Act extends My_Controller
         $perum = $this->M_Home->getid('perum', 'id_perum', $id);
         $tgl = date('Y-m-d');
         // print_r($perum['id_user']);
+        $userboking = $this->M_Home->getid('booking', 'id', $id);
+        var_dump($userboking);
+        // $userloged = $this->session->userdata('id_user');
         $notif = [
             'id_user' => $perum['id_user'],
-            'requerst' => 'Bookingan dibatalkan',
-            'icon' => 'fa fa-critical-role',
-            'url' => 'Act/ActBooking',
-            'tgl' => $tgl,
-            'status' => 0
-        ];
-        /**
-         * 
-         * notifkasi untuk user
-         * 
-         */
-        $userloged = $this->session->userdata('id_user');
-        $user = [
-            'id_user' => $userloged,
+            'user_tujuan' => $userboking['user'],
             'requerst' => 'Bookingan dibatalkan',
             'icon' => 'fa fa-ban',
             'url' => 'Act/ActBooking',
             'tgl' => $tgl,
             'status' => 0
         ];
+        var_dump($notif);
+
+        /**
+         * 
+         * notifkasi untuk user
+         * 
+         */
+
+
         $this->M_Home->inputdata('notif', $notif);
-        $this->M_Home->inputdata('notif', $user);
         $this->M_Home->deletedata('booking', 'id', $id);
+        $this->session->set_flashdata('true', 'dibatalkan');
+        $this->session->set_flashdata('alert', 'warning');
+        if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
+            redirect('Dashboard/Bookingan');
+        } else {
+            redirect('Home/CekPenjualan');
+        }
+    }
+    public function terjual($id)
+    {
+        $this->M_Home->deletedata('booking', 'id', $id);
+        $this->session->set_flashdata('true', 'Terjual');
+        $this->session->set_flashdata('alert', 'success');
+        if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
+            redirect('Dashboard/Bookingan');
+        } else {
+            redirect('Home/CekPenjualan');
+        }
+    }
+    public function lap_penjualan()
+    {
+        $id = $this->session->userdata('id_user');
+        if ($this->session->userdata('id_akses') == 1) {
+            $data['terjual'] = $this->db->query('select history_penjualan.*,user.nama, perum.type,perum.pic, perum.kategori,perum.alamat, claster.claster,perumahan.nm_perumahan from history_penjualan inner join perum on perum.id_perum = history_penjualan.id_perum left join perumahan on perumahan.id_perumahan=perum.id_perumahan left join claster on claster.id_claster=perum.id_claster left join user on user.id_user=history_penjualan.id_user ')->result();
+        } else {
+            $data['terjual'] = $this->db->query('select history_penjualan.*,user.nama, perum.type,perum.pic, perum.kategori,perum.alamat, claster.claster,perumahan.nm_perumahan from history_penjualan inner join perum on perum.id_perum = history_penjualan.id_perum left join perumahan on perumahan.id_perumahan=perum.id_perumahan left join claster on claster.id_claster=perum.id_claster left join user on user.id_user=history_penjualan.id_user where perum.id_user ="' . $id . '"')->result();
+        }
+
+        // print_r($data['terjual']);
+        if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
+            $this->HalamanAdmin('user/history_penjualan', $data);
+        } else {
+            $this->Halamanprofil('user/history_penjualan', $data);
+        }
     }
 }

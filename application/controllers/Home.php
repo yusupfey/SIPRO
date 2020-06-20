@@ -28,35 +28,73 @@ class Home extends My_Controller
     public function index()
     {
         $this->load->model('M_Home');
-        $data['prov'] = $this->M_Home->getdata('provinsi');
+        // $data['prov'] = $this->M_Home->getdata('provinsi');
+        $url = 'https://dev.farizdotid.com/api/daerahindonesia/provinsi/';
+        $readApi = file_get_contents($url);
+        $proapi = json_decode($readApi, true);
+
+        // $api = $proapi['rajaongkir'];
+        // $data['apiProv'] = $api['results'];
+        // var_dump($api['results']);
+        // print_r($api['results']);
+        // foreach ($api['results'] as $apey) :
+        //     print_r($apey['province']);
+        // endforeach;
+        $data['apiProv'] = $proapi['provinsi'];
+
+
         $data['bispat'] = $this->db->get('perumahan')->result();
         $this->HalamanHome('template/nav-front/content', $data);
     }
-    public function Getdatabyajax($table)
+    public function About()
+    {
+        $this->HalamanHome('template/nav-front/about.php');
+    }
+    public function Getdatabyajax()
     {
         $this->load->model('M_Home');
 
         $kode = $this->input->post('provinsi');
-        $data['dt'] = $this->M_Home->getid($table, 'id_prov', $kode);
-        // var_dump($data['dt']);
-        // var_dump($kode);
-
+        // $data['dt'] = $this->M_Home->getid($table, 'id_prov', $kode);
+        // // var_dump($data['dt']);
+        // // var_dump($kode);
+        // echo $kode;
         $toprint = '';
-        $prov = $this->M_Home->getid($table, 'id_prov', $kode);
+        // $prov = $this->M_Home->getid($table, 'id_prov', $kode);
         // var_dump($prov);
-        if ($prov['id_prov'] == 0) {
-            foreach ($data['dt'] as $v) {
-                $toprint = $toprint . '<option value="' . $v->id_kota . '">' . $v->kota . '</option>';
-            }
-        } else {
-            $toprint = $toprint . '<option value="' . $prov['id_kota'] . '">' . $prov['kota'] . '</option>';
+        // if ($prov['id_prov'] == 0) {
+        //     foreach ($data['dt'] as $v) {
+        //         $toprint = $toprint . '<option value="' . $v->id_kota . '">' . $v->kota . '</option>';
+        //     }
+        // } else {
+        //     $toprint = $toprint . '<option value="' . $prov['id_kota'] . '">' . $prov['kota'] . '</option>';
+        // }
+        // echo $toprint;
+        $url = "https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=$kode";
+        // print_r($url);
+        $readApi = file_get_contents($url);
+        $proapi = json_decode($readApi, true);
+
+        $api = $proapi['kota_kabupaten'];
+        // // $data['apiProv'] = $api['results'];
+        // // foreach ($api['results'] as $p) {
+        // print_r($proapi['kota_kabupaten']);
+        // }
+        // if ($prov['id_prov'] == 0) {
+        foreach ($api as $p) {
+            //     // if ($p['city_name'] == 0) {
+            $toprint = $toprint . '<option value="' . $p['id'] . '">' . $p['nama'] . '</option>';
+            //     // }
         }
+        // } else {
+        //     $toprint = $toprint . '<option value="' . $prov['id_kota'] . '">' . $prov['kota'] . '</option>';
+        // }
         echo $toprint;
     }
     public function profil()
     {
         $id = $this->session->userdata('id_user');
-        $data['user'] = $this->db->get_where('user', ['id_user' => $id])->result();
+        $data['user'] = $this->db->get_where('user', ['id_user' => $id])->row_array();
         // $data['sidebar'] = $this->load->view('template/nav-front/sidebar');
         $this->Halamanprofil('user/profil', $data);
     }
@@ -100,10 +138,16 @@ class Home extends My_Controller
                 'name' => 'Nama Perumahan',
                 'class' => 'form-control',
             ];
+            $upload = [
+                'type' => 'text',
+                'name' => 'Nama Perumahan',
+                'class' => 'form-control',
+            ];
             $form['id'] = form_input($id);
             $form['nama'] = form_input($nama);
             $form['perum'] = form_input($perum);
             $form['email'] = form_input($email);
+            $form['pic'] = form_input($upload);
             $this->Halamanprofil('user/Request_perum', $form);
         } else if ($pay['id_user'] == $id && $pay['status'] == 1) {
             $this->Halamanprofil('template/nav-front/halporses');
@@ -140,9 +184,9 @@ class Home extends My_Controller
     }
     public function katalog()
     {
-        $data['db_property'] = $this->db->get_where('perum', ['kategori' => 'Rumah'])->result();
+        $data['db_property'] = $this->M_Home->innerRumah()->result();
         $data['perumahan'] = $this->M_Home->innerperum()->result();
-
+        // var_dump($data['perumahan']);
         $this->HalamanHome('template/nav-front/katalog', $data);
     }
     /**
@@ -167,7 +211,7 @@ class Home extends My_Controller
             endforeach;
         }
         if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
-            $this->HalamanAdmin('user/booking', $data);
+            redirect('Dashboard/Mybooking', $data);
         } else {
 
             $this->Halamanprofil('user/booking', $data);
@@ -184,8 +228,8 @@ class Home extends My_Controller
     {
         $id = $this->session->userdata('id_user');
         // $data['databook'] = $this->db->query('select booking.user, perum.*, user.nama, perumahan.nm_perumahan,claster.claster from booking right join perum on perum.id_perum = booking.id right join user on user.id_user=booking.user right join perumahan on perumahan.id_perumahan=perum.id_perumahan right join claster on claster.id_claster = perum.id_claster where booking.user ="' . $id . '" AND perum.status=1')->result();
-        $data['databook'] = $this->db->query('select perum.*, booking.user, user.nama from perum right join booking on booking.id=perum.id_perum inner join user on user.id_user=booking.user where perum.id_user="' . $id . '"AND perum.status=1')->result();
-        // print_r($data['databook']);
+        $data['databook'] = $this->db->query('select booking.*, perum.*, user.nama, perumahan.nm_perumahan,claster.claster from perum inner join booking on perum.id_perum = booking.id inner join user on user.id_user=booking.user left join perumahan on perumahan.id_perumahan=perum.id_perumahan left join claster on claster.id_claster = perum.id_claster where perum.id_user ="' . $id . '"')->result();
+        print_r($data['databook']);
         $this->Halamanprofil('template/nav-front/receive-boking', $data);
     }
     /**
@@ -225,5 +269,19 @@ class Home extends My_Controller
         // var_dump($data['rumah']);
 
         $this->load->view('user/detailrumah', $data);
+    }
+
+    // halaman notifikasi user di home
+    public function notification()
+    {
+        if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
+            redirect('Dashboarad/notification');
+        } else {
+            $id = $this->session->userdata('id_user');
+            $data['not'] = $this->M_Home->getidAll('notif', 'user_tujuan', $id);
+            $up = ['status' => 1];
+            $this->M_Home->updatedata('notif', 'user_tujuan', $id, $up);
+            $this->Halamanprofil('template/nav-front/notif', $data);
+        }
     }
 }

@@ -24,10 +24,8 @@
                             <span class="input-group-text bg-warning" id="inputGroup-sizing-md"><i class="fa fa-fw fa-map "></i></span>
                             <select name="provinsi" class="form-control" style="font-size:20px; font-family:'Courier New', Courier, monospace" id="prov">
                                 <option value="">-- Pilih provinsi --</option>
-                                <?php foreach ($prov as $t) : ?>
-                                    <option value="<?= $t->id_prov ?>" <?php if (set_value('provinsi') == $t->id_prov) {
-                                                                            echo 'selected';
-                                                                        }; ?>><?= $t->provinsi ?></option>
+                                <?php foreach ($apiProv as $t) : ?>
+                                    <option value="<?= $t['id']; ?>"><?= $t['nama']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -108,10 +106,11 @@
         $('#prov').on('click', function() {
             if ($(this).val()) {
                 var form_data = new FormData();
-
+                // const prov = $('#prov').val();
+                // console.log(prov);
                 form_data.append('provinsi', $('#prov').val());
                 $.ajax({
-                    url: '<?= base_url() ?>Home/Getdatabyajax/kota',
+                    url: '<?= base_url() ?>Home/Getdatabyajax/',
                     type: 'post',
                     data: form_data,
                     dataType: 'text',
@@ -123,7 +122,7 @@
                         $('#kota option[value!=""]').remove();
                         //menambahkan data sesuai dengan kategori kedalam dropdown
                         $('#kota').append(berhasil);
-                        console.log(berhasil);
+                        // console.log(berhasil);
                     },
                     error: function(gagal) {
                         console.log(gagal);

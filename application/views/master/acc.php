@@ -5,7 +5,7 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Pic struck pembayaran</h6>
             </div>
-            <div class="card-body">
+            <div class="card-body disabled">
                 <img src="<?= base_url() ?>assets/img-struck/<?= $acc['pic']; ?>" class=" img-thumbnail">
             </div>
         </div>
@@ -13,12 +13,13 @@
     <div class="col-md-4">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Berikan pesan pada user. Jika data tidak sesuai</h6>
+                <h6 class="m-0 font-weight-bold text-primary"><input type="checkbox" name="" class="form-input" id="check"> Berikan pesan pada user. Jika data tidak sesuai</h6>
             </div>
-            <div class="card-body">
-                <form action="" method="post">
+            <div class="card-body" id="form">
+                <form action="<?= base_url() ?>Dashboard/kirimpesan" method="post">
                     <div class="form-group">
-                        <textarea name="massage" class="form-control" id="" cols="20" rows="5"></textarea>
+                        <input type="hidden" name="id" value="<?= $acc['id_user']; ?>">
+                        <textarea name="massage" class="form-control" id="" cols="20" rows="5">Pembayaran gagal. silahkan upload kembali struk pembayaran yang terbaru</textarea>
                         <button type="submit" class="btn btn-danger form-control">Kirim</button>
                     </div>
                 </form>
@@ -91,3 +92,19 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#form').hide();
+        $('#check').on('change', function() {
+            if (this.checked) {
+                $('.btn-success').addClass('disabled');
+                $('#form').show();
+            } else {
+                $('.btn-success').removeClass('disabled');
+                $('#form').hide();
+
+
+            }
+        });
+    });
+</script>

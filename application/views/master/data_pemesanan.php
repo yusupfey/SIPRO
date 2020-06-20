@@ -1,4 +1,13 @@
 <h2 class="pb-3">Data Pembayaran</h2>
+<?php if ($this->session->flashdata('true')) : ?>
+    <script>
+        swal({
+            title: "Berhasil!",
+            text: "<?= $this->session->flashdata('true') ?>",
+            icon: "<?= $this->session->flashdata('alert') ?>",
+        });
+    </script>
+<?php endif; ?>
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Data belum kirim bukti pembayaran

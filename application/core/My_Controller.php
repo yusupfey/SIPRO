@@ -3,10 +3,24 @@ class My_Controller extends CI_Controller
 {
     public function HalamanAdmin($content, $data = null)
     {
+        $data['judul'] = 'Administrator || SIPRO';
+
         $this->load->model('M_Administrator');
-        $data['count'] = $this->M_Administrator->hitungnotif();
+        $id = $this->session->userdata('id_user');
+        $data['user'] = $this->M_Administrator->getid('user', 'id_user', $id);
+        if ($this->session->userdata('id_akses') == 1) {
+            $data['count'] = $this->M_Administrator->hitungnotifadmin();
+            $data['notif'] = $this->db->get_where('notif', ['status' => 0, 'user_tujuan' => ''])->result();
+        } else {
+
+            $data['count'] = $this->M_Administrator->hitungnotif();
+            $data['notif'] = $this->db->get_where('notif', ['status' => 0, 'user_tujuan' => $id])->result();
+        }
         $data['notpay'] = $this->M_Administrator->notifpayment();
-        $data['notif'] = $this->db->get_where('notif', ['status' => 0])->result();
+        $data['countperum'] = $this->M_Administrator->countperum();
+        $data['countrumah'] = $this->M_Administrator->countrumah();
+        $data['countcluster'] = $this->M_Administrator->countcluster();
+        $data['countbooking'] = $this->M_Administrator->countbooking();
         // $data['notif'] = $this->db->get_where('payment', ['status' => 0])->result();
 
         $hal['header'] = $this->load->view('template/administrator/header', $data, TRUE);
@@ -18,8 +32,14 @@ class My_Controller extends CI_Controller
     public function HalamanHome($konten, $data = null)
     {
         error_reporting(0);
+        $data['judul'] = 'Home || SIPRO';
 
+        $this->load->model('M_Home');
         $id = $this->session->userdata('id_user');
+
+        $data['notif'] = $this->M_Home->hitungnotif();
+        $data['notification'] = $this->db->get_where('notif', ['status' => 0, 'user_tujuan' => $id])->result();
+
         if ($id != "") {
             $data['cart'] = $this->M_Home->hitungcart();
             $oop = $this->M_Home->getidall('booking', 'user', $id);
@@ -28,6 +48,7 @@ class My_Controller extends CI_Controller
                 $data['bookcart'] = $this->M_Home->getcart($get)->result();
             endforeach;
         }
+
         $hal['header'] = $this->load->view('template/nav-front/header', $data, TRUE);
         $hal['content'] = $this->load->view($konten, $data, TRUE);
         $hal['footer'] = $this->load->view('template/nav-front/footer', $data, TRUE);
@@ -37,7 +58,10 @@ class My_Controller extends CI_Controller
     public function Halamanprofil($konten, $data = null)
     {
         error_reporting(0);
+        $data['judul'] = 'Profil || SIPRO';
         $id = $this->session->userdata('id_user');
+        $data['notif'] = $this->M_Home->hitungnotif();
+        $data['notification'] = $this->db->get_where('notif', ['status' => 0, 'user_tujuan' => $id])->result();
         if ($id != "") {
             $data['cart'] = $this->M_Home->hitungcart();
             $oop = $this->M_Home->getidall('booking', 'user', $id);

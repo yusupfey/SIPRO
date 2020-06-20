@@ -4,6 +4,15 @@
         <h6 class="m-0 font-weight-bold text-primary">Perumahan</h6>
     </div>
     <div class="card-body">
+        <?php if ($this->session->flashdata('true')) : ?>
+            <script>
+                swal({
+                    title: "Berhasil!",
+                    text: "<?= $this->session->flashdata('true') ?>",
+                    icon: "<?= $this->session->flashdata('alert') ?>",
+                });
+            </script>
+        <?php endif; ?>
         <a href="<?= base_url() ?>Dashboard/AddPerum" class="badge badge-primary p-3 text-md mb-4"><i class="fa fa-plus"></i> Tambah data</a>
         <div class="table-responsive">
             <table class="table table-striped dataTables_processing" id="dataTable" width="100%" cellspacing="0">
@@ -13,9 +22,6 @@
                         <th>ID Perum</th>
                         <th>Perumahan</th>
                         <th>Cluster</th>
-                        <th>Type</th>
-                        <th>Ukuran Rumah</th>
-                        <th>Harga</th>
                         <th>Picture</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -27,9 +33,6 @@
                         <th>ID Perum</th>
                         <th>Perumahan</th>
                         <th>Cluster</th>
-                        <th>Type</th>
-                        <th>Ukuran Rumah</th>
-                        <th>Harga</th>
                         <th>Picture</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -45,15 +48,17 @@
                             <td><?= $f->id_perum; ?></td>
                             <td><?= $f->nm_perumahan; ?></td>
                             <td><?= $f->claster; ?></td>
-                            <td><?= $f->type; ?></td>
-                            <td><?= $f->uk_rumah; ?></td>
-                            <td><?= $f->harga; ?></td>
-                            <td><img src="<?= base_url() ?>assets/img/<?= $f->pic; ?>" width="60" alt=""></td>
+                            <td><img src="<?= base_url() ?>assets/img/<?= $f->pic; ?>" width="60" height="50" alt=""></td>
                             <td>
-                                <?php if ($f->status == 0) : ?>
-                                    <span class="badge badge-danger">Belum diboking</span>
+                                <?php if ($f->keterangan == 1) : ?>
+                                    <span class="badge badge-success">Sudah terjual</span>
                                 <?php else : ?>
-                                    <span class="badge badge-success">Sudah diboking</span>
+
+                                    <?php if ($f->status == 0) : ?>
+                                        <span class="badge badge-danger">Belum diboking</span>
+                                    <?php else : ?>
+                                        <span class="badge badge-warning">Sudah diboking</span>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </td>
                             <td class="text-center">

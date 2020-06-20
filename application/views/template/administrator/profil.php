@@ -1,35 +1,36 @@
-<div class="row bg-white p-3">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header bg-primary py-3">
-                <h6 class="m-0 font-weight-bold text-white">Foto Profil
-                </h6>
-            </div>
-            <div class="card-body text-center">
-                <img src="<?= base_url() ?>assets/img/<?= $user['pic'] ?>" style="height:400px" class="img-thumbnail" width="70%" alt=""><br>
-                <form action="" method="post" class="mt-4">
-                    <input type="file" name="foto" class="form-control-file">
-                    <button class="btn btn-success float-right mt-2">Ganti foto profil</button>
-                </form>
+<form action="<?= base_url() ?>Dashboard/EditProfil" enctype="multipart/form-data" method="post">
+    <div class="row bg-white p-3">
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-primary py-3">
+                    <h6 class="m-0 font-weight-bold text-white">Foto Profil
+                    </h6>
+                </div>
+                <div class="card-body text-center">
+                    <img src="<?= base_url() ?>assets/profil/<?= $user['pic'] ?>" style="height:400px" class="img-thumbnail" width="70%" alt=""><br>
+                    <div class="mt-4">
+                        <input type="hidden" name="img" value="<?= $user['pic'] ?>" class="form-control-file">
+                        <input type="file" name="foto" class="form-control-file">
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header bg-primary py-3">
-                <h6 class="m-0 font-weight-bold text-white">Profil
-                </h6>
-            </div>
-            <div class="card-body">
-                <form action="<?= base_url() ?>Act/Editprofil" method="post">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary py-3">
+                    <h6 class="m-0 font-weight-bold text-white">Profil
+                    </h6>
+                </div>
+                <div class="card-body">
                     <div class="form-group">
                         <label>Nama</label>
                         <input type="text" name="nama" value="<?= $user['nama']; ?>" class="form-control">
                         <i class="text-danger"><?= form_error('nama'); ?></i>
                     </div>
                     <div class="form-group">
-                        <label>No Telphone</label>
-                        <input type="text" name="notel" value="<?= $user['notel']; ?>" class="form-control">
+                        <label>No wa : (format : 6285555336666)</label>
+                        <input type="text" name="notel" value="<?= $user['notel']; ?>" placeholder="62xx" class="form-control">
                         <i class="text-danger"><?= form_error('notel'); ?></i>
 
                     </div>
@@ -46,15 +47,16 @@
 
                     </div>
                     <hr>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success float-right">Edit Profil</button>
-                    </div>
-                </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-success form-control">Edit Profil</button>
             </div>
         </div>
     </div>
-
-</div>
+</form>
 <script>
     $(document).ready(function() {
         $('button').click(function() {

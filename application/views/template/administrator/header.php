@@ -5,14 +5,13 @@
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
+            <div class="sidebar-brand-icon rotate-n-10">
+                <i class="fas fa-home"></i>
             </div>
-            <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+            <div class="sidebar-brand-text mx-2">SIPRO</div>
         </a>
-        <!-- Heading -->
         <div class="sidebar-heading">
-            Admin
+            Dashboard
         </div>
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
@@ -24,60 +23,74 @@
                 <span>Dashboard</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="index.html">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Data Staff</span></a>
+            <a class="nav-link" href="<?= base_url() ?>Dashboard/notification">
+                <i class="fas fa-fw fa-bell"></i>
+                <span>Pemberitahuan</span></a>
         </li>
+        <?php if ($this->session->userdata('id_akses') == 1) : ?>
+            <!-- Heading -->
+
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-fw fa-file-alt"></i>
+                    <span>Data Staff</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url() ?>Dashboard/pengguna">
+                    <i class="fas fa-fw fa-file-alt"></i>
+                    <span>Data Pengguna</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url(); ?>Dashboard/perumahan">
+                    <i class="fas fa-fw fa-file-alt"></i>
+                    <span>Data Perumahan</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url() ?>Dashboard/pemesanan">
+                    <i class="fas fa-fw fa-file-alt"></i>
+                    <span>Data Pembayaran
+                        <span class="badge badge-danger badge-counter">
+                            <?php foreach ($notpay as $t) :
+                                echo $t->jml;
+                            endforeach;
+                            ?>
+                        </span>
+                    </span></a>
+            </li>
+        <?php endif ?>
         <li class="nav-item">
-            <a class="nav-link" href="<?= base_url() ?>Dashboard/pengguna">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Data Pengguna</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="<?= base_url(); ?>Dashboard/perumahan">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Data Perumahan</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="<?= base_url() ?>Dashboard/pemesanan">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Data Pembayaran
-                    <span class="badge badge-danger badge-counter">
-                        <?php foreach ($notpay as $t) :
-                            echo $t->jml;
-                        endforeach;
-                        ?>
-                    </span>
-                </span></a>
+            <a class="nav-link" href="<?= base_url() ?>Dashboard/Bookingcart">
+                <i class="fas fa-fw fa-file-alt"></i>
+                <span>Booking Cart</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url() ?>Dashboard/Booking">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <i class="fas fa-fw fa-file-alt"></i>
                 <span>Data Booking</span></a>
         </li>
         <li class="nav-item <?php echo $this->uri->segment(2) == 'property' ? 'active' : '' ?>">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#perumahan" aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
+                <i class="fas fa-fw fa-folder"></i>
                 <span>Perumahan</span>
             </a>
             <div id="perumahan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Master Perumahan</h6>
-                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/perum">Perumahan</a>
-                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/cluster">Cluster</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/perum"><i class="fas fa-fw fa-home"></i> Perumahan</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/cluster"><i class="fas fa-fw fa-archway"></i> Cluster</a>
                 </div>
             </div>
         </li>
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item <?php echo $this->uri->segment(2) == 'property' ? 'active' : '' ?>">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
+                <i class="fas fa-fw fa-folder"></i>
                 <span>Master Rumah Pribadi</span>
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Master Rumah</h6>
-                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/property">Rumah</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/property"><i class="fas fa-fw fa-home"></i> Rumah</a>
                 </div>
         </li>
 
@@ -86,28 +99,29 @@
 
         <li class=" nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#history" aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fas fa-fw fa-wrench"></i>
+                <i class="fas fa-fw fa-print"></i>
                 <span>Laporan</span>
             </a>
             <div id="history" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Custom Utilities:</h6>
-                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/Lokasi">Laporan Pembayaran</a>
+                    <h6 class="collapse-header">Laporan :</h6>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/lap_pembelian"><i class="fas fa-fw fa-file-alt"></i> Laporan Pembayaran</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>Act/lap_penjualan"><i class="fas fa-fw fa-file-alt"></i> Laporan Penjualan</a>
                 </div>
             </div>
         </li>
         <hr class="sidebar-divider">
         <li class=" nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fas fa-fw fa-wrench"></i>
+                <i class="fas fa-fw fa-cog"></i>
                 <span>Sistem</span>
             </a>
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Custom Utilities:</h6>
-                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/Lokasi">Lokasi</a>
-                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/akses">Akses</a>
-                    <a class="collapse-item" href="utilities-border.html">Ganti Password</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/Lokasi"><i class="fas fa-fw fa-map-marked"></i> Lokasi</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/akses"><i class="fas fa-fw fa-users-cog"></i> Akses</a>
+                    <a class="collapse-item" href="utilities-border.html"><i class="fas fa-fw fa-key"></i> Ganti Password</a>
                 </div>
             </div>
         </li>
@@ -222,74 +236,13 @@
                             <a class="dropdown-item text-center small text-gray-500" href="<?= base_url() ?>Dashboard/notification">Show All Alerts</a>
                         </div>
                     </li>
-
-                    <!-- Nav Item - Messages -->
-                    <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-envelope fa-fw"></i>
-                            <!-- Counter - Messages -->
-                            <span class="badge badge-danger badge-counter">7</span>
-                        </a>
-                        <!-- Dropdown - Messages -->
-                        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                            <h6 class="dropdown-header">
-                                Message Center
-                            </h6>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
-                                    <div class="status-indicator bg-success"></div>
-                                </div>
-                                <div class="font-weight-bold">
-                                    <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been
-                                        having.</div>
-                                    <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
-                                    <div class="status-indicator"></div>
-                                </div>
-                                <div>
-                                    <div class="text-truncate">I have the photos that you ordered last month, how would you like them
-                                        sent to you?</div>
-                                    <div class="small text-gray-500">Jae Chun · 1d</div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
-                                    <div class="status-indicator bg-warning"></div>
-                                </div>
-                                <div>
-                                    <div class="text-truncate">Last month's report looks great, I am very happy with the progress so
-                                        far, keep up the good work!</div>
-                                    <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
-                                    <div class="status-indicator bg-success"></div>
-                                </div>
-                                <div>
-                                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people
-                                        say this to all dogs, even if they aren't good...</div>
-                                    <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                        </div>
-                    </li>
-
                     <div class="topbar-divider d-none d-sm-block"></div>
 
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $this->session->userdata('username'); ?></span>
-                            <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                            <img class="img-profile rounded-circle" src="<?= base_url() ?>assets/profil/<?= $user['pic'] ?>">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MY_CV</title>
+    <title><?= $judul; ?></title>
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap.min.css">
 
 
@@ -90,7 +90,19 @@
 
         .cover {
             min-height: 250px;
-            border-radius: 5px
+            border-radius: 5px;
+            background-image: url("<?= base_url(); ?>assets/pic/bg2.png");
+            background-size: cover;
+            /* background-attachment: fixed; */
+            background-position: 0 -0px;
+            color: #eaeaea;
+            box-shadow: 1px 1px 10px rgb(0, 0, 0, 0, 5);
+            position: relative;
+        }
+
+        .pic-about {
+            height: 350px;
+            width: 100%;
         }
 
         @media (min-width: 992px) {
@@ -98,9 +110,26 @@
                 margin-left: 20px;
             }
 
-            .nav-hover:hover {
-                border-bottom: 4px solid blue;
+            .pic-about {
+                height: 550px;
+                width: 100%;
             }
+
+            .cover {
+                min-height: 250px;
+                border-radius: 5px;
+                background-image: url("<?= base_url(); ?>assets/pic/bg3.png");
+                background-size: cover;
+                /* background-attachment: fixed; */
+                background-position: 0 -0px;
+                color: #eaeaea;
+                box-shadow: 1px 1px 10px rgb(0, 0, 0, 0, 5);
+                position: relative;
+            }
+
+            /* .nav-hover:hover {
+                border-bottom: 4px solid blue;
+            } */
 
             .cari-panel {
                 background-color: white;
@@ -123,9 +152,9 @@
                 margin-right: 0px;
             }
 
-            .active {
+            /* .active {
                 border-bottom: 4px solid blue;
-            }
+            } */
 
             .form-login {
                 padding-top: -10px;
@@ -219,7 +248,9 @@
 
     <!-- <script src="<?= base_url() ?>assets/ckeditor/ckeditor.js"></script> -->
     <script src="<?= base_url() ?>assets/sweetalert/sweetalert.min.js"></script>
+
     <script src="<?= base_url() ?>assets/js/jquery.min.js"></script>
+    <script src="<?= base_url() ?>assets/js/popper.min.js"></script>
 </head>
 
 <body class="body">
@@ -250,11 +281,26 @@
         </div>
     </div>
     <!-- end objective -->
-
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="<?= base_url() ?>Act/logout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="<?= base_url() ?>assets/js/bootstrap.min.js"></script>
     <script src="<?= base_url() ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
     <!-- Core plugin JavaScript-->
     <script src="<?= base_url() ?>assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 
@@ -301,9 +347,23 @@
             var slideno = $(this).data('slide');
             $('.slider-nav').slick('slickGoTo', slideno - 1);
         });
-        $('.nav-item').on('click', function() {
-            $('.nav-item').removeClass('active');
-            $(this).addClass('active');
+        // $('.nav-item').on('click', function() {
+        //     $('.nav-item').removeClass('active');
+        //     $(this).addClass('active');
+        // });
+
+
+        $(window).scroll(function() {
+            const scrollp = $(this).scrollTop();
+            // console.log(scrollp);
+
+            if (scrollp > 100) {
+                $('nav').addClass('bg-dark');
+                $('nav').removeClass('bg-primary');
+            } else {
+                $('nav').addClass('bg-primary');
+                $('nav').removeClass('bg-dark');
+            }
         });
     </script>
 
