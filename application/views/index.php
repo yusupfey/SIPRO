@@ -21,9 +21,19 @@
 
     <!-- <script src="assets/js/jquery.min.js"></script> -->
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/vendor/datatables/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
     <style>
         .body {
             background: #f6f6f6;
+        }
+
+        .bg-terang {
+            background-color: #317ead;
+        }
+
+        .bg-gelap {
+            background-color: #1B1B1B;
         }
 
         .katalog {
@@ -254,11 +264,11 @@
 </head>
 
 <body class="body">
-    <?= $header; ?>
+    <?= @$header; ?>
     <?= @$sidebar; ?>
     <?= $content; ?>
     <?= @$foot; ?>
-    <?= $footer; ?>
+    <?= @$footer; ?>
 
 
 
@@ -290,7 +300,7 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Anda Yakin Ingin Keluar ?</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href="<?= base_url() ?>Act/logout">Logout</a>
@@ -358,15 +368,20 @@
             // console.log(scrollp);
 
             if (scrollp > 100) {
-                $('nav').addClass('bg-dark');
-                $('nav').removeClass('bg-primary');
+                $('nav').addClass('bg-gelap');
+                $('nav').removeClass('bg-terang');
             } else {
-                $('nav').addClass('bg-primary');
-                $('nav').removeClass('bg-dark');
+                $('nav').addClass('bg-terang');
+                $('nav').removeClass('bg-gelap');
             }
         });
     </script>
-
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function() {
+            $("#tabs").tabs();
+        });
+    </script>
 </body>
 
 </html>

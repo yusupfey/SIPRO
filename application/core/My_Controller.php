@@ -78,10 +78,10 @@ class My_Controller extends CI_Controller
 
         $this->load->view('index', $hal, $data);
     }
-    // public function detail($content, $data = null)
-    // {
-    //     $hal['content'] = $this->load->view($content, $data, TRUE);
+    public function masaActive($content, $data = null)
+    {
+        $hal['content'] = $this->load->view($content, $data, TRUE);
 
-    //     $this->load->view('index', $hal, $data);
-    // }
+        $this->load->view('index', $hal, $data);
+    }
 }

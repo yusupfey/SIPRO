@@ -68,3 +68,52 @@
     <?= $form_close ?>
 
 </div>
+<script>
+    $(document).ready(function() {
+        $('.perumahan').on('click', function() {
+            var form_data = new FormData();
+            form_data.append('id_perumahan', $('.perumahan').val());
+            $.ajax({
+                url: '<?= base_url() ?>Dashboard/GetIdPerumahanByAjax/',
+                type: 'post',
+                data: form_data,
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(berhasil) {
+                    $('.claster').removeAttr('disabled')
+                    //untuk mengkosongkan produk ketika kategori di kosongkan
+                    $('.claster option[value!=""]').remove();
+                    //menambahkan data sesuai dengan kategori kedalam dropdown
+                    $('.claster').append(berhasil);
+                    console.log(berhasil);
+                },
+                error: function(gagal) {
+                    console.log(gagal);
+                }
+            });
+            $.ajax({
+                url: '<?= base_url() ?>Dashboard/GetIdUserByAjax/',
+                type: 'post',
+                data: form_data,
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(berhasil) {
+                    // $('.claster').removeAttr('disabled')
+                    //untuk mengkosongkan produk ketika kategori di kosongkan
+                    // $('.claster option[value!=""]').remove();
+                    //menambahkan data sesuai dengan kategori kedalam dropdown
+                    $('.iduser').val(berhasil);
+                    console.log(berhasil);
+                },
+                error: function(gagal) {
+                    console.log(gagal);
+                }
+            });
+            // console.log('haloo');
+        });
+    });
+</script>

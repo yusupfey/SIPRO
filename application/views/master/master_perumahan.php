@@ -50,8 +50,8 @@
                             <td><?= $f->id_perumahan; ?></td>
                             <td><?= $f->nama; ?></td>
                             <td><?= $f->nm_perumahan; ?></td>
-                            <td><?= $f->provinsi; ?></td>
-                            <td><?= $f->kota; ?></td>
+                            <td><?= $f->id_prov; ?></td>
+                            <td><?= $f->id_kota; ?></td>
                             <td><?= $f->alamat_lengkap; ?></td>
                             <td class="text-center">
                                 <div class="btn-group" role="group" aria-label="Basic example">

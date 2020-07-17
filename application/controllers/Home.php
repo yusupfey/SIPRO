@@ -102,7 +102,7 @@ class Home extends My_Controller
     {
         $id = $this->session->userdata('id_user');
         $pay = $this->db->get_where('payment', ['id_user' => $id])->row_array();
-        if ($pay['id_user'] != $id && $pay['status'] == 0) {
+        if (@$pay['id_user'] != $id && @$pay['status'] == 0) {
             $data = $this->db->get_where('user', ['id_user' => $id])->result();
             foreach ($data as $t) {
                 $p = $t->nama;
@@ -147,7 +147,7 @@ class Home extends My_Controller
             $form['nama'] = form_input($nama);
             $form['perum'] = form_input($perum);
             $form['email'] = form_input($email);
-            $form['pic'] = form_input($upload);
+            // $form['pic'] = form_input($upload);
             $this->Halamanprofil('user/Request_perum', $form);
         } else if ($pay['id_user'] == $id && $pay['status'] == 1) {
             $this->Halamanprofil('template/nav-front/halporses');
@@ -229,7 +229,6 @@ class Home extends My_Controller
         $id = $this->session->userdata('id_user');
         // $data['databook'] = $this->db->query('select booking.user, perum.*, user.nama, perumahan.nm_perumahan,claster.claster from booking right join perum on perum.id_perum = booking.id right join user on user.id_user=booking.user right join perumahan on perumahan.id_perumahan=perum.id_perumahan right join claster on claster.id_claster = perum.id_claster where booking.user ="' . $id . '" AND perum.status=1')->result();
         $data['databook'] = $this->db->query('select booking.*, perum.*, user.nama, perumahan.nm_perumahan,claster.claster from perum inner join booking on perum.id_perum = booking.id inner join user on user.id_user=booking.user left join perumahan on perumahan.id_perumahan=perum.id_perumahan left join claster on claster.id_claster = perum.id_claster where perum.id_user ="' . $id . '"')->result();
-        print_r($data['databook']);
         $this->Halamanprofil('template/nav-front/receive-boking', $data);
     }
     /**
@@ -283,5 +282,11 @@ class Home extends My_Controller
             $this->M_Home->updatedata('notif', 'user_tujuan', $id, $up);
             $this->Halamanprofil('template/nav-front/notif', $data);
         }
+    }
+    public function ChangePassword()
+    {
+        $id = $this->session->userdata('id_user');
+        $data['get'] = $this->db->get_where('log_user', ['id_user' => $id])->row_array();
+        $this->Halamanprofil('master/ganti_password', $data);
     }
 }

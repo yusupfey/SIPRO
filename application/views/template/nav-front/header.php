@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-dark nav-cust">
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-terang nav-cust">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img src="<?= base_url() ?>assets/img/LOGOSIPRO.png" width="170" height="60">
@@ -106,11 +106,11 @@
                 <?php if ($this->session->userdata('id_user')) : ?>
                     <div class="nav-item dropdown ml-5">
                         <div class="btn-group mt-1">
-                            <button class="btn btn-success btn-md" type="button">
+                            <button class="btn btn-warning btn-md" type="button">
                                 <span class="mr-2 d-none d-lg-inline large"><?= $this->session->userdata('username'); ?></span>
                                 <img class="img-profile rounded-circle" src="">
                             </button>
-                            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" class="btn btn-sm btn-warning dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <div class="dropdown-menu">
@@ -120,6 +120,10 @@
                                     <a class="dropdown-item" href="<?= base_url() ?>Home/Profil">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Profile
+                                    </a>
+                                    <a class="dropdown-item" href="<?= base_url() ?>Home/ChangePassword">
+                                        <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Ganti Password
                                     </a>
                                 <?php endif; ?>
                                 <!-- <a class="dropdown-item" href="#"></a> -->

@@ -24,34 +24,17 @@
                         <label>Provinsi</label>
 
                         <select name="provinsi" class="form-control" id="prov">
-                            <option <?php if ($properum['id_prov'] == 0) : echo 'selected';
-                                    endif ?>>-- Pilih provinsi --</option>
-
+                            <option value="">-- Pilih provinsi --</option>
                             <?php foreach ($prov as $t) : ?>
-                                <option value="<?= $t->id_prov; ?>" <?php if ($t->id_prov  == $properum['id_prov']) : echo 'selected';
-                                                                    endif ?>><?= $t->provinsi ?>
-                                </option>
-
-
+                                <option value="<?= $t['id']; ?>"><?= $t['nama']; ?></option>
                             <?php endforeach; ?>
                         </select>
-
                     </div>
                     <div class="form-group">
                         <label>Kota/Kab</label>
 
                         <select name="kota" class="form-control" disabled id="kota">
-                            <option <?php if ($properum['id_kota'] == 0) : echo 'selected';
-                                    endif ?>>-- Pilih kota --</option>
-
-                            <?php foreach ($kota as $k) : ?>
-                                <option value="<?= $k->id_kota; ?>" <?php if ($k->id_kota  == $properum['id_kota']) : echo 'selected';
-                                                                    endif ?>><?= $k->kota ?>
-                                </option>
-
-
-                            <?php endforeach; ?>
-
+                            <option value="">-- Pilih Kota --</option>
                         </select>
                     </div>
                     <div class="form-group">

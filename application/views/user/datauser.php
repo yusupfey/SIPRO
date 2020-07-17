@@ -4,7 +4,16 @@
         <h6 class="m-0 font-weight-bold text-primary">Pengguna</h6>
     </div>
     <div class="card-body">
-        <a href="" class="badge badge-primary p-3 text-md mb-4"><i class="fa fa-plus"></i> Tambah data</a>
+        <?php if ($this->session->flashdata('true')) : ?>
+            <script>
+                swal({
+                    title: "Berhasil!",
+                    text: "<?= $this->session->flashdata('true') ?>",
+                    icon: "<?= $this->session->flashdata('alert') ?>",
+                });
+            </script>
+        <?php endif ?>
+        <a href="<?= base_url() ?>pengguna/createUser" class="badge badge-primary p-3 text-md mb-4"><i class="fa fa-plus"></i> Tambah data</a>
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
@@ -43,12 +52,12 @@
                             <td><?= $f->alamat; ?></td>
                             <td><?= $f->notel; ?></td>
                             <td><?= $f->email; ?></td>
-                            <td><img src="<?= base_url() ?>pic/<?= $f->pic; ?>" width="60" alt=""></td>
+                            <td><img src="<?= base_url() ?>assets/profil/<?= $f->pic; ?>" width="60" alt=""></td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    <a href="" class="btn btn-success btn-circle"><i class="fa fa-edit"></i></a>
-                                    <a href="" class="btn btn-info btn-circle"><span class=" fa fa-info"></span></span></a>
-                                    <a href="" class="btn btn-danger btn-circle"><span class="fa fa-trash"></span></a>
+                                    <a href="<?= base_url() ?>pengguna/UpdateUser/<?= $f->id_user ?>" class="btn btn-success btn-circle"><i class="fa fa-edit"></i></a>
+                                    <!-- <a href="" class="btn btn-info btn-circle"><span class=" fa fa-info"></span></span></a> -->
+                                    <a href="<?= base_url() ?>pengguna/Delete/<?= $f->id_user ?>" class="btn btn-danger btn-circle"><span class="fa fa-trash"></span></a>
                                 </div>
                             </td>
                         </tr>

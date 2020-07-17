@@ -86,6 +86,10 @@ class Act extends My_Controller
             $data['judul'] = 'Halaman Profil';
             $this->Halamanprofil('user/profil', $data);
         } else {
+            $id = $this->session->userdata('id_user');
+
+            $data['user'] = $this->db->get_where('user', ['id_user' => $id])->row_array();
+
             $nohp = $this->input->post('notel', true);
             if (!preg_match('/[^+0-9]/', trim($nohp))) {
                 // cek apakah no hp karakter 1-3 adalah +62
@@ -128,9 +132,6 @@ class Act extends My_Controller
                 'alamat' => $this->input->post('alamat', true),
                 'pic' => $pic,
             ];
-            // var_dump($data);
-            // echo $_FILES['gambar']['tmp_name'];
-            $id = $this->session->userdata('id_user');
             $this->db->where('id_user', $id);
             $this->db->update('user', $data);
             $this->session->set_flashdata('true', '<div class="alert alert-danger" role="alert">Diupdate</div>');
@@ -221,6 +222,26 @@ class Act extends My_Controller
         if ($this->form_validation->run() == false) {
             $data['prov'] = $this->M_Home->getdata('provinsi');
             $data['bispat'] = $this->db->get('perumahan')->result();
+            // $this->load->model('M_Home');
+            // $data['prov'] = $this->M_Home->getdata('provinsi');
+            $url = 'https://dev.farizdotid.com/api/daerahindonesia/provinsi/';
+            $readApi = file_get_contents($url);
+            $proapi = json_decode($readApi, true);
+
+            // $api = $proapi['rajaongkir'];
+            // $data['apiProv'] = $api['results'];
+            // var_dump($api['results']);
+            // print_r($api['results']);
+            // foreach ($api['results'] as $apey) :
+            //     print_r($apey['province']);
+            // endforeach;
+            $data['apiProv'] = $proapi['provinsi'];
+
+
+            $data['bispat'] = $this->db->get('perumahan')->result();
+
+
+
             $this->HalamanHome('template/nav-front/content', $data);
         } else {
             $prov = $this->input->post('provinsi');
@@ -326,14 +347,25 @@ class Act extends My_Controller
             'readonly' => true,
             'placeholder' => 'masukanid'
         ];
-        $iduser = [
-            'type' => 'hidden',
-            'name' => 'id_user',
-            'class' => 'form-control',
-            'value' => $iduser,
-            'readonly' => true,
-            'placeholder' => 'masukanid'
-        ];
+        if ($this->session->userdata('id_akses') == 1) {
+            $getuser = $this->db->get('user')->result();
+            $usr[''] = '-- Pilih User --';
+            foreach ($getuser as $p) {
+                $usr[$p->id_user] = $p->nama;
+            }
+            $form['id_user'] = form_dropdown('id_user', $usr, '', 'class="form-control" Required');
+        } else {
+            $iduser = [
+                'type' => 'hidden',
+                'name' => 'id_user',
+                'class' => 'form-control',
+                'value' => $iduser,
+                'readonly' => true,
+                'placeholder' => 'masukanid'
+            ];
+            $form['id_user'] = form_input($iduser);
+        }
+
         $type = [
             'type' => 'text',
             'name' => 'type',
@@ -379,7 +411,6 @@ class Act extends My_Controller
         $form['form_open'] = form_open_multipart('Act/ActAddRumah');
         $form['form_close'] = form_close();
         $form['idperum'] = form_input($id);
-        $form['id_user'] = form_input($iduser);
         $form['type'] = form_input($type);
         $form['ukrumah'] = form_input($ukrumah);
         $form['harga'] = form_input($harga);
@@ -621,7 +652,7 @@ class Act extends My_Controller
         $tgl = date('Y-m-d');
         // print_r($perum['id_user']);
         $userboking = $this->M_Home->getid('booking', 'id', $id);
-        var_dump($userboking);
+        // var_dump($userboking);
         // $userloged = $this->session->userdata('id_user');
         $notif = [
             'id_user' => $perum['id_user'],
@@ -676,6 +707,44 @@ class Act extends My_Controller
             $this->HalamanAdmin('user/history_penjualan', $data);
         } else {
             $this->Halamanprofil('user/history_penjualan', $data);
+        }
+    }
+    public function actChangePassword()
+    {
+        $id = $this->session->userdata('id_user');
+        $data['get'] = $this->M_Home->getid('log_user', 'id_user', $id);
+
+        $this->form_validation->set_rules('username', 'Username', 'alpha|required', ['required' => 'Username tidak boleh kosong !']);
+        $this->form_validation->set_rules('passlama', 'PasswordLama', 'required|trim', ['required' => 'Password Lama tidak boleh kosong !']);
+        $this->form_validation->set_rules('passbaru', 'PasswordBaru', 'required|trim|matches[passconfirm]', ['required' => 'Password Baru tidak boleh kosong !', 'matches' => 'Password tidak sama']);
+        $this->form_validation->set_rules('passconfirm', 'passconfirm', 'required|trim|matches[passbaru]', ['required' => 'Password lama tidak boleh kosong !', 'matches' => 'Password tidak sama']);
+        if ($this->form_validation->run() == false) {
+            $this->HalamanAdmin('master/ganti_password', $data);
+        } else {
+
+            $psbaru = md5($this->input->post('passconfirm'));
+            // $data['get']['password']
+            if ($data['get']['password'] == md5($this->input->post('passlama'))) {
+                $data = [
+                    'username' => $this->input->post('username'),
+                    'password' => $psbaru,
+                ];
+                $this->M_Home->updatedata('log_user', 'id_user', $id, $data);
+                if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
+                    redirect('Dashboard');
+                } else {
+                    redirect('Home/profil');
+                }
+                // echo $this->input->post('passlama');
+            } else {
+                $this->session->set_flashdata('false', 'Password Lama Salah');
+                $this->session->set_flashdata('alert', 'warning');
+                if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
+                    redirect('Dashboard/ChangePassword');
+                } else {
+                    redirect('Home/ChangePassword');
+                }
+            }
         }
     }
 }

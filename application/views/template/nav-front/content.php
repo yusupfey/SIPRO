@@ -21,9 +21,10 @@
                 <div class="row">
                     <div class=" col-md-6">
                         <div class="input-group-prepend">
-                            <span class="input-group-text bg-warning" id="inputGroup-sizing-md"><i class="fa fa-fw fa-map "></i></span>
-                            <select name="provinsi" class="form-control" style="font-size:20px; font-family:'Courier New', Courier, monospace" id="prov">
-                                <option value="">-- Pilih provinsi --</option>
+                            <div class="input-group-text bg-success rounded-left border-0" id="inputGroup-sizing-md" style="border-radius:0px;">
+                                <i class="fa fa-fw fa-map"></i></div>
+                            <select name="provinsi" class="form-control rounded-right" style="border-radius:0px; font-size:20px; font-family:'Courier New', Courier, monospace" id="prov">
+                                <option selected disabled>-- Pilih provinsi --</option>
                                 <?php foreach ($apiProv as $t) : ?>
                                     <option value="<?= $t['id']; ?>"><?= $t['nama']; ?></option>
                                 <?php endforeach; ?>
@@ -33,8 +34,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="input-group-prepend">
-                            <span class="input-group-text bg-warning" id="inputGroup-sizing-md"><i class="fa fa-fw fa-map-pin"></i></span>
-                            <select name="kota" class="form-control" style="font-size:20px; font-family:'Courier New', Courier, monospace" id="kota">
+                            <div class="input-group-text bg-success rounded-left border-0" id="inputGroup-sizing-md" style="border-radius:0px;"><i class="fa fa-fw fa-map-pin"></i></div>
+                            <select name="kota" class="form-control" style="border-radius:0px; font-size:20px; font-family:'Courier New', Courier, monospace" id="kota">
                                 <option value="">-- Pilih Kota --</option>
                             </select>
                         </div>
@@ -43,7 +44,7 @@
                     <div class="col-md-12">
                         <hr>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-block btn-success">Cari</button>
+                            <button type="submit" class="btn btn-block text-white" style="background-color: #317ead;"><b>Cari</b></button>
                         </div>
                     </div>
                 </div>

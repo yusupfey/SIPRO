@@ -28,7 +28,7 @@
         </div>
     </div>
 </div>
-<div class=" card">
+<div class="card">
     <div class=" box text-left " style="margin-top:-10px; border-radius:5px">
         <div class="card-header bg-primary text-gray-100">
             Kirim Bukti pembayaran

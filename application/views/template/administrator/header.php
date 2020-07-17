@@ -17,12 +17,12 @@
         <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item">
-            <a class="nav-link" href="<?= base_url() ?>Dashboard">
+        <li class="nav-item <?php if ($this->uri->segment(2) == 'Dashboard') echo 'active'; ?>">
+            <a class="nav-link " href="<?= base_url() ?>Dashboard">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item <?php if ($this->uri->segment(2) == 'notification') echo 'active'; ?>">
             <a class="nav-link" href="<?= base_url() ?>Dashboard/notification">
                 <i class="fas fa-fw fa-bell"></i>
                 <span>Pemberitahuan</span></a>
@@ -30,22 +30,22 @@
         <?php if ($this->session->userdata('id_akses') == 1) : ?>
             <!-- Heading -->
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-file-alt"></i>
                     <span>Data Staff</span></a>
-            </li>
-            <li class="nav-item">
+            </li> -->
+            <li class="nav-item <?php if ($this->uri->segment(2) == 'pengguna') echo 'active'; ?>">
                 <a class="nav-link" href="<?= base_url() ?>Dashboard/pengguna">
                     <i class="fas fa-fw fa-file-alt"></i>
                     <span>Data Pengguna</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item <?php if ($this->uri->segment(2) == 'perumahan') echo 'active'; ?>">
                 <a class="nav-link" href="<?= base_url(); ?>Dashboard/perumahan">
                     <i class="fas fa-fw fa-file-alt"></i>
                     <span>Data Perumahan</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item <?php if ($this->uri->segment(2) == 'pemesanan') echo 'active'; ?>">
                 <a class="nav-link" href="<?= base_url() ?>Dashboard/pemesanan">
                     <i class="fas fa-fw fa-file-alt"></i>
                     <span>Data Pembayaran
@@ -58,17 +58,17 @@
                     </span></a>
             </li>
         <?php endif ?>
-        <li class="nav-item">
+        <li class="nav-item <?php if ($this->uri->segment(2) == 'Bookingcart') echo 'active'; ?>">
             <a class="nav-link" href="<?= base_url() ?>Dashboard/Bookingcart">
                 <i class="fas fa-fw fa-file-alt"></i>
                 <span>Booking Cart</span></a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item <?php if ($this->uri->segment(2) == 'Booking') echo 'active'; ?>">
             <a class="nav-link" href="<?= base_url() ?>Dashboard/Booking">
                 <i class="fas fa-fw fa-file-alt"></i>
                 <span>Data Booking</span></a>
         </li>
-        <li class="nav-item <?php echo $this->uri->segment(2) == 'property' ? 'active' : '' ?>">
+        <li class="nav-item <?php echo $this->uri->segment(2) == 'perum' ? 'active' : '' ?>">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#perumahan" aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-folder"></i>
                 <span>Perumahan</span>
@@ -121,7 +121,7 @@
                     <h6 class="collapse-header">Custom Utilities:</h6>
                     <a class="collapse-item" href="<?= base_url(); ?>Dashboard/Lokasi"><i class="fas fa-fw fa-map-marked"></i> Lokasi</a>
                     <a class="collapse-item" href="<?= base_url(); ?>Dashboard/akses"><i class="fas fa-fw fa-users-cog"></i> Akses</a>
-                    <a class="collapse-item" href="utilities-border.html"><i class="fas fa-fw fa-key"></i> Ganti Password</a>
+                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/ChangePassword"><i class="fas fa-fw fa-key"></i> Ganti Password</a>
                 </div>
             </div>
         </li>

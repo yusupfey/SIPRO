@@ -14,9 +14,6 @@
 
             <!-- Illustrations -->
             <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
-                </div>
                 <div class="card-body">
                     <div class="text-left">
                         <h6>Hallo,</h6>
@@ -107,18 +104,24 @@
     </div>
 <?php } else { ?>
     <div class="row bg-white p-3">
-        <div class="col-lg-12 mb-4">
-
-            <!-- Illustrations -->
+        <div class="col-lg-6 mb-4">
             <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">User</h6>
-                </div>
                 <div class="card-body">
                     <div class="text-left">
                         <h6>Hallo,</h6>
                     </div>
                     <h2 class="font-weight-bold"><?= $this->session->userdata('username') ?></h2>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="text-left">
+                        <h6>Masa Aktif Perumahan</h6>
+                    </div>
+                    <h2 class="font-weight-bold"><?= $masa_active['masa_aktif']; ?></h2>
                 </div>
             </div>
 
@@ -210,7 +213,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 <?php } ?>
 <script>

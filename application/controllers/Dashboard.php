@@ -11,36 +11,55 @@ class Dashboard extends My_Controller
         $this->load->library('form_validation');
         if ($this->session->userdata('id_akses') === 1) redirect('Home');
         if ($this->session->userdata('id_user') == "") redirect('login');
+        $id = $this->session->userdata('id_user');
+        $tgl = date('Y-m-d');
+        $masa_active = $this->M_Administrator->getid('contract', 'id_user', $id);
+        if ($this->session->userdata('id_akses') == 3 && $tgl >= $masa_active['masa_aktif']) redirect('MasaActive');
     }
     public function index()
     {
         //api provinsi
-        $url = 'https://dev.farizdotid.com/api/daerahindonesia/provinsi/';
-        $readApi = file_get_contents($url);
-        $proapi = json_decode($readApi, true);
+        if ($this->session->userdata('id_akses') == 1) {
+            $this->HalamanAdmin('template/administrator/dasboard');
+        } else {
+            $url = 'https://dev.farizdotid.com/api/daerahindonesia/provinsi/';
+            $readApi = file_get_contents($url);
+            $proapi = json_decode($readApi, true);
+
+
+            $id = $this->session->userdata('id_user');
+
+            // echo $id;
+            $select = [
+                'id_perumahan', 'nm_perumahan', 'titik_coridinat', 'alamat_lengkap', 'pic', 'nama', 'provinsi', 'kota'
+            ];
+            // $joinprov = ['provinsi' => 'provinsi.id_prov = perumahan.id_prov'];
+            // $joinkota = ['kota' => 'kota.id_kota = perumahan.id_kota'];
+            $joinuser = 'user, user.id_user = perumahan.id_user';
+
+            $where = ['id_user' => $id];
+            $data['properum'] = $this->M_Administrator->innerThreedata($id);
+            $data['prov'] = $proapi['provinsi'];
+            // var_dump($data['properum']);
+            $id_kota = $data['properum']['id_prov'];
+            // echo $id_kota;
+            $url = "https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=$id_kota";
+            $getKotaApi = file_get_contents($url);
+            $apiKota = json_decode($getKotaApi, true);
+            $data['kota'] = $apiKota['kota_kabupaten'];
+            /**
+             * end api
+             * 
+             */
+            /**
+             * get contrat with perumahaan
+             */
+            $data['masa_active'] = $this->M_Administrator->getid('contract', 'id_user', $id);
 
 
 
-        $id = $this->session->userdata('id_user');
-        // echo $id;
-        $select = [
-            'id_perumahan', 'nm_perumahan', 'titik_coridinat', 'alamat_lengkap', 'pic', 'nama', 'provinsi', 'kota'
-        ];
-        // $joinprov = ['provinsi' => 'provinsi.id_prov = perumahan.id_prov'];
-        // $joinkota = ['kota' => 'kota.id_kota = perumahan.id_kota'];
-        $joinuser = 'user, user.id_user = perumahan.id_user';
-
-        $where = ['id_user' => $id];
-        $data['properum'] = $this->M_Administrator->innerThreedata($id);
-        $data['prov'] = $proapi['provinsi'];
-        // var_dump($data['properum']);
-        $id_kota = $data['properum']['id_prov'];
-        // echo $id_kota;
-        $url = "https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=$id_kota";
-        $getKotaApi = file_get_contents($url);
-        $apiKota = json_decode($getKotaApi, true);
-        $data['kota'] = $apiKota['kota_kabupaten'];
-        $this->HalamanAdmin('template/administrator/dasboard', $data);
+            $this->HalamanAdmin('template/administrator/dasboard', $data);
+        }
     }
     public function Property()
     {
@@ -55,19 +74,19 @@ class Dashboard extends My_Controller
     }
     public function UpdatePerumahan($id)
     {
-        // $id = $this->session->userdata('id_user');
-        // echo $id;
-        $select = [
-            'id_perumahan', 'nm_perumahan', 'titik_coridinat', 'alamat_lengkap', 'pic', 'nama', 'provinsi', 'kota'
-        ];
-        // $joinprov = ['provinsi' => 'provinsi.id_prov = perumahan.id_prov'];
-        // $joinkota = ['kota' => 'kota.id_kota = perumahan.id_kota'];
-        $joinuser = 'user, user.id_user = perumahan.id_user';
+        $url = 'https://dev.farizdotid.com/api/daerahindonesia/provinsi/';
+        $readApi = file_get_contents($url);
+        $proapi = json_decode($readApi, true);
 
-        $where = ['id_user' => $id];
+        if ($this->session->userdata('id_akses') == 1) {
+            $getidperum = $this->db->get_where('perumahan', ['id_user' => $id]);
+        } else {
+
+            $id = $this->session->userdata('id_user');
+        }
+        $data['prov'] = $proapi['provinsi'];
+
         $data['properum'] = $this->M_Administrator->innerPerumahan($id);
-        $data['prov'] = $this->M_Administrator->getdata('provinsi');
-        $data['kota'] = $this->M_Administrator->getdata('kota');
         // var_dump($data['properum']);
         $this->HalamanAdmin('form/vform-perumahan', $data);
     }
@@ -108,7 +127,29 @@ class Dashboard extends My_Controller
 
 
         $id = $this->session->userdata('id_user');
-        $perum = $this->M_Administrator->getid('perumahan', 'id_user', $id);
+
+
+        if ($this->session->userdata('id_akses') == 1) {
+
+            $perum = $this->M_Administrator->getdata('perumahan');
+            $inputidperumahan[''] = '-- Pilih Perumahan';
+            foreach ($perum as $t) {
+                $inputidperumahan[$t->id_perumahan] = $t->nm_perumahan;
+            }
+
+            $data['id_perumahan'] = form_dropdown('id_perumahan', $inputidperumahan, '', 'class="form-control" Required');
+        } else {
+            $perum = $this->M_Administrator->getid('perumahan', 'id_user', $id);
+            $inputidperumahan = array(
+                'type'             => 'text',
+                'placeholder'     => 'ID Perumahan',
+                'class'         => 'form-control',
+                'READONLY'         => TRUE,
+                'value'         => $perum['id_perumahan'],
+                'name'             => 'id_perumahan'
+            );
+            $data['id_perumahan']    = form_input($inputidperumahan);
+        }
 
         $inputidcluster = array(
             'type'             => 'text',
@@ -123,18 +164,11 @@ class Dashboard extends My_Controller
             'type'             => 'text',
             'placeholder'     => 'Cluster',
             'class'         => 'form-control',
-
+            'Required'         => TRUE,
             'name'             => 'claster'
         );
         //publisher
-        $inputidperumahan = array(
-            'type'             => 'text',
-            'placeholder'     => 'ID Perumahan',
-            'class'         => 'form-control',
-            'READONLY'         => TRUE,
-            'value'         => $perum['id_perumahan'],
-            'name'             => 'id_perumahan'
-        );
+
         $inputsubmit = array(
             'type'             => 'submit',
             'class'         => 'form-control btn btn-primary',
@@ -145,7 +179,6 @@ class Dashboard extends My_Controller
         $data['tagopen']    = form_open('Dashboard/simpan');
         $data['id_claster']        = form_input($inputidcluster);
         $data['claster']        = form_input($inputcluster);
-        $data['id_perumahan']    = form_input($inputidperumahan);
         $data['submit']        = form_input($inputsubmit);
         $data['tagclose']    = form_close();
 
@@ -221,6 +254,7 @@ class Dashboard extends My_Controller
             //kiri diambil dari field DB
             //kanan diambil dari variabel diatas(sesuai form)
         );
+        // var_dump($arr);
         $this->M_Administrator->insertdata('claster', $arr);
         $this->session->set_flashdata('true', 'Di Tambahkan');
         $this->session->set_flashdata('alert', 'success');
@@ -295,12 +329,29 @@ class Dashboard extends My_Controller
             'id_user' => $id,
             'pic' => 'default.png'
         ];
+        /**
+         * 
+         * make a logic duration contract
+         * 
+         **/
+        $getTgl = $this->db->query("select paket.id_paket,paket.jml, paket.keterangan from payment inner join paket on payment.id_paket = paket.id_paket where payment.id_user='$id'")->row_array();
+        $durasi = $getTgl['jml'];
+        $keterangan = $getTgl['keterangan'];
+        ($keterangan == 'bulan') ? $ket = 'month' : $ket = 'year';
+        $batas_waktu = "$durasi $ket";
+        $masa_aktif = date('Y-m-d', strtotime("+ $batas_waktu", strtotime($tgl))); //tambah tanggal sebanyak 6 bulan
 
-        $where = ['id_user' => $id];
+        $contract = [
+            'id_user' => $id,
+            'tanggal' => $tgl,
+            'masa_aktif' => $masa_aktif
+        ];
+
         $this->M_Administrator->insertdata('notif', $not);
         $this->M_Administrator->updatedata('log_user', 'id_user', $id, $data);
-        $this->M_Administrator->deletdata('payment', $where);
+        $this->M_Administrator->deletdata('payment', 'id_user', $id);
         $this->M_Administrator->insertdata('perumahan', $buatkode);
+        $this->M_Administrator->insertdata('contract', $contract);
         redirect('Dashboard/pemesanan');
     }
     public function Getdatabyajax()
@@ -330,15 +381,29 @@ class Dashboard extends My_Controller
         echo $toprint;
     }
 
+
     public function perumahan()
     {
-        $selectperum = ('perumahan.*');
-        $selectprov = ('provinsi.*');
-        $selectkota = ('kota.*');
-        $selectuser = ('user.*');
-        $joinprov = ('provinsi,provinsi.id_prov = perumahan.id_prov');
-        $joinkota = ('kota,kota.id_kota = perumahan.id_kota');
-        $data['perumahan'] = $this->M_Administrator->getperum($selectperum, $selectprov, $selectkota, $selectuser, 'perumahan', $joinkota, $joinprov);
+        // $selectperum = ('perumahan.*');
+        // $selectprov = ('provinsi.*');
+        // $selectkota = ('kota.*');
+        // $selectuser = ('user.*');
+        // $joinprov = ('provinsi,provinsi.id_prov = perumahan.id_prov');
+        // $joinkota = ('kota,kota.id_kota = perumahan.id_kota');
+        // $data['perumahan'] = $this->M_Administrator->getperum($selectperum,  $selectuser, 'perumahan');
+        $url = 'https://dev.farizdotid.com/api/daerahindonesia/provinsi/';
+        $readApi = file_get_contents($url);
+        $proapi = json_decode($readApi, true);
+
+
+        $id = $this->session->userdata('id_user');
+
+
+        $where = ['id_user' => $id];
+        $data['properum'] = $this->M_Administrator->innerThreedata($id);
+        $data['prov'] = $proapi['provinsi'];
+        $data['perumahan'] = $this->M_Administrator->getperum();
+        // print_r($data['perumahan']);
         $this->HalamanAdmin('master/master_perumahan', $data);
     }
     public function profilperum()
@@ -376,6 +441,9 @@ class Dashboard extends My_Controller
 
     public function ActUploadPerum($id)
     {
+        $data['properum'] = $this->db->get_where('perumahan', ['id_perumahan' => $id])->row_array();
+        $temp = explode(".", $_FILES['foto']['name']);
+        $nama_baru = round(microtime(true)) . '.' . end($temp);
         $pic = '';
         if ($_FILES['foto']['name'] != "") {
             $config['upload_path'] = 'assets/img-perumahan/';
@@ -383,7 +451,7 @@ class Dashboard extends My_Controller
             $config['max_size'] = '1024000';
             $config['max_filename'] = '5000000';
             $config['encrypt_name'] = false;
-            $config['file_name'] = $_FILES['foto']['name'];
+            $config['file_name'] = $nama_baru;
             // echo $config['file_name'];
             if (file_exists('assets/img-perumahan/' . $config['file_name'])) {
             } else {
@@ -396,14 +464,14 @@ class Dashboard extends My_Controller
                 }
             }
         } else {
-            $pic = $this->input->post('img');
+            $pic =  $data['properum']['pic'];
         }
         $data = [
             'pic' => $pic,
         ];
-        var_dump($data);
-        // $this->M_Administrator->updatedata('perumahan', 'id_perumahan', $id, $data);
-        // redirect('Dashboard/perumahan');
+        // var_dump($data);
+        $this->M_Administrator->updatedata('perumahan', 'id_perumahan', $id, $data);
+        redirect('Dashboard/perumahan');
     }
 
     public function DeletePerumahan($id)
@@ -513,6 +581,23 @@ class Dashboard extends My_Controller
             redirect('Dashboard/profiluser');
         }
     }
+    public function GetIdPerumahanByAjax()
+    {
+        $kode = $this->input->post('id_perumahan');
+        $toprint = '';
+        $cluster = $this->db->get_where('claster', ['id_perumahan' => $kode])->result_array();
+        foreach ($cluster as $p) {
+            $toprint = $toprint . '<option value="' . $p['id_claster'] . '">' . $p['claster'] . '</option>';
+        }
+
+        echo $toprint;
+    }
+    public function GetIdUserByAjax()
+    {
+        $kode = $this->input->post('id_perumahan');
+        $cluster = $this->db->get_where('perumahan', ['id_perumahan' => $kode])->row_array();
+        echo $cluster['id_user'];
+    }
     public function AddPerum()
     {
         $getcode = $this->db->query('Select max(id_perum) as maxKode FROM perum')->row_array();
@@ -525,18 +610,62 @@ class Dashboard extends My_Controller
         /**
          *dropdown
          */
-        $idprmh = $this->M_Administrator->getid('perumahan', 'id_user', $iduser);
+        if ($this->session->userdata('id_akses') == 1) {
+            $data['perum'] = $this->M_Administrator->getdata('perumahan');
+            // $data['perum'] = $this->M_Administrator->getid('perumahan');
+            $data['claster'] = $this->M_Administrator->getdata('claster');
+            $cluster[''] = '-- Pilih cluster --';
+            foreach ($data['claster'] as $dt) {
+                $cluster[$dt->id_claster] = $dt->claster;
+            }
+            $perumahan[''] = '-- Pilih perumahan --';
+            foreach ($data['perum'] as $td) {
+                $perumahan[$td->id_perumahan] = $td->nm_perumahan;
+            }
+            $iduser = [
+                'type' => 'hidden',
+                'name' => 'id_user',
+                'class' => 'form-control iduser',
+                'readonly' => true,
+                'placeholder' => 'masukanid'
+            ];
 
-        $data['claster'] = $this->M_Administrator->getidAll('claster', 'id_perumahan', $idprmh['id_perumahan']);
-        $cluster[''] = '-- Pilih cluster --';
-        foreach ($data['claster'] as $dt) {
-            $cluster[$dt->id_claster] = $dt->claster;
+            $form['id_perumahan'] = form_dropdown('idperumahan', $perumahan, '', 'class="form-control perumahan"'); //name,option,value.class
+            $form['claster'] = form_dropdown('cluster', '', '', 'id="kategori" class="form-control claster"'); //name,option,value.class
 
-            /***
-             * end dropdown
-             */
+        } else {
+            $idprmh = $this->M_Administrator->getid('perumahan', 'id_user', $iduser);
+            $data['claster'] = $this->M_Administrator->getidAll('claster', 'id_perumahan', $idprmh['id_perumahan']);
+            $idperumahan = [
+                'type' => 'text',
+                'name' => 'idperumahan',
+                'class' => 'form-control',
+                'value' => $idprmh['id_perumahan'],
+                'readonly' => true,
+                'placeholder' => 'masukanid'
+            ];
+            $iduser = [
+                'type' => 'hidden',
+                'name' => 'id_user',
+                'class' => 'form-control',
+                'value' => $iduser,
+                'readonly' => true,
+                'placeholder' => 'masukanid'
+            ];
+            $cluster[''] = '-- Pilih cluster --';
+            foreach ($data['claster'] as $dt) {
+                $cluster[$dt->id_claster] = $dt->claster;
+
+                /***
+                 * end dropdown
+                 */
+            }
+            $form['id_perumahan'] = form_input($idperumahan);
+            $form['claster'] = form_dropdown('cluster', $cluster, '', 'id="kategori" class="form-control"'); //name,option,value.class
+
         }
 
+        // var_dump($cluster);
         $id = [
             'type' => 'hidden',
             'name' => 'id',
@@ -545,22 +674,8 @@ class Dashboard extends My_Controller
             'readonly' => true,
             'placeholder' => 'masukanid'
         ];
-        $idperumahan = [
-            'type' => 'text',
-            'name' => 'idperumahan',
-            'class' => 'form-control',
-            'value' => $idprmh['id_perumahan'],
-            'readonly' => true,
-            'placeholder' => 'masukanid'
-        ];
-        $iduser = [
-            'type' => 'hidden',
-            'name' => 'id_user',
-            'class' => 'form-control',
-            'value' => $iduser,
-            'readonly' => true,
-            'placeholder' => 'masukanid'
-        ];
+
+
         $type = [
             'type' => 'text',
             'name' => 'type',
@@ -606,8 +721,6 @@ class Dashboard extends My_Controller
         $form['form_open'] = form_open_multipart('Dashboard/ActAddPerum');
         $form['form_close'] = form_close();
         $form['idperum'] = form_input($id);
-        $form['id_perumahan'] = form_input($idperumahan);
-        $form['claster'] = form_dropdown('cluster', $cluster, '', 'id="kategori" class="form-control"'); //name,option,value.class
         $form['id_user'] = form_input($iduser);
         $form['type'] = form_input($type);
         $form['ukrumah'] = form_input($ukrumah);
@@ -780,9 +893,8 @@ class Dashboard extends My_Controller
                 'status' => '0',
 
             ];
-            // var_dump($data);
-
         }
+        // var_dump($data);
         $this->M_Administrator->insertdata('perum', $data);
         $this->session->set_flashdata('true', 'Di Tambahkan');
         $this->session->set_flashdata('alert', 'success');
@@ -961,5 +1073,43 @@ class Dashboard extends My_Controller
     {
         $data['trans'] = $this->db->query("select * from histori_transaksi")->result();
         $this->HalamanAdmin("master/history_pembayaran", $data);
+    }
+
+    public function ChangePassword()
+    {
+        $id = $this->session->userdata('id_user');
+        $data['get'] = $this->M_Administrator->getid('log_user', 'id_user', $id);
+        $this->HalamanAdmin('master/ganti_password', $data);
+    }
+
+    public function actChangePassword()
+    {
+        $id = $this->session->userdata('id_user');
+        $data['get'] = $this->M_Administrator->getid('log_user', 'id_user', $id);
+
+        $this->form_validation->set_rules('username', 'Username', 'alpha|required', ['required' => 'Username tidak boleh kosong !']);
+        $this->form_validation->set_rules('passlama', 'PasswordLama', 'required|trim', ['required' => 'Password Lama tidak boleh kosong !']);
+        $this->form_validation->set_rules('passbaru', 'PasswordBaru', 'required|trim|matches[passconfirm]', ['required' => 'Password Baru tidak boleh kosong !', 'matches' => 'Password tidak sama']);
+        $this->form_validation->set_rules('passconfirm', 'passconfirm', 'required|trim|matches[passbaru]', ['required' => 'Password lama tidak boleh kosong !', 'matches' => 'Password tidak sama']);
+        if ($this->form_validation->run() == false) {
+            $this->HalamanAdmin('master/ganti_password', $data);
+        } else {
+
+            $psbaru = md5($this->input->post('passconfirm'));
+            // $data['get']['password']
+            if ($data['get']['password'] == md5($this->input->post('passlama'))) {
+                $data = [
+                    'username' => $this->input->post('username'),
+                    'password' => $psbaru,
+                ];
+                $this->M_Administrator->updatedata('log_user', 'id_user', $id, $data);
+                redirect('Dashboard');
+                echo $this->input->post('passlama');
+            } else {
+                $this->session->set_flashdata('false', 'Password Lama Salah');
+                $this->session->set_flashdata('alert', 'warning');
+                redirect('Dashboard/actChangePassword');
+            }
+        }
     }
 }
