@@ -1,4 +1,14 @@
 <!-- <h2>Booking perumahan</h2> -->
+<div class="d-flex justify-content-between">
+    <div>
+        <h2>Laporan Penjualan</h2>
+    </div>
+    <div>
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <a href="<?= base_url() ?>Report/laporan_penjualan" class="d-none d-sm-inline-block btn btn-md btn-primary shadow-lg"><i class="fas fa-print fa-sm text-white-50"></i> Cetak</a>
+        </div>
+    </div>
+</div>
 <div class="card">
     <div class=" box text-left " style="margin-top:-10px; border-radius:5px">
         <div class="card-header bg-primary text-gray-100">

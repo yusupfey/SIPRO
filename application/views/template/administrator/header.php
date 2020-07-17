@@ -105,7 +105,9 @@
             <div id="history" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Laporan :</h6>
-                    <a class="collapse-item" href="<?= base_url(); ?>Dashboard/lap_pembelian"><i class="fas fa-fw fa-file-alt"></i> Laporan Pembayaran</a>
+                    <?php if ($this->session->userdata('id_akses') == 1) : ?>
+                        <a class="collapse-item" href="<?= base_url(); ?>Dashboard/lap_pembelian"><i class="fas fa-fw fa-file-alt"></i> Laporan Pembayaran</a>
+                    <?php endif; ?>
                     <a class="collapse-item" href="<?= base_url(); ?>Act/lap_penjualan"><i class="fas fa-fw fa-file-alt"></i> Laporan Penjualan</a>
                 </div>
             </div>

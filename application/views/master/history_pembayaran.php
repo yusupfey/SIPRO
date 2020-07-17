@@ -1,6 +1,15 @@
 <!-- <h2>Booking perumahan</h2> -->
-<h2>Laporan Pembayaran</h2>
 <div class="bg-gray-100 p-4 col-md-12 col-xs-12" style="margin-bottom:300px;">
+    <div class="d-flex justify-content-between">
+        <div>
+            <h2>Laporan Pembayaran</h2>
+        </div>
+        <div>
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <a href="<?= base_url() ?>Report/laporan_transaksi" class="d-none d-sm-inline-block btn btn-md btn-primary shadow-lg"><i class="fas fa-print fa-sm text-white-50"></i> Cetak</a>
+            </div>
+        </div>
+    </div>
     <div class="card">
         <div class=" box text-left " style="margin-top:-10px; border-radius:5px">
             <div class="card-header bg-primary text-gray-100">
