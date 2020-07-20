@@ -1,20 +1,21 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.11
--- http://www.phpmyadmin.net
+-- version 5.0.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 20 Jun 2020 pada 14.06
--- Versi Server: 5.6.21
--- PHP Version: 5.5.19
+-- Waktu pembuatan: 17 Jul 2020 pada 13.58
+-- Versi server: 10.4.13-MariaDB
+-- Versi PHP: 7.4.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `db_sipro`
@@ -26,12 +27,12 @@ SET time_zone = "+00:00";
 -- Struktur dari tabel `akses`
 --
 
-CREATE TABLE IF NOT EXISTS `akses` (
-`id_akses` int(11) NOT NULL,
+CREATE TABLE `akses` (
+  `id_akses` int(11) NOT NULL,
   `akses` varchar(55) NOT NULL,
   `redirec` varchar(55) NOT NULL,
   `url` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `akses`
@@ -48,12 +49,12 @@ INSERT INTO `akses` (`id_akses`, `akses`, `redirec`, `url`) VALUES
 -- Struktur dari tabel `booking`
 --
 
-CREATE TABLE IF NOT EXISTS `booking` (
-`id_booking` int(11) NOT NULL,
+CREATE TABLE `booking` (
+  `id_booking` int(11) NOT NULL,
   `user` varchar(11) NOT NULL,
   `id` varchar(11) NOT NULL,
   `tgl` date NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `booking`
@@ -67,10 +68,9 @@ INSERT INTO `booking` (`id_booking`, `user`, `id`, `tgl`) VALUES
 --
 -- Trigger `booking`
 --
-DELIMITER //
-CREATE TRIGGER `act_boking` AFTER DELETE ON `booking`
- FOR EACH ROW insert into history_penjualan values('',old.user,old.id,old.tgl,now(),"Terjual")
-//
+DELIMITER $$
+CREATE TRIGGER `act_boking` AFTER DELETE ON `booking` FOR EACH ROW insert into history_penjualan values('',old.user,old.id,old.tgl,now(),"Terjual")
+$$
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -79,7 +79,7 @@ DELIMITER ;
 -- Struktur dari tabel `claster`
 --
 
-CREATE TABLE IF NOT EXISTS `claster` (
+CREATE TABLE `claster` (
   `id_claster` varchar(11) NOT NULL,
   `id_perumahan` varchar(11) NOT NULL,
   `claster` varchar(120) NOT NULL
@@ -94,7 +94,30 @@ INSERT INTO `claster` (`id_claster`, `id_perumahan`, `claster`) VALUES
 ('CL000002', 'PRU0000004', 'Sakura'),
 ('CL000003', 'PRU0000006', 'Bodiaola'),
 ('CL000004', 'PRU0000004', 'Samosir'),
-('CL000005', 'PRU0000001', 'Var verde');
+('CL000005', 'PRU0000001', 'Var verde'),
+('CL000006', 'PRU0000001', 'Bukit Teletabies');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `contract`
+--
+
+CREATE TABLE `contract` (
+  `id` int(11) NOT NULL,
+  `id_user` varchar(11) NOT NULL,
+  `tanggal` date NOT NULL,
+  `masa_aktif` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `contract`
+--
+
+INSERT INTO `contract` (`id`, `id_user`, `tanggal`, `masa_aktif`) VALUES
+(1, 'U014', '2020-07-13', '2020-10-13'),
+(2, 'U003', '2020-06-01', '2020-08-01'),
+(3, 'U004', '2020-07-16', '2021-02-16');
 
 -- --------------------------------------------------------
 
@@ -102,7 +125,7 @@ INSERT INTO `claster` (`id_claster`, `id_perumahan`, `claster`) VALUES
 -- Struktur dari tabel `histori_transaksi`
 --
 
-CREATE TABLE IF NOT EXISTS `histori_transaksi` (
+CREATE TABLE `histori_transaksi` (
   `id_user` varchar(11) NOT NULL,
   `paket` int(11) NOT NULL,
   `tanggal` date NOT NULL,
@@ -123,7 +146,9 @@ INSERT INTO `histori_transaksi` (`id_user`, `paket`, `tanggal`, `keterangan`) VA
 ('U011', 2, '2020-04-02', 'Transaksi Telah Di Konfirmasi'),
 ('U012', 1, '2020-04-15', 'Transaksi Telah Di Konfirmasi'),
 ('U012', 2, '2020-04-15', 'Transaksi Telah Di Konfirmasi'),
-('U013', 1, '2020-04-15', 'Transaksi Telah Di Konfirmasi');
+('U013', 1, '2020-04-15', 'Transaksi Telah Di Konfirmasi'),
+('U014', 1, '2020-07-14', 'Transaksi Telah Di Konfirmasi'),
+('U004', 2, '2020-07-16', 'Transaksi Telah Di Konfirmasi');
 
 -- --------------------------------------------------------
 
@@ -131,77 +156,30 @@ INSERT INTO `histori_transaksi` (`id_user`, `paket`, `tanggal`, `keterangan`) VA
 -- Struktur dari tabel `history_penjualan`
 --
 
-CREATE TABLE IF NOT EXISTS `history_penjualan` (
-`id` int(11) NOT NULL,
+CREATE TABLE `history_penjualan` (
+  `id` int(11) NOT NULL,
   `id_user` varchar(11) NOT NULL,
   `id_perum` varchar(11) NOT NULL,
   `tgl_booking` date NOT NULL,
   `tgl_jual` date NOT NULL,
   `keterangan` text NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `history_penjualan`
 --
 
 INSERT INTO `history_penjualan` (`id`, `id_user`, `id_perum`, `tgl_booking`, `tgl_jual`, `keterangan`) VALUES
-(3, 'U010', 'PRH0000005', '2020-04-15', '2020-04-16', 'Terjual'),
-(4, 'U010', 'PRH0000002', '2020-04-16', '2020-04-16', 'Terjual');
+(3, 'U011', 'PRH0000005', '2020-04-15', '2020-04-16', 'Terjual'),
+(4, 'U015', 'PRH0000002', '2020-04-16', '2020-04-16', 'Terjual');
 
 --
 -- Trigger `history_penjualan`
 --
-DELIMITER //
-CREATE TRIGGER `actperumboking` AFTER INSERT ON `history_penjualan`
- FOR EACH ROW update perum set perum.keterangan = "1" where perum.id_perum = new.id_perum
-//
+DELIMITER $$
+CREATE TRIGGER `actperumboking` AFTER INSERT ON `history_penjualan` FOR EACH ROW update perum set perum.keterangan = "1" where perum.id_perum = new.id_perum
+$$
 DELIMITER ;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `keys`
---
-
-CREATE TABLE IF NOT EXISTS `keys` (
-`id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `key` varchar(40) NOT NULL,
-  `level` int(2) NOT NULL,
-  `ignore_limits` tinyint(1) NOT NULL DEFAULT '0',
-  `is_private_key` tinyint(1) NOT NULL DEFAULT '0',
-  `ip_addresses` text,
-  `date_created` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
---
--- Dumping data untuk tabel `keys`
---
-
-INSERT INTO `keys` (`id`, `user_id`, `key`, `level`, `ignore_limits`, `is_private_key`, `ip_addresses`, `date_created`) VALUES
-(2, 1, 'sipro12345', 1, 0, 0, NULL, 1);
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `kota`
---
-
-CREATE TABLE IF NOT EXISTS `kota` (
-`id_kota` int(11) NOT NULL,
-  `id_prov` int(11) NOT NULL,
-  `kota` varchar(128) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `kota`
---
-
-INSERT INTO `kota` (`id_kota`, `id_prov`, `kota`) VALUES
-(1, 2, 'Padang'),
-(2, 1, 'Bogor'),
-(3, 3, 'Diy Yogyakarta'),
-(4, 4, 'Ancol');
 
 -- --------------------------------------------------------
 
@@ -209,14 +187,14 @@ INSERT INTO `kota` (`id_kota`, `id_prov`, `kota`) VALUES
 -- Struktur dari tabel `log_user`
 --
 
-CREATE TABLE IF NOT EXISTS `log_user` (
-`id_log` int(11) NOT NULL,
+CREATE TABLE `log_user` (
+  `id_log` int(11) NOT NULL,
   `id_user` varchar(11) NOT NULL,
   `username` varchar(55) NOT NULL,
   `password` varchar(55) NOT NULL,
   `id_akses` int(11) NOT NULL,
   `status` int(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `log_user`
@@ -232,11 +210,11 @@ INSERT INTO `log_user` (`id_log`, `id_user`, `username`, `password`, `id_akses`,
 (8, 'U007', 'ahmad', '202cb962ac59075b964b07152d234b70', 3, 1),
 (9, 'U008', 'dania', '202cb962ac59075b964b07152d234b70', 2, 1),
 (10, 'U009', 'johan', '202cb962ac59075b964b07152d234b70', 2, 1),
-(11, 'U010', 'dadang', '202cb962ac59075b964b07152d234b70', 2, 1),
 (12, 'U011', 'veronica', '202cb962ac59075b964b07152d234b70', 3, 1),
 (14, 'U013', 'ubuy', '202cb962ac59075b964b07152d234b70', 3, 1),
-(15, 'U014', 'Julaiha', '202cb962ac59075b964b07152d234b70', 2, 1),
-(17, 'U015', 'tania', '202cb962ac59075b964b07152d234b70', 2, 1);
+(15, 'U014', 'Julaiha', '202cb962ac59075b964b07152d234b70', 3, 1),
+(17, 'U015', 'tania', '202cb962ac59075b964b07152d234b70', 2, 1),
+(18, 'U016', 'dika', '202cb962ac59075b964b07152d234b70', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -244,7 +222,7 @@ INSERT INTO `log_user` (`id_log`, `id_user`, `username`, `password`, `id_akses`,
 -- Struktur dari tabel `lokasi_rumah`
 --
 
-CREATE TABLE IF NOT EXISTS `lokasi_rumah` (
+CREATE TABLE `lokasi_rumah` (
   `id_unit` varchar(16) NOT NULL,
   `prov` varchar(11) NOT NULL,
   `kota` varchar(11) NOT NULL
@@ -255,7 +233,9 @@ CREATE TABLE IF NOT EXISTS `lokasi_rumah` (
 --
 
 INSERT INTO `lokasi_rumah` (`id_unit`, `prov`, `kota`) VALUES
-('PRH0000012', '31', '3172');
+('PRH0000012', '31', '3172'),
+('PRH0000013', '32', '3201'),
+('PRH0000014', '14', '1401');
 
 -- --------------------------------------------------------
 
@@ -263,8 +243,8 @@ INSERT INTO `lokasi_rumah` (`id_unit`, `prov`, `kota`) VALUES
 -- Struktur dari tabel `notif`
 --
 
-CREATE TABLE IF NOT EXISTS `notif` (
-`id` int(11) NOT NULL,
+CREATE TABLE `notif` (
+  `id` int(11) NOT NULL,
   `id_user` varchar(11) NOT NULL,
   `user_tujuan` varchar(11) NOT NULL,
   `requerst` text NOT NULL,
@@ -272,7 +252,7 @@ CREATE TABLE IF NOT EXISTS `notif` (
   `url` varchar(55) NOT NULL,
   `tgl` date NOT NULL,
   `status` int(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `notif`
@@ -295,14 +275,23 @@ INSERT INTO `notif` (`id`, `id_user`, `user_tujuan`, `requerst`, `icon`, `url`, 
 (14, 'U014', '', 'Telah mengirim struck pemesanan', 'fa-donate', 'Dashboard/pemesanan', '2020-04-15', 1),
 (15, 'U002', 'U014', 'Pembayaran gagal. silahkan upload kembali struk pembayaran yang terbaru', 'exclamation', 'Home/profil', '2020-04-15', 1),
 (16, 'U014', '', 'Telah mengirim struck pemesanan', 'fa-donate', 'Dashboard/pemesanan', '2020-04-15', 1),
-(17, 'U002', 'U014', 'Pembayaran gagal. silahkan upload kembali struk pembayaran yang terbaru', 'exclamation', 'Home/profil', '2020-04-15', 0),
+(17, 'U002', 'U014', 'Pembayaran gagal. silahkan upload kembali struk pembayaran yang terbaru', 'exclamation', 'Home/profil', '2020-04-15', 1),
 (18, 'U014', '', 'Telah mengirim struck pemesanan', 'fa-donate', 'Dashboard/pemesanan', '2020-04-15', 1),
 (19, 'U010', 'U008', 'Booking Rumah', 'fa fa-handshake', 'Act/ActBooking', '2020-04-16', 1),
 (20, 'U008', 'U010', 'Bookingan dibatalkan', 'fa fa-ban', 'Act/ActBooking', '2020-04-16', 0),
 (21, 'U010', 'U008', 'Booking Rumah', 'fa fa-handshake', 'Act/ActBooking', '2020-04-16', 1),
 (22, 'U008', 'U004', 'Booking Rumah', 'fa fa-handshake', 'Act/ActBooking', '2020-04-16', 1),
-(23, 'U004', 'U003', 'Booking Rumah', 'fa fa-handshake', 'Act/ActBooking', '2020-06-09', 0),
-(24, 'U015', 'U008', 'Booking Rumah', 'fa fa-handshake', 'Act/ActBooking', '2020-06-13', 0);
+(23, 'U004', 'U003', 'Booking Rumah', 'fa fa-handshake', 'Act/ActBooking', '2020-06-09', 1),
+(24, 'U015', 'U008', 'Booking Rumah', 'fa fa-handshake', 'Act/ActBooking', '2020-06-13', 1),
+(25, 'U016', '', 'Permintaan Akses Untuk Jual Perumahan', 'fa-bell', 'Dashboard/notification', '2020-07-13', 1),
+(26, 'U016', '', 'Telah mengirim struck pemesanan', 'fa-donate', 'Dashboard/pemesanan', '2020-07-13', 1),
+(27, 'U002', 'U016', 'Pembayaran gagal. silahkan upload kembali struk pembayaran yang terbaru dan benar', 'exclamation', 'Home/profil', '2020-07-13', 1),
+(28, 'U002', 'U014', 'Data anda telah dikonfirmasi', 'fa-check-circle', 'Home/profil', '2020-07-13', 0),
+(29, 'U002', 'U014', 'Data anda telah dikonfirmasi', 'fa-check-circle', 'Home/profil', '2020-07-13', 0),
+(30, 'U002', 'U014', 'Data anda telah dikonfirmasi', 'fa-check-circle', 'Home/profil', '2020-07-13', 0),
+(31, 'U004', '', 'Permintaan Akses Untuk Jual Perumahan', 'fa-bell', 'Dashboard/notification', '2020-07-16', 1),
+(32, 'U004', '', 'Telah mengirim struck pemesanan', 'fa-donate', 'Dashboard/pemesanan', '2020-07-16', 1),
+(33, 'U002', 'U004', 'Data anda telah dikonfirmasi', 'fa-check-circle', 'Home/profil', '2020-07-16', 1);
 
 -- --------------------------------------------------------
 
@@ -310,20 +299,21 @@ INSERT INTO `notif` (`id`, `id_user`, `user_tujuan`, `requerst`, `icon`, `url`, 
 -- Struktur dari tabel `paket`
 --
 
-CREATE TABLE IF NOT EXISTS `paket` (
-`id_paket` int(11) NOT NULL,
+CREATE TABLE `paket` (
+  `id_paket` int(11) NOT NULL,
   `nominal` double NOT NULL,
+  `jml` int(11) NOT NULL,
   `keterangan` varchar(55) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `paket`
 --
 
-INSERT INTO `paket` (`id_paket`, `nominal`, `keterangan`) VALUES
-(1, 300000, '3 bulan'),
-(2, 700000, '7 bulan'),
-(3, 1000000, '1 tahun');
+INSERT INTO `paket` (`id_paket`, `nominal`, `jml`, `keterangan`) VALUES
+(1, 300000, 3, 'bulan'),
+(2, 700000, 7, 'bulan'),
+(3, 1000000, 1, 'tahun');
 
 -- --------------------------------------------------------
 
@@ -331,29 +321,28 @@ INSERT INTO `paket` (`id_paket`, `nominal`, `keterangan`) VALUES
 -- Struktur dari tabel `payment`
 --
 
-CREATE TABLE IF NOT EXISTS `payment` (
-`id_payment` int(11) NOT NULL,
+CREATE TABLE `payment` (
+  `id_payment` int(11) NOT NULL,
   `id_user` varchar(11) NOT NULL,
   `id_paket` int(11) NOT NULL,
   `tgl` date NOT NULL,
   `pic` varchar(200) NOT NULL,
   `status` int(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `payment`
 --
 
 INSERT INTO `payment` (`id_payment`, `id_user`, `id_paket`, `tgl`, `pic`, `status`) VALUES
-(4, 'U014', 1, '2020-04-15', '1586960412.png', 1);
+(5, 'U016', 1, '2020-07-13', '1594622188.png', 0);
 
 --
 -- Trigger `payment`
 --
-DELIMITER //
-CREATE TRIGGER `delete_log` AFTER DELETE ON `payment`
- FOR EACH ROW insert into histori_transaksi values(old.id_user,old.id_paket,now(),"Transaksi Telah Di Konfirmasi")
-//
+DELIMITER $$
+CREATE TRIGGER `delete_log` AFTER DELETE ON `payment` FOR EACH ROW insert into histori_transaksi values(old.id_user,old.id_paket,now(),"Transaksi Telah Di Konfirmasi")
+$$
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -362,7 +351,7 @@ DELIMITER ;
 -- Struktur dari tabel `perum`
 --
 
-CREATE TABLE IF NOT EXISTS `perum` (
+CREATE TABLE `perum` (
   `id_perum` varchar(11) NOT NULL,
   `id_user` varchar(11) NOT NULL,
   `id_perumahan` varchar(11) NOT NULL,
@@ -392,11 +381,11 @@ INSERT INTO `perum` (`id_perum`, `id_user`, `id_perumahan`, `id_claster`, `type`
 ('PRH0000005', 'U003', 'PRU0000001', 'CL000001', 'Type b', '50x50 m', 400000000000, '3000000', '', 'Perumahan Citra indah clauster bukit hijau. memiliki tema rumah pegunungan suasana sejuk. parkiran luas, dan 2 lantai', 'Perumahan Citra Indah Komplek a, Clauster Bukit hijau no.2', 'pic11.jpg', 'perum', '1', 1),
 ('PRH0000006', 'U004', 'PRU0000004', 'CL000002', 'Type Japaneses', '30x30 ml', 400000000000, '3000000', '', 'Rumah memiliki Rasa negeri sakura jepang', 'jl. minangkabau no.12 Minang city cluster Sakura no.12', 'pic2.jpg', 'perum', '1', 0),
 ('PRH0000007', 'U011', 'PRU0000006', 'CL000003', 'Type chines', '40x30 m', 300000000, '2000000', '', 'Rumah Bertemakan Chines untuk cocok untuk anda wahai orang orang sipit', 'jl kuningan no.12 perumahan sanvertigo claster bodiaola no.2', '4_-Kampung-Naga.jpg', 'perum', '0', 0),
-('PRH0000008', 'U010', '', '', 'Rumah Pribadi', '40x30 m', 300000000, '3000000', '', 'Rumah Dekat dengan Gunung galunggung, memiliki 3 kolam ikan dan 1 kolam renang di jual karena butuh uang buat beli rumah yang lebih bagus lagi ', 'jalan raya galunggung Tasikmalaya km/43', 'gunung-galunggung_(1).jpg', 'Rumah', '0', 0),
 ('PRH0000009', 'U006', 'PRU0000002', 'CL000005', 'Type Japaneses', '30x30 ml', 300000000, '2000000', '', 'asdf', 'asdf', 'default.png', 'perum', '0', 0),
-('PRH0000010', 'U003', 'PRU0000001', 'CL000005', 'Type America Latin', '50x50 m', 300000000, '2000000', '', 'Rumah memiliki banyak segalanya yang membuat anda betah', 'Citra indah cluster val verder ', '1586959477.png', 'perum', '0', 0),
+('PRH0000010', 'U003', 'PRU0000001', 'CL000005', 'Type America Latin', '50x50 m', 300000000, '20000001', '', 'Rumah memiliki banyak segalanya yang membuat anda betah', 'Citra indah cluster val verder ', '1586959477.png', 'perum', '0', 0),
 ('PRH0000011', 'U004', '', '', 'Rumah Pribadi', '50x50 m', 300000000, '2000000', '', 'Rumah dengan cirihas pedesaan diyakini membuat anda betah serius', 'jl. sultan lembang kota bandung', '1586959864.png', 'Rumah', '0', 0),
-('PRH0000012', 'U003', '', '', 'Rumah Pribadi', '50x50 m', 300000000, '3000000', '', 'rumah yang sangat keren sekalli dekat dengan tol dengan mall dan dengan taman kota', 'jl. cawang km.42 dibawah tol jagorawi jakarta timur', '1592023973.jpg', 'Rumah', '0', 0);
+('PRH0000012', 'U003', '', '', 'Rumah Pribadi', '50x50 m', 300000000, '3000000', '', 'rumah yang sangat keren sekalli dekat dengan tol dengan mall dan dengan taman kota', 'jl. cawang km.42 dibawah tol jagorawi jakarta timur', '1592023973.jpg', 'Rumah', '0', 0),
+('PRH0000013', 'U008', '', '', 'Rumah Pribadi', '50x50 m', 300000000, '3000000', '', 'wey ini aku kasi karena kamu telah menjadi penang dari undian sipro', 'jl jawabaran bogor', '1594960665.jpg', 'Rumah', '0', 0);
 
 -- --------------------------------------------------------
 
@@ -404,7 +393,7 @@ INSERT INTO `perum` (`id_perum`, `id_user`, `id_perumahan`, `id_claster`, `type`
 -- Struktur dari tabel `perumahan`
 --
 
-CREATE TABLE IF NOT EXISTS `perumahan` (
+CREATE TABLE `perumahan` (
   `id_perumahan` varchar(11) NOT NULL,
   `id_user` varchar(11) NOT NULL,
   `nm_perumahan` varchar(120) NOT NULL,
@@ -421,32 +410,13 @@ CREATE TABLE IF NOT EXISTS `perumahan` (
 
 INSERT INTO `perumahan` (`id_perumahan`, `id_user`, `nm_perumahan`, `titik_coridinat`, `id_prov`, `id_kota`, `alamat_lengkap`, `pic`) VALUES
 ('PRU0000001', 'U003', 'Citra Indah City', 'https://goo.gl/maps/fUZ5ypTnZCHskhmd7', 32, 3201, 'Jl. Transyogi cileungsi-jonggol, no.10', '1586959194.png'),
-('PRU0000003', 'U005', 'Gria Marselina', '', 1, 2, 'jl. raya alternatif jonggol- cianjur, kp. jemblung, desa jemblung kecamatan cariu', 'LP3i-College-1.jpg'),
-('PRU0000004', 'U004', 'Grand Mekarsari', 'https://goo.gl/maps/5V8wsEMebMPNtkv1A', 1, 2, 'jl. trasyogi cileungsi-jonggol', 'istockphoto-817240836-612x612.jpg'),
-('PRU0000005', 'U007', 'indah sentosa', '', 1, 2, 'jl. Asia Bogor no.12', 'dsc05579.jpg'),
-('PRU0000006', 'U011', 'sanvertigo', '', 1, 2, 'jl. kuuningan no.12 kec. sidomulyo kab. kuningan\r\n', 'default.png'),
-('PRU0000008', 'U013', 'Yogyakarta Permai', '', 3, 3, 'jl. merdeka no.31, desa mengguwoharjo kecamatan sutejo , DIY yogyakarta', 'default.png');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `provinsi`
---
-
-CREATE TABLE IF NOT EXISTS `provinsi` (
-`id_prov` int(11) NOT NULL,
-  `provinsi` varchar(128) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `provinsi`
---
-
-INSERT INTO `provinsi` (`id_prov`, `provinsi`) VALUES
-(1, 'Jawa Barat'),
-(2, 'Sumatra Barat'),
-(3, 'Jawa Tengah'),
-(4, 'DKI Jakarta');
+('PRU0000003', 'U005', 'Gria Marselina', '', 32, 3271, 'jl. raya alternatif jonggol- cianjur, kp. jemblung, desa jemblung kecamatan cariu', 'LP3i-College-1.jpg'),
+('PRU0000004', 'U004', 'Grand Mekarsari', 'https://goo.gl/maps/5V8wsEMebMPNtkv1A', 32, 3271, 'jl. trasyogi cileungsi-jonggol', 'istockphoto-817240836-612x612.jpg'),
+('PRU0000005', 'U007', 'indah sentosa', '', 32, 3271, 'jl. Asia Bogor no.12', 'dsc05579.jpg'),
+('PRU0000006', 'U011', 'sanvertigo', '', 32, 3212, 'jl. kuuningan no.12 kec. sidomulyo kab. kuningan\r\n', 'default.png'),
+('PRU0000008', 'U013', 'Yogyakarta Permai', '', 34, 3404, 'jl. merdeka no.31, desa mengguwoharjo kecamatan sutejo , DIY yogyakarta', 'default.png'),
+('PRU0000009', 'U014', '', '', 0, 0, '', '1594921712.jpg'),
+('PRU0000010', 'U004', '', '', 0, 0, '', 'default.png');
 
 -- --------------------------------------------------------
 
@@ -454,7 +424,7 @@ INSERT INTO `provinsi` (`id_prov`, `provinsi`) VALUES
 -- Struktur dari tabel `user`
 --
 
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE `user` (
   `id_user` varchar(11) NOT NULL,
   `nama` varchar(100) NOT NULL,
   `alamat` text NOT NULL,
@@ -474,163 +444,164 @@ INSERT INTO `user` (`id_user`, `nama`, `alamat`, `notel`, `email`, `pic`) VALUES
 ('U004', 'Linda Wati', 'kp.pasir kalong desa. pasirkalong, kecamatan tanjungsari', '6289234829343', 'lindabee@gmail.com', '1591679996.jpg'),
 ('U005', 'tompi', 'jl. sultan yusup ferdiansyah no 1', '08782783728', 'tompy@gmial.com', 'default.png'),
 ('U006', 'Milea sumardini', 'kp. nyengcle desa selawangi kecamatan tanjungsari kabupaten bogor', '08782783728', 'mile@gmail.com', 'default.png'),
-('U007', 'Ahmad Heryawan', 'jl. diponerogo jakarta barat', '0879378378', 'aher@gmail.com', ''),
-('U008', 'dania alianda', 'jl.suta soma semarang barat', '628938948384', 'dania@gmail.com', 'default.png'),
-('U009', 'Johan Santoso', 'jl. ahmasa sih', '6289811223333', 'jo@gmail.com', ''),
-('U010', 'dadang saputra', 'jalan asiap aprika bandung dong', '08923482934', 'dadang@gmial.com', ''),
-('U011', 'veronica', 'jl. apa aja', '08984983848', 'veronica@gmail.com', ''),
-('U013', 'ubuy sitompuel', 'jl mangga besar surabaya', '6289747837483', 'ubuy@gmail.com', ''),
-('U014', 'Julaiha Sri Wulandari', 'jl. setiabudi raya pekalongan\r\n', '6289234829348', 'jujul@gmail.com', ''),
-('U015', 'Tania sumarni', 'jl. legok jambue\r\n', '6289234829334', 'tania@gmail.cpm', '1586958663.png');
+('U007', 'Ahmad Heryawan', 'jl. diponerogo jakarta barat', '0879378378', 'aher@gmail.com', 'default.png'),
+('U008', 'dania alianda', 'jl.suta soma semarang barat', '628938948384', 'dania@gmail.com', '1594875701.jpg'),
+('U009', 'Johan Santoso', 'jl. ahmasa sih', '6289811223333', 'jo@gmail.com', 'default.png'),
+('U011', 'veronica', 'jl. apa aja', '08984983848', 'veronica@gmail.com', 'default.png'),
+('U013', 'ubuy sitompuel', 'jl mangga besar surabaya', '6289747837483', 'ubuy@gmail.com', 'default.png'),
+('U014', 'Julaiha Sri Wulandari', 'jl. setiabudi raya pekalongan\r\n', '6289234829348', 'jujul@gmail.com', 'default.png'),
+('U015', 'Tania sumarni', 'jl. legok jambue\r\n', '6289234829334', 'tania@gmail.cpm', '1586958663.png'),
+('U016', 'dika', 'jl sutasoma malang', '62824515454', 'dka@gmail.com', '1594622534.png');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `akses`
+-- Indeks untuk tabel `akses`
 --
 ALTER TABLE `akses`
- ADD PRIMARY KEY (`id_akses`);
+  ADD PRIMARY KEY (`id_akses`);
 
 --
--- Indexes for table `booking`
+-- Indeks untuk tabel `booking`
 --
 ALTER TABLE `booking`
- ADD PRIMARY KEY (`id_booking`), ADD KEY `id_rumah` (`id`), ADD KEY `user` (`user`), ADD KEY `id` (`id`);
+  ADD PRIMARY KEY (`id_booking`),
+  ADD KEY `id_rumah` (`id`),
+  ADD KEY `user` (`user`),
+  ADD KEY `id` (`id`);
 
 --
--- Indexes for table `claster`
+-- Indeks untuk tabel `claster`
 --
 ALTER TABLE `claster`
- ADD PRIMARY KEY (`id_claster`), ADD KEY `id_perumahan` (`id_perumahan`);
+  ADD PRIMARY KEY (`id_claster`),
+  ADD KEY `id_perumahan` (`id_perumahan`);
 
 --
--- Indexes for table `histori_transaksi`
+-- Indeks untuk tabel `contract`
+--
+ALTER TABLE `contract`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `histori_transaksi`
 --
 ALTER TABLE `histori_transaksi`
- ADD KEY `id_user` (`id_user`);
+  ADD KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `history_penjualan`
+-- Indeks untuk tabel `history_penjualan`
 --
 ALTER TABLE `history_penjualan`
- ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `keys`
---
-ALTER TABLE `keys`
- ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `kota`
---
-ALTER TABLE `kota`
- ADD PRIMARY KEY (`id_kota`), ADD KEY `id_prov` (`id_prov`);
-
---
--- Indexes for table `log_user`
+-- Indeks untuk tabel `log_user`
 --
 ALTER TABLE `log_user`
- ADD PRIMARY KEY (`id_log`), ADD KEY `id_user` (`id_user`), ADD KEY `id_akses` (`id_akses`), ADD KEY `id_akses_2` (`id_akses`);
+  ADD PRIMARY KEY (`id_log`),
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_akses` (`id_akses`),
+  ADD KEY `id_akses_2` (`id_akses`);
 
 --
--- Indexes for table `notif`
+-- Indeks untuk tabel `notif`
 --
 ALTER TABLE `notif`
- ADD PRIMARY KEY (`id`), ADD KEY `id_user` (`id_user`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `paket`
+-- Indeks untuk tabel `paket`
 --
 ALTER TABLE `paket`
- ADD PRIMARY KEY (`id_paket`);
+  ADD PRIMARY KEY (`id_paket`);
 
 --
--- Indexes for table `payment`
+-- Indeks untuk tabel `payment`
 --
 ALTER TABLE `payment`
- ADD PRIMARY KEY (`id_payment`), ADD KEY `id_user` (`id_user`), ADD KEY `id_paket` (`id_paket`);
+  ADD PRIMARY KEY (`id_payment`),
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_paket` (`id_paket`);
 
 --
--- Indexes for table `perum`
+-- Indeks untuk tabel `perum`
 --
 ALTER TABLE `perum`
- ADD PRIMARY KEY (`id_perum`), ADD KEY `id_perumahan` (`id_perumahan`,`id_claster`), ADD KEY `id_claster` (`id_claster`), ADD KEY `id_user` (`id_user`);
+  ADD PRIMARY KEY (`id_perum`),
+  ADD KEY `id_perumahan` (`id_perumahan`,`id_claster`),
+  ADD KEY `id_claster` (`id_claster`),
+  ADD KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `perumahan`
+-- Indeks untuk tabel `perumahan`
 --
 ALTER TABLE `perumahan`
- ADD PRIMARY KEY (`id_perumahan`), ADD KEY `id_claster` (`id_prov`,`id_kota`), ADD KEY `id_user` (`id_user`);
+  ADD PRIMARY KEY (`id_perumahan`),
+  ADD KEY `id_claster` (`id_prov`,`id_kota`),
+  ADD KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `provinsi`
---
-ALTER TABLE `provinsi`
- ADD PRIMARY KEY (`id_prov`);
-
---
--- Indexes for table `user`
+-- Indeks untuk tabel `user`
 --
 ALTER TABLE `user`
- ADD PRIMARY KEY (`id_user`);
+  ADD PRIMARY KEY (`id_user`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `akses`
+-- AUTO_INCREMENT untuk tabel `akses`
 --
 ALTER TABLE `akses`
-MODIFY `id_akses` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id_akses` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
--- AUTO_INCREMENT for table `booking`
+-- AUTO_INCREMENT untuk tabel `booking`
 --
 ALTER TABLE `booking`
-MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
+  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
 --
--- AUTO_INCREMENT for table `history_penjualan`
+-- AUTO_INCREMENT untuk tabel `contract`
+--
+ALTER TABLE `contract`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT untuk tabel `history_penjualan`
 --
 ALTER TABLE `history_penjualan`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
--- AUTO_INCREMENT for table `keys`
---
-ALTER TABLE `keys`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `kota`
---
-ALTER TABLE `kota`
-MODIFY `id_kota` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `log_user`
+-- AUTO_INCREMENT untuk tabel `log_user`
 --
 ALTER TABLE `log_user`
-MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
 --
--- AUTO_INCREMENT for table `notif`
+-- AUTO_INCREMENT untuk tabel `notif`
 --
 ALTER TABLE `notif`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
 --
--- AUTO_INCREMENT for table `paket`
+-- AUTO_INCREMENT untuk tabel `paket`
 --
 ALTER TABLE `paket`
-MODIFY `id_paket` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id_paket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
--- AUTO_INCREMENT for table `payment`
+-- AUTO_INCREMENT untuk tabel `payment`
 --
 ALTER TABLE `payment`
-MODIFY `id_payment` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `provinsi`
---
-ALTER TABLE `provinsi`
-MODIFY `id_prov` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id_payment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
@@ -639,46 +610,41 @@ MODIFY `id_prov` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- Ketidakleluasaan untuk tabel `booking`
 --
 ALTER TABLE `booking`
-ADD CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`id`) REFERENCES `perum` (`id_perum`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `booking_ibfk_2` FOREIGN KEY (`user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`id`) REFERENCES `perum` (`id_perum`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `booking_ibfk_2` FOREIGN KEY (`user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `claster`
 --
 ALTER TABLE `claster`
-ADD CONSTRAINT `claster_ibfk_1` FOREIGN KEY (`id_perumahan`) REFERENCES `perumahan` (`id_perumahan`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ketidakleluasaan untuk tabel `kota`
---
-ALTER TABLE `kota`
-ADD CONSTRAINT `kota_ibfk_1` FOREIGN KEY (`id_prov`) REFERENCES `provinsi` (`id_prov`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `claster_ibfk_1` FOREIGN KEY (`id_perumahan`) REFERENCES `perumahan` (`id_perumahan`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `log_user`
 --
 ALTER TABLE `log_user`
-ADD CONSTRAINT `log_user_ibfk_1` FOREIGN KEY (`id_akses`) REFERENCES `akses` (`id_akses`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `log_user_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `log_user_ibfk_1` FOREIGN KEY (`id_akses`) REFERENCES `akses` (`id_akses`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `log_user_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `payment`
 --
 ALTER TABLE `payment`
-ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `payment_ibfk_2` FOREIGN KEY (`id_paket`) REFERENCES `paket` (`id_paket`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `payment_ibfk_2` FOREIGN KEY (`id_paket`) REFERENCES `paket` (`id_paket`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `perum`
 --
 ALTER TABLE `perum`
-ADD CONSTRAINT `perum_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `perum_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `perumahan`
 --
 ALTER TABLE `perumahan`
-ADD CONSTRAINT `perumahan_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `perumahan_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
