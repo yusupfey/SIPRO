@@ -661,7 +661,7 @@ class Act extends My_Controller
         $this->session->set_flashdata('true', 'dibatalkan');
         $this->session->set_flashdata('alert', 'warning');
         if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
-            redirect('Dashboard/Bookingan');
+            redirect('Dashboard/Booking');
         } else {
             redirect('Home/CekPenjualan');
         }

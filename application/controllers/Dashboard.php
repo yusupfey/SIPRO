@@ -479,7 +479,8 @@ class Dashboard extends My_Controller
         $data = $this->M_Administrator->getid('perumahan', 'id_perumahan', $id);
         $where = $data['id_user'];
         $update = [
-            'status' => 0
+            'status' => 1,
+            'id_akses' => 2
         ];
         $this->M_Administrator->updatedata('log_user', 'id_user', $where, $update);
         // var_dump($data);
