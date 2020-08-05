@@ -57,6 +57,7 @@ class M_Home extends CI_Model
     public function innersearchRumah($prov, $kota)
     {
         $this->db->select('perum.*');
+        $this->db->select('lokasi_rumah.*');
         $this->db->select('user.id_user');
         $this->db->select('log_user.status');
         $this->db->from('perum');

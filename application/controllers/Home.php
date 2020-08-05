@@ -167,7 +167,7 @@ class Home extends My_Controller
     }
     public function detail($id)
     {
-        $data['rumah'] = $this->M_Home->getid('perum', 'id_perum', $id);
+        $data['rumah'] = $this->db->query('select perum.*, user.nama from perum inner join user on user.id_user=perum.id_user where perum.id_perum="' . $id . '"')->row_array();
         // var_dump($data['rumah']);
 
         $this->HalamanHome('template/nav-front/detail_rumah', $data);
@@ -277,7 +277,8 @@ class Home extends My_Controller
             redirect('Dashboarad/notification');
         } else {
             $id = $this->session->userdata('id_user');
-            $data['not'] = $this->M_Home->getidAll('notif', 'user_tujuan', $id);
+            // $data['not'] = $this->M_Home->getidAll('notif', 'user_tujuan', $id);
+            $data['not'] = $this->db->query("select user.nama, notif.* from notif inner join user on user.id_user=notif.id_user where notif.user_tujuan = '$id' order by tgl DESC")->result();
             $up = ['status' => 1];
             $this->M_Home->updatedata('notif', 'user_tujuan', $id, $up);
             $this->Halamanprofil('template/nav-front/notif', $data);

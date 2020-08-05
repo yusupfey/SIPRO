@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 17 Jul 2020 pada 13.58
+-- Waktu pembuatan: 05 Agu 2020 pada 06.14
 -- Versi server: 10.4.13-MariaDB
 -- Versi PHP: 7.4.7
 
@@ -56,23 +56,6 @@ CREATE TABLE `booking` (
   `tgl` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data untuk tabel `booking`
---
-
-INSERT INTO `booking` (`id_booking`, `user`, `id`, `tgl`) VALUES
-(20, 'U008', 'PRH0000006', '2020-04-16'),
-(21, 'U004', 'PRH0000001', '2020-06-09'),
-(22, 'U015', 'PRH0000003', '2020-06-13');
-
---
--- Trigger `booking`
---
-DELIMITER $$
-CREATE TRIGGER `act_boking` AFTER DELETE ON `booking` FOR EACH ROW insert into history_penjualan values('',old.user,old.id,old.tgl,now(),"Terjual")
-$$
-DELIMITER ;
-
 -- --------------------------------------------------------
 
 --
@@ -117,7 +100,8 @@ CREATE TABLE `contract` (
 INSERT INTO `contract` (`id`, `id_user`, `tanggal`, `masa_aktif`) VALUES
 (1, 'U014', '2020-07-13', '2020-10-13'),
 (2, 'U003', '2020-06-01', '2020-08-01'),
-(3, 'U004', '2020-07-16', '2021-02-16');
+(3, 'U004', '2020-07-16', '2021-02-16'),
+(4, 'U016', '2020-07-23', '2020-10-23');
 
 -- --------------------------------------------------------
 
@@ -148,7 +132,8 @@ INSERT INTO `histori_transaksi` (`id_user`, `paket`, `tanggal`, `keterangan`) VA
 ('U012', 2, '2020-04-15', 'Transaksi Telah Di Konfirmasi'),
 ('U013', 1, '2020-04-15', 'Transaksi Telah Di Konfirmasi'),
 ('U014', 1, '2020-07-14', 'Transaksi Telah Di Konfirmasi'),
-('U004', 2, '2020-07-16', 'Transaksi Telah Di Konfirmasi');
+('U004', 2, '2020-07-16', 'Transaksi Telah Di Konfirmasi'),
+('U016', 1, '2020-07-23', 'Transaksi Telah Di Konfirmasi');
 
 -- --------------------------------------------------------
 
@@ -170,16 +155,7 @@ CREATE TABLE `history_penjualan` (
 --
 
 INSERT INTO `history_penjualan` (`id`, `id_user`, `id_perum`, `tgl_booking`, `tgl_jual`, `keterangan`) VALUES
-(3, 'U011', 'PRH0000005', '2020-04-15', '2020-04-16', 'Terjual'),
-(4, 'U015', 'PRH0000002', '2020-04-16', '2020-04-16', 'Terjual');
-
---
--- Trigger `history_penjualan`
---
-DELIMITER $$
-CREATE TRIGGER `actperumboking` AFTER INSERT ON `history_penjualan` FOR EACH ROW update perum set perum.keterangan = "1" where perum.id_perum = new.id_perum
-$$
-DELIMITER ;
+(12, 'U008', 'PRH0000001', '2020-07-31', '2020-07-31', 'Terjual');
 
 -- --------------------------------------------------------
 
@@ -206,13 +182,13 @@ INSERT INTO `log_user` (`id_log`, `id_user`, `username`, `password`, `id_akses`,
 (4, 'U003', 'yusup', '202cb962ac59075b964b07152d234b70', 3, 1),
 (5, 'U004', 'linda', '202cb962ac59075b964b07152d234b70', 3, 1),
 (6, 'U005', 'tompi', '202cb962ac59075b964b07152d234b70', 3, 1),
-(7, 'U006', 'Milea', '202cb962ac59075b964b07152d234b70', 2, 0),
+(7, 'U006', 'Milea', '202cb962ac59075b964b07152d234b70', 2, 1),
 (8, 'U007', 'ahmad', '202cb962ac59075b964b07152d234b70', 3, 1),
 (9, 'U008', 'dania', '202cb962ac59075b964b07152d234b70', 2, 1),
 (10, 'U009', 'johan', '202cb962ac59075b964b07152d234b70', 2, 1),
 (12, 'U011', 'veronica', '202cb962ac59075b964b07152d234b70', 3, 1),
 (14, 'U013', 'ubuy', '202cb962ac59075b964b07152d234b70', 3, 1),
-(15, 'U014', 'Julaiha', '202cb962ac59075b964b07152d234b70', 3, 1),
+(15, 'U014', 'Julaiha', '202cb962ac59075b964b07152d234b70', 2, 1),
 (17, 'U015', 'tania', '202cb962ac59075b964b07152d234b70', 2, 1),
 (18, 'U016', 'dika', '202cb962ac59075b964b07152d234b70', 2, 1);
 
@@ -235,7 +211,10 @@ CREATE TABLE `lokasi_rumah` (
 INSERT INTO `lokasi_rumah` (`id_unit`, `prov`, `kota`) VALUES
 ('PRH0000012', '31', '3172'),
 ('PRH0000013', '32', '3201'),
-('PRH0000014', '14', '1401');
+('PRH0000014', '14', '1401'),
+('PRH0000015', '32', '3271'),
+('PRH0000011', '32', '3273'),
+('PRH0000015', '32', '3201');
 
 -- --------------------------------------------------------
 
@@ -286,12 +265,29 @@ INSERT INTO `notif` (`id`, `id_user`, `user_tujuan`, `requerst`, `icon`, `url`, 
 (25, 'U016', '', 'Permintaan Akses Untuk Jual Perumahan', 'fa-bell', 'Dashboard/notification', '2020-07-13', 1),
 (26, 'U016', '', 'Telah mengirim struck pemesanan', 'fa-donate', 'Dashboard/pemesanan', '2020-07-13', 1),
 (27, 'U002', 'U016', 'Pembayaran gagal. silahkan upload kembali struk pembayaran yang terbaru dan benar', 'exclamation', 'Home/profil', '2020-07-13', 1),
-(28, 'U002', 'U014', 'Data anda telah dikonfirmasi', 'fa-check-circle', 'Home/profil', '2020-07-13', 0),
-(29, 'U002', 'U014', 'Data anda telah dikonfirmasi', 'fa-check-circle', 'Home/profil', '2020-07-13', 0),
-(30, 'U002', 'U014', 'Data anda telah dikonfirmasi', 'fa-check-circle', 'Home/profil', '2020-07-13', 0),
+(28, 'U002', 'U014', 'Data anda telah dikonfirmasi', 'fa-check-circle', 'Home/profil', '2020-07-13', 1),
+(29, 'U002', 'U014', 'Data anda telah dikonfirmasi', 'fa-check-circle', 'Home/profil', '2020-07-13', 1),
+(30, 'U002', 'U014', 'Data anda telah dikonfirmasi', 'fa-check-circle', 'Home/profil', '2020-07-13', 1),
 (31, 'U004', '', 'Permintaan Akses Untuk Jual Perumahan', 'fa-bell', 'Dashboard/notification', '2020-07-16', 1),
 (32, 'U004', '', 'Telah mengirim struck pemesanan', 'fa-donate', 'Dashboard/pemesanan', '2020-07-16', 1),
-(33, 'U002', 'U004', 'Data anda telah dikonfirmasi', 'fa-check-circle', 'Home/profil', '2020-07-16', 1);
+(33, 'U002', 'U004', 'Data anda telah dikonfirmasi', 'fa-check-circle', 'Home/profil', '2020-07-16', 1),
+(34, 'U004', 'U003', 'Booking Rumah', 'fa fa-handshake', 'Act/ActBooking', '2020-07-23', 1),
+(35, 'U003', 'U004', 'Bookingan dibatalkan', 'fa fa-ban', 'Act/ActBooking', '2020-07-23', 1),
+(36, 'U008', 'U015', 'Bookingan dibatalkan', 'fa fa-ban', 'Act/ActBooking', '2020-07-23', 1),
+(37, 'U016', '', 'Telah mengirim struck pemesanan', 'fa-donate', 'Dashboard/pemesanan', '2020-07-23', 1),
+(38, 'U002', 'U016', 'Data anda telah dikonfirmasi', 'fa-check-circle', 'Home/profil', '2020-07-23', 1),
+(39, 'U003', 'U004', 'Bookingan dibatalkan', 'fa fa-ban', 'Act/ActBooking', '2020-07-30', 1),
+(40, 'U004', 'U008', 'Bookingan dibatalkan', 'fa fa-ban', 'Act/ActBooking', '2020-07-30', 1),
+(41, 'U008', 'U003', 'Booking Rumah', 'fa fa-handshake', 'Act/ActBooking', '2020-07-30', 1),
+(42, 'U003', 'U008', 'Bookingan dibatalkan', 'fa fa-ban', 'Act/ActBooking', '2020-07-30', 1),
+(43, 'U008', 'U003', 'Booking Rumah', 'fa fa-handshake', 'Act/ActBooking', '2020-07-31', 1),
+(44, 'U003', 'U008', 'Bookingan dibatalkan', 'fa fa-ban', 'Act/ActBooking', '2020-07-31', 1),
+(45, 'U008', 'U003', 'Booking Rumah', 'fa fa-handshake', 'Act/ActBooking', '2020-07-31', 1),
+(46, 'U003', 'U008', 'Bookingan dibatalkan', 'fa fa-ban', 'Act/ActBooking', '2020-07-31', 1),
+(47, 'U008', 'U003', 'Booking Rumah', 'fa fa-handshake', 'Act/ActBooking', '2020-07-31', 1),
+(48, 'U003', 'U008', 'Bookingan dibatalkan', 'fa fa-ban', 'Act/ActBooking', '2020-07-31', 1),
+(49, 'U008', 'U003', 'Booking Rumah', 'fa fa-handshake', 'Act/ActBooking', '2020-07-31', 1),
+(50, 'U008', 'U003', 'Booking Rumah', 'fa fa-handshake', 'Act/ActBooking', '2020-07-31', 1);
 
 -- --------------------------------------------------------
 
@@ -331,13 +327,6 @@ CREATE TABLE `payment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `payment`
---
-
-INSERT INTO `payment` (`id_payment`, `id_user`, `id_paket`, `tgl`, `pic`, `status`) VALUES
-(5, 'U016', 1, '2020-07-13', '1594622188.png', 0);
-
---
 -- Trigger `payment`
 --
 DELIMITER $$
@@ -374,18 +363,14 @@ CREATE TABLE `perum` (
 --
 
 INSERT INTO `perum` (`id_perum`, `id_user`, `id_perumahan`, `id_claster`, `type`, `uk_rumah`, `harga`, `cicilan`, `titik_koordinat`, `deskripsi`, `alamat`, `pic`, `kategori`, `status`, `keterangan`) VALUES
-('PRH0000001', 'U003', 'PRU0000001', 'CL000001', 'Type a', '10 x 20 m', 200000000, '3000000', '', 'Rumah ini memiliki ruangan 10x20m memiliki halaman yang luas, parkiran luas dan memiliki uang yang nyaman', 'citra indah cluster bukit hijau', '1586959561.jpg', 'perum', '1', 0),
-('PRH0000002', 'U008', '', '', 'Rumah Pribadi', '40x60 ml', 200000000, '', '', 'Rumah murah meriah berada di samping jalan dekat dari pusat keramaian', 'kp. cisaat desa. ciomas kec.ciomas', 'auto-2583303_1280.jpg', 'Rumah', '1', 1),
-('PRH0000003', 'U008', '', '', 'Rumah Pribadi', '50x50 m', 400000000000, '', '', 'Rumah pribadi dekat dengan pusat keramaian, memiliki halaman yang luas dam juga memiliki kolam renang', 'jl. iwayan gusti ngurahray no.12 jakarta timur', '1586959990.JPG', 'Rumah', '1', 0),
-('PRH0000004', 'U004', '', '', 'Rumah Pribadi', '50x50 m', 400000000000, '', '', 'Rumah indah memiliki parkiran luas, sejuk dan nyaman, dekat dengan stadion gelora bungkarno', 'Komplek Gelora bungkarno  Senayan, Jakarta pusat', 'pic3.jpg', 'Rumah', '0', 0),
-('PRH0000005', 'U003', 'PRU0000001', 'CL000001', 'Type b', '50x50 m', 400000000000, '3000000', '', 'Perumahan Citra indah clauster bukit hijau. memiliki tema rumah pegunungan suasana sejuk. parkiran luas, dan 2 lantai', 'Perumahan Citra Indah Komplek a, Clauster Bukit hijau no.2', 'pic11.jpg', 'perum', '1', 1),
-('PRH0000006', 'U004', 'PRU0000004', 'CL000002', 'Type Japaneses', '30x30 ml', 400000000000, '3000000', '', 'Rumah memiliki Rasa negeri sakura jepang', 'jl. minangkabau no.12 Minang city cluster Sakura no.12', 'pic2.jpg', 'perum', '1', 0),
+('PRH0000001', 'U003', 'PRU0000001', 'CL000001', 'Type Perumahan', 'Luas bangunan 36 m² x Luas tanah 90 m²', 79000000, '1800000', '', 'Deskripsi\r\nOver Credit Murah Meriah 79jt Perumahan Citra Indah, Ciputra Cileungsi\r\nOver credit murah meriah 79jt masih original tipe 36/90 perumahan citra indah, timur cibubur, ciputra cileungsi\r\n\r\nOver credit\r\nCicilan 1.8jt per bulan\r\nSisa 12 tahun dari 19 tahun\r\nTidak perlu akad. Cocok untuk anda yang wirausaha, kesulitan KPR karena BI checking, tidak ingin repot mengurus administrasi bank.', 'Jl. Raya cileungsi KM 22, cileungsi jonggol - Bogor\r\nPerumahan citra indah ciputra cileungsi', '1596126145.jpeg', 'perum', '1', 1),
+('PRH0000005', 'U003', 'PRU0000001', 'CL000001', 'Type Perumahan', '38 m² x 105 m²', 59000000, '2800000', '', 'Over Credit Rumah Masih Original Tipe Perumahan Citra Indah\r\nOver credit rumah masih original tipe 38/105 perumahan citra indah, timur cibubur, ciputra cileungsi\r\n\r\n\r\nOver credit 59jt\r\nCicilan 2.6jt per bulan\r\nSisa kpr 19 tahun\r\nTidak perlu akad. Cocok untuk anda yang wirausaha, bermasalah di BI checking, tidak ingin repot mengurus administrasi bank.', 'Jl. Raya cileungsi KM 22, cileungsi jonggol - Bogor\r\nPerumahan citra indah ciputra cileungsi', '1596126850.jpg', 'perum', '0', 0),
+('PRH0000006', 'U004', 'PRU0000004', 'CL000002', 'Type Unit/210', 'Bangunan 30 m2 x Lahan 72m2', 399000000, '2800000', '', 'Alasan Harus Memiliki Perumahan Grand Mekarsari Residence\r\n\r\n\r\nSyarat pengajuan KPR yang sangat mudah dan cepat.\r\nCicilan Ringan Mulai Rp. 2 Jutaan*\r\nKawasan yang hijau dan asri untuk hunian sekaligus cocok untuk investasi.\r\nLokasi strategis (depan Taman Buah Mekarsari, Water Kingdom, Giant).\r\nAkses mudah (LRT, Exit Tol Cibubur, Exit Tol Cimanggis - Cibitung).\r\nFasilitas lengkap (Club House, Kolam Renang, Food Court).\r\n\r\n\r\nGrand Mekarsari Residence menawarkan 2 tipe hunian cluster, yaitu :\r\n\r\n\r\n\r\nCluster HuckleBerry : Tipe 45/98, dan Tipe 60/98 (2 Lantai)\r\nCluster LimeBerry : Tipe 30/72 (New Type), Tipe 30/60, Tipe 30/72, Tipe 36/72, Tipe 54/72 (2 Lantai)\r\n \r\n\r\nFasilitas yang tersedia dalam perumahan Grand Mekarsari Residence, antara lain :\r\n\r\n \r\n\r\nClub House\r\nKolam Renang\r\n24 Hours Security\r\nJogging Track\r\nChildren Playground\r\nFood & Beverage (on progress)\r\n \r\n\r\nFasilitas di sekitar perumahan Grand Mekarsari Residence, antara lain :\r\n\r\n \r\n\r\nTaman Buah Mekarsari\r\nWater Kingdom\r\nMall dan Giant\r\nRumah Sakit\r\nBus APTB\r\nTrans Studio Cibubur', 'Jalan Raya Jonggol – Cileungsi, Mekarsari,', '1596130180.jpg', 'perum', '0', 0),
 ('PRH0000007', 'U011', 'PRU0000006', 'CL000003', 'Type chines', '40x30 m', 300000000, '2000000', '', 'Rumah Bertemakan Chines untuk cocok untuk anda wahai orang orang sipit', 'jl kuningan no.12 perumahan sanvertigo claster bodiaola no.2', '4_-Kampung-Naga.jpg', 'perum', '0', 0),
-('PRH0000009', 'U006', 'PRU0000002', 'CL000005', 'Type Japaneses', '30x30 ml', 300000000, '2000000', '', 'asdf', 'asdf', 'default.png', 'perum', '0', 0),
-('PRH0000010', 'U003', 'PRU0000001', 'CL000005', 'Type America Latin', '50x50 m', 300000000, '20000001', '', 'Rumah memiliki banyak segalanya yang membuat anda betah', 'Citra indah cluster val verder ', '1586959477.png', 'perum', '0', 0),
-('PRH0000011', 'U004', '', '', 'Rumah Pribadi', '50x50 m', 300000000, '2000000', '', 'Rumah dengan cirihas pedesaan diyakini membuat anda betah serius', 'jl. sultan lembang kota bandung', '1586959864.png', 'Rumah', '0', 0),
-('PRH0000012', 'U003', '', '', 'Rumah Pribadi', '50x50 m', 300000000, '3000000', '', 'rumah yang sangat keren sekalli dekat dengan tol dengan mall dan dengan taman kota', 'jl. cawang km.42 dibawah tol jagorawi jakarta timur', '1592023973.jpg', 'Rumah', '0', 0),
-('PRH0000013', 'U008', '', '', 'Rumah Pribadi', '50x50 m', 300000000, '3000000', '', 'wey ini aku kasi karena kamu telah menjadi penang dari undian sipro', 'jl jawabaran bogor', '1594960665.jpg', 'Rumah', '0', 0);
+('PRH0000010', 'U003', 'PRU0000001', 'CL000005', 'Type Perumahan', '50m x50 m', 89000000, '2500000', '', 'Dijual rumah milik sendiri di Citra Indah City Bukit Widelia, alasan jual karena mutasi keluar kota. ( PNS)\r\nBoleh NEGO mas? Boleh banget nego aja sampai puas baru rumah dilepas...enak bukan. Oh ya rumah ini punya saya sendiri lho.\r\nIni bagian dari Perumahan Grup Ciputra lho ..keren kan ?\r\nFasilitas komplek:\r\nPOM Bensin ( Di dlm Komplek )\r\nRSUD Cileungsi -/+ 1,5 km\r\nRS Permata Jonggol -/+ 1,5 km\r\nWater Boom di dlm komplek\r\nPasar Segar Citra Indah City\r\nSD SMP SMA Cikal Harapan di komplek\r\nSDN Citra Indah di komplek\r\nFasilitas Rmh:\r\nPAM\r\nTelepon\r\nGarasi\r\nCarport\r\nGarden\r\nBelakang masih ada sisa 6x 10 m\r\n\r\nUdara sekitar segar, terlihat area pegunungan wilayah sekelilingnya jalan komplek lebar bisa buat joging,\r\n\r\nbersepeda, ada taman luas untuk warga dan gazebo', 'Jl. Raya cileungsi KM 22, cileungsi jonggol - Bogor\r\nPerumahan citra indah ciputra cileungsi', '1596127326.jpg', 'perum', '0', 0),
+('PRH0000011', 'U004', '', '', 'Rumah Pribadi', ' 250 m2 x 232 m2', 2795000060, ' ', '', 'Luas Tanah: 250 m2\r\nLuas Bangunan: 232 m2\r\nKamar Tidur: 5 + 1\r\nKamar Mandi: 4 + 1\r\nLantai: 2\r\nGarasi: 1 Mobil\r\nCarport: 1 Mobil\r\nHadap: Utara\r\nListrik: 2200 Watt\r\nSumber Air: PAM + air tanah\r\nSHM', 'gegerkalong wetan kota bandung', '1596129765.jpg', 'Rumah', '0', 0),
+('PRH0000014', 'U003', 'PRU0000001', 'CL000001', 'Type Perumahan', '38 m² x 105 m²', 59000000, '2800000', '', 'Over Credit Rumah Masih Original Tipe Perumahan Citra Indah Over credit rumah masih original tipe 38/105 perumahan citra indah, timur cibubur, ciputra cileungsi Over credit 59jt Cicilan 2.6jt per bulan Sisa kpr 19 tahun Tidak perlu akad. Cocok untuk anda yang wirausaha, bermasalah di BI checking, tidak ingin repot mengurus administrasi bank.', 'Jl. Raya cileungsi KM 22, cileungsi jonggol - Bogor Perumahan citra indah ciputra cileungsi', '1596127452.jpg', 'perum', '0', 0),
+('PRH0000015', 'U008', '', '', 'Rumah Pribadi', 'Luas bangunan 36 m² x Luas tanah 90 m²', 5800000000, '', '', 'DAPATKAN BONUS & PROMONYA SPESIAL DI BULAN INI ,,\r\nRumah murah berkualitas di perumahan villa ciomas indah,,spesial promo cukup 15 jt sudah tanpa biaya apapun lagi ,,,\r\nHarga cuma 360 jt 100% bangunan baru\r\nLt :60\r\nLb : 45\r\nAir : PAM\r\nListrik : 900 watt\r\nKamar tidur 2\r\nKamar mandi 1\r\nCarport 1\r\nDapur\r\nRuang makan\r\nRuang tamu\r\nTeras\r\nYukk buruan booking sebelum sold ,,lokasi sangat strategis ,,,\r\n', 'Villa Ciomas Indah Jl. Raya Ciomas  Ciomas', '1596176552.jpg', 'Rumah', '0', 0);
 
 -- --------------------------------------------------------
 
@@ -409,14 +394,12 @@ CREATE TABLE `perumahan` (
 --
 
 INSERT INTO `perumahan` (`id_perumahan`, `id_user`, `nm_perumahan`, `titik_coridinat`, `id_prov`, `id_kota`, `alamat_lengkap`, `pic`) VALUES
-('PRU0000001', 'U003', 'Citra Indah City', 'https://goo.gl/maps/fUZ5ypTnZCHskhmd7', 32, 3201, 'Jl. Transyogi cileungsi-jonggol, no.10', '1586959194.png'),
+('PRU0000001', 'U003', 'Citra Indah City', 'https://goo.gl/maps/fUZ5ypTnZCHskhmd7', 32, 3201, 'Jl. Transyogi cileungsi-jonggol, no.10', '1596125888.jpg'),
 ('PRU0000003', 'U005', 'Gria Marselina', '', 32, 3271, 'jl. raya alternatif jonggol- cianjur, kp. jemblung, desa jemblung kecamatan cariu', 'LP3i-College-1.jpg'),
-('PRU0000004', 'U004', 'Grand Mekarsari', 'https://goo.gl/maps/5V8wsEMebMPNtkv1A', 32, 3271, 'jl. trasyogi cileungsi-jonggol', 'istockphoto-817240836-612x612.jpg'),
+('PRU0000004', 'U004', 'Grand Mekarsari', 'https://goo.gl/maps/5V8wsEMebMPNtkv1A', 32, 3271, 'Jalan Raya Jonggol – Cileungsi, Mekarsari,', '1596127906.jpg'),
 ('PRU0000005', 'U007', 'indah sentosa', '', 32, 3271, 'jl. Asia Bogor no.12', 'dsc05579.jpg'),
 ('PRU0000006', 'U011', 'sanvertigo', '', 32, 3212, 'jl. kuuningan no.12 kec. sidomulyo kab. kuningan\r\n', 'default.png'),
-('PRU0000008', 'U013', 'Yogyakarta Permai', '', 34, 3404, 'jl. merdeka no.31, desa mengguwoharjo kecamatan sutejo , DIY yogyakarta', 'default.png'),
-('PRU0000009', 'U014', '', '', 0, 0, '', '1594921712.jpg'),
-('PRU0000010', 'U004', '', '', 0, 0, '', 'default.png');
+('PRU0000008', 'U013', 'Yogyakarta Permai', '', 34, 3404, 'jl. merdeka no.31, desa mengguwoharjo kecamatan sutejo , DIY yogyakarta', 'default.png');
 
 -- --------------------------------------------------------
 
@@ -564,19 +547,19 @@ ALTER TABLE `akses`
 -- AUTO_INCREMENT untuk tabel `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT untuk tabel `contract`
 --
 ALTER TABLE `contract`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `history_penjualan`
 --
 ALTER TABLE `history_penjualan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `log_user`
@@ -588,7 +571,7 @@ ALTER TABLE `log_user`
 -- AUTO_INCREMENT untuk tabel `notif`
 --
 ALTER TABLE `notif`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT untuk tabel `paket`

@@ -13,7 +13,7 @@ class MasaActive extends My_Controller
 		$tgl = date('Y-m-d');
 		$this->load->model('M_Administrator');
 		$masa_active = $this->M_Administrator->getid('contract', 'id_user', $id);
-		if ($this->session->userdata('id_akses') == 3 && $tgl <= @$masa_active['masa_aktif']) redirect('Dashboard');
+		if ($this->session->userdata('id_akses') == 3 && $tgl < @$masa_active['masa_aktif']) redirect('Dashboard');
 	}
 	public function index()
 	{

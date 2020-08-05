@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-9 col-sm-12">
+    <div class="col-md-8 col-sm-12">
         <?= $form_open ?>
         <div class="card">
             <div class="card-header text-white bg-primary">
@@ -44,7 +44,7 @@
         </div>
 
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card">
             <div class="card-header text-white bg-primary">
                 <?= $title ?>

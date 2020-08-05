@@ -21,7 +21,7 @@
                                         <label class="font-weight-bold">Cluster :</label>
                                         <div class="card-text bg-gray-100 p-2"><?= $p->claster ?></div>
                                         <label class="font-weight-bold">Harga :</label>
-                                        <div class="card-title bg-gray-100 p-2">Rp.<?= $p->harga ?></div>
+                                        <div class="card-title bg-gray-100 p-2">Rp.<?= number_format($p->harga) ?></div>
 
                                         <a href=" <?= base_url() ?>Home/detail_perumahan/<?= $p->id_perum ?>" class="float-right text-primary large"> <i>More info</i><span class="fa fa-fw fa-angle-right"></span></a>
                                     </div>
@@ -46,7 +46,7 @@
                                 <label class="font-weight-bold">Model :</label>
                                 <div class="card-text bg-gray-100 p-2"><?= $v->type ?></div>
                                 <label class="font-weight-bold">Harga :</label>
-                                <div class="card-title bg-gray-100 p-2">Rp.<?= $v->harga ?></div>
+                                <div class="card-title bg-gray-100 p-2">Rp.<?= number_format($v->harga) ?></div>
                                 <a href="<?= base_url() ?>Home/detail/<?= $v->id_perum ?>" class="float-right large text-primary"> <i>More info</i><span class="fa fa-fw fa-angle-right"></span></a>
                             </div>
                         </div>

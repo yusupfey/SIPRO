@@ -5,9 +5,9 @@
                 <div class="col-md-12">
                     <img class="img-thumbnail" src="<?= base_url() ?>assets/img/<?= $rumah['pic']; ?>" width="100%" height="800" alt=" Card image cap">
                 </div>
-                <div class="col-md-12 p-3 bg-gray-300 shadow m-2">
+                <div class="col-md-12 p-3 bg-info shadow m-2 text-light">
                     <span class="font-weight-bold">Penjual</span><br>
-                    <?= $rumah['id_user']; ?>
+                    <?= $rumah['nama']; ?>
                 </div>
                 <div class="col-md-12 pt-4">
                     <b>Type:</b><br>
@@ -31,7 +31,7 @@
                     <label>Ukuran Rumah :</label><br>
                     <i class="text-dark"><?= $rumah['uk_rumah'] ?></i><br>
                     <label>Harga :</label><br>
-                    <i class="text-dark"><?= $rumah['harga'] ?></i>
+                    <i class="text-dark">Rp <?= number_format($rumah['harga']) ?></i>
                     <hr>
                     <?php if ($rumah['status'] == 1) : ?>
                         <a href="?>"><button class="btn-danger form-control">Sudah dibooking</button></a>

@@ -5,7 +5,7 @@
                 <div class="col-md-12 text-center">
                     <img class="img-thumbnail" src="<?= base_url() ?>assets/img/<?= $perum['pic']; ?>" style="width:100%;height:400px" alt=" Card image cap">
                 </div>
-                <div class="col-md-12 p-3 bg-info shadow m-2 text-white">
+                <div class="col-md-12 p-3 bg-info shadow m-2 text-white rounded">
                     <span class="font-weight-bold">Sales :</span><br>
                     <?= $perum['nama']; ?> -
                     <?= $perum['nm_perumahan']; ?>
@@ -37,10 +37,10 @@
                     <i class="text-dark"><?= $perum['uk_rumah'] ?></i><br>
                     <hr class="divider">
                     <label class="font-weight-bold">Cicilan Rumah :</label><br>
-                    <i class="text-dark"><?= $perum['cicilan'] ?></i><br>
+                    <i class="text-dark">Rp. <?= number_formaT($perum['cicilan']) ?></i><br>
                     <hr class="divider">
                     <label class="font-weight-bold">Harga :</label><br>
-                    <i class="text-dark"><?= $perum['harga'] ?></i>
+                    <i class="text-dark">Rp. <?= number_format($perum['harga']) ?></i>
                     <hr>
                     <?php if ($perum['status'] == 1) : ?>
                         <a href=""><button class="btn-danger form-control">Sudah dibooking</button></a>

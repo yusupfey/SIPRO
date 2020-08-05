@@ -230,7 +230,7 @@ class Act extends My_Controller
         } else {
             $prov = $this->input->post('provinsi');
             $kota = $this->input->post('kota');
-            // echo $prov;
+            // echo $prov . '<br>';
             // echo $kota;
             $data['perumahan'] = $this->M_Home->innerperumgetlocation($prov, $kota)->result();
             $data['db_property'] = $this->M_Home->innersearchRumah($prov, $kota)->result();
@@ -412,6 +412,11 @@ class Act extends My_Controller
     public function UpdateRumah($id)
     {
         $t = $this->M_Home->getid('perum', 'id_perum', $id);
+        $url = 'https://dev.farizdotid.com/api/daerahindonesia/provinsi/';
+        $readApi = file_get_contents($url);
+        $proapi = json_decode($readApi, true);
+
+        $form['apiProv'] = $proapi['provinsi'];
         $id = [
             'type' => 'hidden',
             'name' => 'id',
@@ -477,7 +482,7 @@ class Act extends My_Controller
             'value' => "Update data"
         ];
         $form['title'] = "Update Rumah";
-        $form['img'] = "<img src=" . base_url() . "assets/img/" . $t['pic'] . " style='height:350px; width:350px'>";
+        $form['img'] = "<img src=" . base_url() . "assets/img/" . $t['pic'] . " style='height:300px; width:300px'>";
         $form['form_open'] = form_open_multipart('Act/ActUpdateRumah');
         $form['form_close'] = form_close();
         $form['idperum'] = form_input($id);
@@ -491,7 +496,7 @@ class Act extends My_Controller
         $form['pic'] = form_upload($pic);
         $form['btn'] = form_submit($btn);
         if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
-            $this->HalamanAdmin('form/vform-admin', $form);
+            $this->HalamanAdmin('form/vform', $form);
         } else {
             $this->Halamanprofil('form/vform', $form);
         }
@@ -604,6 +609,26 @@ class Act extends My_Controller
                 'kategori' => 'Rumah'
             ];
         }
+        $cekunit = $this->db->get('lokasi_rumah')->result_array();
+        $cek = '';
+        foreach ($cekunit as $all) :
+            if ($all['id_unit'] != $this->input->post('id')) {
+                // echo $this->input->post('id');
+                $cek = $this->lokasi_rumah('input');
+            } else {
+                $cek = $this->lokasi_rumah('update');
+            }
+        endforeach;
+        $lok = [
+            'id_unit' => $this->input->post('id'),
+            'prov' => $this->input->post('provinsi'),
+            'kota' => $this->input->post('kota'),
+        ];
+        if ($cek == 'input') {
+            $this->M_Home->inputdata('lokasi_rumah', $lok);
+        } else {
+            $this->M_Home->updatedata('lokasi_rumah', 'id_unit', $this->input->post('id'), $lok);
+        }
         $this->M_Home->updatedata('perum', 'id_perum', $this->input->post('id'), $data);
         $this->session->set_flashdata('true', 'Di Edit');
         $this->session->set_flashdata('alert', 'success');
@@ -613,13 +638,18 @@ class Act extends My_Controller
             redirect('Home/rumah');
         }
     }
+
+    function lokasi_rumah($result)
+    {
+        return $result;
+    }
     public function DeleteRumah($id)
     {
         // $id = $this->input->get('id');
         $db = $this->M_Home->deletedata('perum', 'id_perum', $id);
         // echo json_encode($db);
         $this->session->set_flashdata('true', 'Di Hapus');
-        $this->session->set_flashdata('alert', 'error');
+        $this->session->set_flashdata('alert', 'success');
         if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
             redirect('Dashboard/property');
         } else {
@@ -630,6 +660,7 @@ class Act extends My_Controller
     {
         $update = [
             'status' => 0,
+            'keterangan' => 0,
         ];
         $this->M_Home->updatedata('perum', 'id_perum', $id, $update);
         $perum = $this->M_Home->getid('perum', 'id_perum', $id);
@@ -647,7 +678,7 @@ class Act extends My_Controller
             'tgl' => $tgl,
             'status' => 0
         ];
-        var_dump($notif);
+        // var_dump($notif);
 
         /**
          * 
@@ -659,7 +690,7 @@ class Act extends My_Controller
         $this->M_Home->inputdata('notif', $notif);
         $this->M_Home->deletedata('booking', 'id', $id);
         $this->session->set_flashdata('true', 'dibatalkan');
-        $this->session->set_flashdata('alert', 'warning');
+        $this->session->set_flashdata('alert', 'success');
         if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
             redirect('Dashboard/Booking');
         } else {
@@ -668,11 +699,27 @@ class Act extends My_Controller
     }
     public function terjual($id)
     {
+        $tgl = date('Y-m-d');
+        echo $id . $tgl;
+        $booking = $this->db->get_where('booking', ['id' => $id])->row_array();
+        $data = [
+            'id_user' => $booking['user'],
+            'id_perum' => $booking['id'],
+            'tgl_booking' => $booking['tgl'],
+            'tgl_jual' => $tgl,
+            'keterangan' => 'Terjual',
+        ];
+        $update = [
+            'status' => 1,
+            'keterangan' => 1,
+        ];
+        $this->M_Home->updatedata('perum', 'id_perum', $id, $update);
+        $this->M_Home->inputdata('history_penjualan', $data);
         $this->M_Home->deletedata('booking', 'id', $id);
         $this->session->set_flashdata('true', 'Terjual');
         $this->session->set_flashdata('alert', 'success');
         if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
-            redirect('Dashboard/Bookingan');
+            redirect('Dashboard/Booking');
         } else {
             redirect('Home/CekPenjualan');
         }
@@ -703,7 +750,11 @@ class Act extends My_Controller
         $this->form_validation->set_rules('passbaru', 'PasswordBaru', 'required|trim|matches[passconfirm]', ['required' => 'Password Baru tidak boleh kosong !', 'matches' => 'Password tidak sama']);
         $this->form_validation->set_rules('passconfirm', 'passconfirm', 'required|trim|matches[passbaru]', ['required' => 'Password lama tidak boleh kosong !', 'matches' => 'Password tidak sama']);
         if ($this->form_validation->run() == false) {
-            $this->HalamanAdmin('master/ganti_password', $data);
+            if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
+                redirect('Dashboard/ChangePassword');
+            } else {
+                redirect('Home/ChangePassword');
+            }
         } else {
 
             $psbaru = md5($this->input->post('passconfirm'));

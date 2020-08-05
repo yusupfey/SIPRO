@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <?= $cicilan; ?>
                 </div>
-                <select name="provinsi" class="form-control" style="font-size:20px; font-family:'Courier New', Courier, monospace" id="prov">
+                <select name="provinsi" class="form-control" id="prov" Required>
                     <option value="">-- Pilih provinsi --</option>
                     <?php foreach ($apiProv as $t) : ?>
                         <option value="<?= $t['id']; ?>"><?= $t['nama']; ?></option>
@@ -42,7 +42,7 @@
                 <div class="form-group">
                     <label>Kota/Kab</label>
 
-                    <select name="kota" class="form-control" style="font-size:20px; font-family:'Courier New', Courier, monospace" id="kota">
+                    <select name="kota" class="form-control" id="kota" Required>
                         <option value="">-- Pilih Kota --</option>
                     </select>
                 </div>

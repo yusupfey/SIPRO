@@ -26,7 +26,7 @@
                     ?>
                         <tr>
                             <td><?= $no++; ?></td>
-                            <td><?= $f->id_user; ?></td>
+                            <td><?= $f->nama; ?></td>
                             <td>
                                 <div class="row">
                                     <div class="col-md-1 col-xs-1 col-sm-1 ">

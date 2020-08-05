@@ -81,57 +81,57 @@
     </div>
     <h4>Paket Pemasaran</h4>
     <hr>
-    <div class="box border-bottom-success pb-5"">
-        <div class=" card">
-        <div class="card-header bg-primary text-gray-100">
-            Paket Pemasaran
-        </div>
-        <div class="card-body text-center">
-            <div class="p-2 bg-gray-200">
-                <h2>RP. 300.000</h2>
-                <spa6>3 bulan</span>
+    <div class="box border-bottom-success pb-5 mb-3">
+        <div class="card">
+            <div class="card-header bg-primary text-gray-100">
+                Paket Pemasaran
             </div>
-            <div class="p-2 bg-gray-100">
-                <h2>RP. 700.000</h2>
-                <span class="">7 bulan</span>
-            </div>
-            <div class="p-2 bg-gray-200">
-                <h2>RP. 1.000.000</h2>
-                <span class="">1 Tahun</span>
+            <div class="card-body text-center">
+                <div class="p-2 bg-gray-200">
+                    <h2>RP. 300.000</h2>
+                    <spa6>3 bulan</span>
+                </div>
+                <div class="p-2 bg-gray-100">
+                    <h2>RP. 700.000</h2>
+                    <span class="">7 bulan</span>
+                </div>
+                <div class="p-2 bg-gray-200">
+                    <h2>RP. 1.000.000</h2>
+                    <span class="">1 Tahun</span>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script>
-    $(document).ready(function() {
-        $('#prov').on('click', function() {
-            if ($(this).val()) {
-                var form_data = new FormData();
-                // const prov = $('#prov').val();
-                // console.log(prov);
-                form_data.append('provinsi', $('#prov').val());
-                $.ajax({
-                    url: '<?= base_url() ?>Home/Getdatabyajax/',
-                    type: 'post',
-                    data: form_data,
-                    dataType: 'text',
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function(berhasil) {
-                        //untuk mengkosongkan produk ketika kategori di kosongkan
-                        $('#kota option[value!=""]').remove();
-                        //menambahkan data sesuai dengan kategori kedalam dropdown
-                        $('#kota').append(berhasil);
-                        // console.log(berhasil);
-                    },
-                    error: function(gagal) {
-                        console.log(gagal);
-                    }
-                });
-            }
+    <script>
+        $(document).ready(function() {
+            $('#prov').on('click', function() {
+                if ($(this).val()) {
+                    var form_data = new FormData();
+                    // const prov = $('#prov').val();
+                    // console.log(prov);
+                    form_data.append('provinsi', $('#prov').val());
+                    $.ajax({
+                        url: '<?= base_url() ?>Home/Getdatabyajax/',
+                        type: 'post',
+                        data: form_data,
+                        dataType: 'text',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function(berhasil) {
+                            //untuk mengkosongkan produk ketika kategori di kosongkan
+                            $('#kota option[value!=""]').remove();
+                            //menambahkan data sesuai dengan kategori kedalam dropdown
+                            $('#kota').append(berhasil);
+                            // console.log(berhasil);
+                        },
+                        error: function(gagal) {
+                            console.log(gagal);
+                        }
+                    });
+                }
 
+            });
         });
-    });
-</script>
-<!-- <div class="bg-white"> -->
+    </script>
+    <!-- <div class="bg-white"> -->

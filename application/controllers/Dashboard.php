@@ -9,12 +9,12 @@ class Dashboard extends My_Controller
         $this->load->helper('form');
         $this->load->model('M_Administrator');
         $this->load->library('form_validation');
-        if ($this->session->userdata('id_akses') === 1) redirect('Home');
+        if ($this->session->userdata('id_akses') == 2) redirect('Home');
         if ($this->session->userdata('id_user') == "") redirect('login');
         $id = $this->session->userdata('id_user');
         $tgl = date('Y-m-d');
         $masa_active = $this->M_Administrator->getid('contract', 'id_user', $id);
-        if ($this->session->userdata('id_akses') == 3 && $tgl >= $masa_active['masa_aktif']) redirect('MasaActive');
+        if ($this->session->userdata('id_akses') == 3 && $tgl > $masa_active['masa_aktif'] or $this->session->userdata('id_akses') == 3 && $tgl == $masa_active['masa_aktif']) redirect('MasaActive');
     }
     public function index()
     {
@@ -491,21 +491,9 @@ class Dashboard extends My_Controller
     }
     public function profiluser()
     {
-        // $id = $this->input->post('id');
 
-        // $data = [
-        //     'nm_perumahan' => $this->input->post('nama'),
-        //     'titik_coridinat' => $this->input->post('tikor'),
-        //     'id_prov' => $this->input->post('provinsi'),
-        //     'id_kota' => $this->input->post('kota'),
-        //     'alamat_lengkap' => $this->input->post('alamat'),
-        // ];
-        // $where = $id;
-        // $this->M_Administrator->updatedata();
         $id = $this->session->userdata('id_user');
         $data['user'] = $this->db->get_where('user', ['id_user' => $id])->row_array();
-        // $data['sidebar'] = $this->load->view('template/nav-front/sidebar');
-        // $this->Halamanprofil('user   /profil', $data);
         $this->HalamanAdmin('template/administrator/profil', $data);
     }
     public function EditProfil()
@@ -823,8 +811,8 @@ class Dashboard extends My_Controller
             'class' => 'form-control btn btn-success',
             'value' => "Simpan"
         ];
-        $form['title'] = "Tambah Rumah";
-        $form['img'] = "<img src=" . base_url() . "assets/img/" . $getcode['pic'] . " style='height:350px; width:350px'>";
+        $form['title'] = "Update Rumah";
+        $form['img'] = "<img src=" . base_url() . "assets/img/" . $getcode['pic'] . " style='height:300px; width:300px'>";
 
         $form['form_open'] = form_open_multipart('Dashboard/ActUpdatePerum');
         $form['form_close'] = form_close();

@@ -10,11 +10,7 @@ class Login extends My_Controller
         $this->form_validation->set_rules('password', 'Password', 'required|trim');
         if ($this->form_validation->run() == FALSE) {
             $data['judul'] = 'Halaman Login';
-            $this->load->view('template/head');
-            $this->load->view('template/nav-front/header');
-            $this->load->view('login');
-            $this->load->view('template/nav-front/footer');
-            $this->load->view('template/foot');
+            $this->HalamanHome('login');
         } else {
             $username = $this->input->post('username');
             $password = $this->input->post('password');
