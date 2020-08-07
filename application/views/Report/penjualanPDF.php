@@ -11,6 +11,7 @@
 </style>
 <h1>
     <center>LAPORAN PENJUALAN SIPRO</center>
+    <center><?= $name ?></center>
 </h1>
 <br>
 <br>

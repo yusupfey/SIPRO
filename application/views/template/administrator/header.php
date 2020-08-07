@@ -38,17 +38,17 @@
             <li class="nav-item <?php if ($this->uri->segment(2) == 'pengguna') echo 'active'; ?>">
                 <a class="nav-link" href="<?= base_url() ?>Dashboard/pengguna">
                     <i class="fas fa-fw fa-file-alt"></i>
-                    <span>Data Pengguna</span></a>
+                    <span>Master Pengguna</span></a>
             </li>
             <li class="nav-item <?php if ($this->uri->segment(2) == 'perumahan') echo 'active'; ?>">
                 <a class="nav-link" href="<?= base_url(); ?>Dashboard/perumahan">
                     <i class="fas fa-fw fa-file-alt"></i>
-                    <span>Data Perumahan</span></a>
+                    <span>Master Perumahan</span></a>
             </li>
             <li class="nav-item <?php if ($this->uri->segment(2) == 'pemesanan') echo 'active'; ?>">
                 <a class="nav-link" href="<?= base_url() ?>Dashboard/pemesanan">
                     <i class="fas fa-fw fa-file-alt"></i>
-                    <span>Data Pembayaran
+                    <span>Master Pembayaran
                         <span class="badge badge-danger badge-counter">
                             <?php foreach ($notpay as $t) :
                                 echo $t->jml;
@@ -61,7 +61,7 @@
         <li class="nav-item <?php if ($this->uri->segment(2) == 'Bookingcart') echo 'active'; ?>">
             <a class="nav-link" href="<?= base_url() ?>Dashboard/Bookingcart">
                 <i class="fas fa-fw fa-file-alt"></i>
-                <span>Booking Cart</span></a>
+                <span>MyBooking</span></a>
         </li>
         <li class="nav-item <?php if ($this->uri->segment(2) == 'Booking') echo 'active'; ?>">
             <a class="nav-link" href="<?= base_url() ?>Dashboard/Booking">
@@ -85,7 +85,7 @@
         <li class="nav-item <?php echo $this->uri->segment(2) == 'property' ? 'active' : '' ?>">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-folder"></i>
-                <span>Master Rumah Pribadi</span>
+                <span>Rumah</span>
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">

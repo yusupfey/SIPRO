@@ -417,6 +417,17 @@ class Act extends My_Controller
         $proapi = json_decode($readApi, true);
 
         $form['apiProv'] = $proapi['provinsi'];
+        @$prop = $this->M_Home->getid('lokasi_rumah', 'id_unit', $id);
+        @$id_prov = $prop['prov'];
+        $url = "https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=$id_prov";
+        $getKotaApi = file_get_contents($url);
+        $apiKota = json_decode($getKotaApi, true);
+        $form['kota'] = $apiKota['kota_kabupaten'];
+
+
+        @$form['provins'] = $prop['prov'];
+        @$form['idkota'] = $prop['kota'];
+        // $form['provins'] = $prop['prov'];
         $id = [
             'type' => 'hidden',
             'name' => 'id',
@@ -747,13 +758,13 @@ class Act extends My_Controller
 
         $this->form_validation->set_rules('username', 'Username', 'alpha|required', ['required' => 'Username tidak boleh kosong !']);
         $this->form_validation->set_rules('passlama', 'PasswordLama', 'required|trim', ['required' => 'Password Lama tidak boleh kosong !']);
-        $this->form_validation->set_rules('passbaru', 'PasswordBaru', 'required|trim|matches[passconfirm]', ['required' => 'Password Baru tidak boleh kosong !', 'matches' => 'Password tidak sama']);
-        $this->form_validation->set_rules('passconfirm', 'passconfirm', 'required|trim|matches[passbaru]', ['required' => 'Password lama tidak boleh kosong !', 'matches' => 'Password tidak sama']);
+        $this->form_validation->set_rules('passbaru', 'PasswordBaru', 'required|trim', ['required' => 'Password Baru tidak boleh kosong !',]);
+        $this->form_validation->set_rules('passconfirm', 'passconfirm', 'required|trim|matches[passbaru]', ['required' => 'Password lama tidak boleh kosong !', 'matches' => 'Konfirmasi password tidak sesuai!']);
         if ($this->form_validation->run() == false) {
             if ($this->session->userdata('id_akses') == 1 or $this->session->userdata('id_akses') == 3) {
-                redirect('Dashboard/ChangePassword');
+                $this->HalamanAdmin('master/ganti_password', $data);
             } else {
-                redirect('Home/ChangePassword');
+                $this->Halamanprofil('master/ganti_password', $data);
             }
         } else {
 

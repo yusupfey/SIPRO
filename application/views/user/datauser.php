@@ -1,7 +1,7 @@
-<h2 class="pb-3">Data Pengguna</h2>
+<!-- <h2 class="pb-3">Data Pengguna</h2> -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Pengguna</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Pengguna/Users</h6>
     </div>
     <div class="card-body">
         <?php if ($this->session->flashdata('true')) : ?>

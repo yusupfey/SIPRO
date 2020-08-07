@@ -13,7 +13,9 @@ class Dashboard extends My_Controller
         if ($this->session->userdata('id_user') == "") redirect('login');
         $id = $this->session->userdata('id_user');
         $tgl = date('Y-m-d');
-        $masa_active = $this->M_Administrator->getid('contract', 'id_user', $id);
+        // $masa_active = $this->M_Administrator->getid('contract', 'id_user', $id);
+        $masa_active = $this->db->query("select * from contract where id_user='$id' order by tanggal Desc")->row_array();
+
         if ($this->session->userdata('id_akses') == 3 && $tgl > $masa_active['masa_aktif'] or $this->session->userdata('id_akses') == 3 && $tgl == $masa_active['masa_aktif']) redirect('MasaActive');
     }
     public function index()

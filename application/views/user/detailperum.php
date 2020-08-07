@@ -18,9 +18,9 @@
                     <label class="font-weight-bold">Ukuran Rumah :</label><br>
                     <i class="text-dark"><?= $perum['uk_rumah'] ?></i><br>
                     <label class="font-weight-bold">Cicilan Rumah :</label><br>
-                    <i class="text-dark"><?= $perum['cicilan'] ?></i><br>
+                    <i class="text-dark">Rp. <?= number_format($perum['cicilan']) ?></i><br>
                     <label class="font-weight-bold">Harga :</label><br>
-                    <i class="text-dark"><?= $perum['harga'] ?></i>
+                    <i class="text-dark">Rp. <?= number_format($perum['harga']) ?></i>
                     <br>
                     <b>Cluster:</b></br>
                     <?= $perum['claster']; ?>

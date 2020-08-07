@@ -36,14 +36,23 @@
                 <select name="provinsi" class="form-control" id="prov" Required>
                     <option value="">-- Pilih provinsi --</option>
                     <?php foreach ($apiProv as $t) : ?>
-                        <option value="<?= $t['id']; ?>"><?= $t['nama']; ?></option>
+                        <option value="<?= $t['id']; ?>" <?php if ($t['id'] == @$provins) : echo 'selected';
+                                                            endif ?>><?= $t['nama']; ?></option>
                     <?php endforeach; ?>
                 </select>
                 <div class="form-group">
                     <label>Kota/Kab</label>
 
-                    <select name="kota" class="form-control" id="kota" Required>
+                    <select name="kota" class="form-control" id="kota" disabled Required>
                         <option value="">-- Pilih Kota --</option>
+                        <?php foreach ($kota as $k) : ?>
+                            <option value="<?= $k['id']; ?>" <?php if ($k['id']  == $idkota) : echo 'selected';
+                                                                endif ?>><?= $k['nama'] ?>
+                            </option>
+
+
+
+                        <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="form-group">

@@ -42,8 +42,10 @@
                     <label class="font-weight-bold">Harga :</label><br>
                     <i class="text-dark">Rp. <?= number_format($perum['harga']) ?></i>
                     <hr>
-                    <?php if ($perum['status'] == 1) : ?>
-                        <a href=""><button class="btn-danger form-control">Sudah dibooking</button></a>
+                    <?php if ($perum['status'] == 1 and $perum['keterangan'] == 0) : ?>
+                        <button class="btn-danger form-control" disabled>Sudah dibooking</button>
+                    <?php elseif ($perum['status'] == 1 and $perum['keterangan'] == 1) : ?>
+                        <button class="btn-secondary form-control" disabled>Sudah Terjual</button>
                     <?php else : ?>
                         <a href="<?= base_url() ?>Act/booking/<?= $perum['id_perum']; ?>"><button class="btn-success form-control">Booking</button></a>
                     <?php endif; ?>

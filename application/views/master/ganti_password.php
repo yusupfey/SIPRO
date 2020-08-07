@@ -23,13 +23,13 @@
                         </div>
                         <div class="form-group">
                             <label for="password">Password Lama</label>
-                            <input type="text" name="passlama" class="form-control" placeholder="Masukan..">
+                            <input type="text" name="passlama" value="<?= set_value('passlama') ?>" class="form-control" placeholder="Masukan..">
                             <span class="text-danger"><?= form_error('passlama'); ?></span>
 
                         </div>
                         <div class="form-group">
                             <label for="password">Password Baru</label>
-                            <input type="text" name="passbaru" class="form-control" placeholder="Masukan..">
+                            <input type="text" name="passbaru" value="<?= set_value('passbaru') ?>" class="form-control" placeholder="Masukan..">
                             <span class="text-danger"><?= form_error('passbaru'); ?></span>
                         </div>
                         <div class="form-group">

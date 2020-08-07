@@ -18,6 +18,7 @@ class Report extends CI_Controller
         if ($this->session->userdata('id_akses') == 1) {
             $data['terjual'] = $this->db->query('select history_penjualan.*,user.nama, perum.type,perum.pic, perum.kategori,perum.alamat, claster.claster,perumahan.nm_perumahan from history_penjualan inner join perum on perum.id_perum = history_penjualan.id_perum left join perumahan on perumahan.id_perumahan=perum.id_perumahan left join claster on claster.id_claster=perum.id_claster left join user on user.id_user=history_penjualan.id_user ')->result();
         } else {
+            $user = $this->db->get_where('user', ['id_user' => $id])->row_array();
             $data['terjual'] = $this->db->query('select history_penjualan.*,user.nama, perum.type,perum.pic, perum.kategori,perum.alamat, claster.claster,perumahan.nm_perumahan from history_penjualan inner join perum on perum.id_perum = history_penjualan.id_perum left join perumahan on perumahan.id_perumahan=perum.id_perumahan left join claster on claster.id_claster=perum.id_claster left join user on user.id_user=history_penjualan.id_user where perum.id_user ="' . $id . '"')->result();
         }
 
@@ -26,8 +27,7 @@ class Report extends CI_Controller
 
 
 
-
-        // $data['dataku'] = $terjual;
+        @$data['name'] = $user['nama'];
 
         $html = $this->load->view('Report/penjualanPDF', $data, true);
         $dompdf->load_html($html);
